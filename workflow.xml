@@ -30,7 +30,6 @@ this repository contains the full copyright notices and license terms. -->
             <field name="action">action_cancel()</field>
         </record>
 
-
         <record model="workflow.transition" id="voucher_transition_draft_posted">
             <field name="act_from" ref="act_voucher_draft"/>
             <field name="act_to" ref="act_voucher_posted"/>

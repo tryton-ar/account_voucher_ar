@@ -5,12 +5,12 @@ from trytond.wizard import Wizard
 
 
 class InvoiceToPay(ModelView):
-
     _name = 'account.voucher.invoice_to_pay'
 
     name = fields.Char('Name')
     party = fields.Many2One('party.party', 'Party')
-    line_ids = fields.Many2Many('account.move.line', None, None, 'Account Moves')
+    line_ids = fields.Many2Many('account.move.line', None, None,
+        'Account Moves')
 
 InvoiceToPay()
 
@@ -19,7 +19,7 @@ class SelectInvoices(Wizard):
     'Open Chart Of Account'
     _name = 'account.voucher.select_invoices'
 
-    def search_lines(self,data):
+    def search_lines(self, data):
         res = {}
         voucher_obj = self.pool.get('account.voucher')
         voucher = voucher_obj.browse(data['id'])
@@ -31,10 +31,11 @@ class SelectInvoices(Wizard):
             account_types = ['payable']
 
         line_domain = [
-                    ('party','=',voucher.party.id),
-                    ('account.kind','in',account_types),
-                    ('state','=','valid'),
-                    ('reconciliation','=',False)]
+            ('party', '=', voucher.party.id),
+            ('account.kind', 'in', account_types),
+            ('state', '=', 'valid'),
+            ('reconciliation', '=', False),
+        ]
 
         move_ids = move_line.search(line_domain)
         res['line_ids'] = move_ids
@@ -61,8 +62,6 @@ class SelectInvoices(Wizard):
         },
     }
 
-
-
     def _action_add_lines(self, data):
         res = {}
         total_credit = 0
@@ -83,16 +82,15 @@ class SelectInvoices(Wizard):
                 line_type = 'dr'
 
             new_line_ids = voucher_line_obj.create({
-                'voucher_id':data['id'],
+                'voucher_id': data['id'],
                 'name': line.name,
-                'account_id':line.account.id,
+                'account_id': line.account.id,
                 'amount_original': amount,
-                'amount_unreconciled':amount,
+                'amount_unreconciled': amount,
                 'line_type': line_type,
                 'move_line_id': line.id,
             })
-        voucher.write(data['id'],{
-        })
+        voucher.write(data['id'], {})
 
         return res
 
@@ -108,8 +106,4 @@ class SelectInvoices(Wizard):
 #    amount_original = fields.Float('Original Amount')
 #    amount_unreconciled = fields.Float('Unreconciled amount')
 
-
-
-
 SelectInvoices()
-

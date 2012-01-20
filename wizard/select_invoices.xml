@@ -11,22 +11,23 @@ this repository contains the full copyright notices and license terms. -->
                 <![CDATA[
                 <form string="Search Invoices">
                     <field name="line_ids" colspan="4"/>
-
                 </form>
                 ]]>
             </field>
         </record>
 
-<!--        <record model="ir.action.wizard" id="act_search_invoices">-->
-<!--            <field name="name">search_invoices</field>-->
-<!--            <field name="wiz_name">voucher.select.invoices</field>-->
-<!--            <field name="model">account.voucher</field>-->
-<!--        </record>-->
-<!--        <record model="ir.action.keyword" id="act_search_invoices_keyword">-->
-<!--            <field name="keyword">form_action</field>-->
-<!--            <field name="model">account.voucher</field>-->
-<!--            <field name="action" ref="act_search_invoices"/>-->
-<!--        </record>-->
+<!--
+        <record model="ir.action.wizard" id="act_search_invoices">
+            <field name="name">search_invoices</field>
+            <field name="wiz_name">voucher.select.invoices</field>
+            <field name="model">account.voucher</field>
+        </record>
+        <record model="ir.action.keyword" id="act_search_invoices_keyword">
+            <field name="keyword">form_action</field>
+            <field name="model">account.voucher</field>
+            <field name="action" ref="act_search_invoices"/>
+        </record>
+-->
 
     </data>
 </tryton>

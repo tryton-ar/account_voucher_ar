@@ -6,9 +6,10 @@ from trytond.transaction import Transaction
 from decimal import Decimal
 from trytond.pyson import Eval, In
 
-_STATES ={
+_STATES = {
     'readonly': In(Eval('state'), ['posted']),
 }
+
 
 class AccountVoucherPayMode(ModelSQL, ModelView):
     _name = 'account.voucher.paymode'
@@ -18,6 +19,7 @@ class AccountVoucherPayMode(ModelSQL, ModelView):
 
 AccountVoucherPayMode()
 
+
 class AccountVoucher(ModelWorkflow, ModelSQL, ModelView):
     'Account Voucher'
     _name = 'account.voucher'
@@ -26,22 +28,19 @@ class AccountVoucher(ModelWorkflow, ModelSQL, ModelView):
     def __init__(self):
         super(AccountVoucher, self).__init__()
         self._error_messages.update({
-            'partial_pay': 'Partial Payments ' \
-                    'are not allowed (yet)!',
-            })
+            'partial_pay': 'Partial Payments are not allowed (yet)!',
+        })
 
     def init(self, module_name):
         super(AccountVoucher, self).init(module_name)
 
-
-    def on_change_pay_amount_1(self,vals):
+    def on_change_pay_amount_1(self, vals):
         res = {}
         amount = vals.get('pay_amount_1') + vals.get('pay_amount_2')
         res['amount'] = amount
-
         return res
 
-    def on_change_pay_amount_2(self,vals):
+    def on_change_pay_amount_2(self, vals):
         res = {}
         res['amount'] = vals.get('pay_amount_1') + vals.get('pay_amount_2')
         return res
@@ -59,7 +58,6 @@ class AccountVoucher(ModelWorkflow, ModelSQL, ModelView):
             if voucher.line_ids:
                 for line in voucher.line_ids:
                     total += line.amount_original
-                
             res[voucher.id] = total
         return res
 
@@ -78,7 +76,9 @@ class AccountVoucher(ModelWorkflow, ModelSQL, ModelView):
             'date': voucher.date,
         })
 
-##########BUSCO LA FORMA DE PAGO 1###################
+        #
+        # Pay Mode 1
+        #
         if voucher.pay_mode_1 and voucher.pay_amount_1:
             if voucher.voucher_type == 'receipt':
                 debit = Decimal(str(voucher.pay_amount_1))
@@ -88,7 +88,7 @@ class AccountVoucher(ModelWorkflow, ModelSQL, ModelView):
                 credit = Decimal(str(voucher.pay_amount_1))
 
             new_moves.append({
-                'name':voucher.number,
+                'name': voucher.number,
                 'debit': debit,
                 'credit': credit,
                 'account': voucher.pay_mode_1.account_id.id,
@@ -98,7 +98,9 @@ class AccountVoucher(ModelWorkflow, ModelSQL, ModelView):
                 'party': voucher.party.id,
             })
 
-##########BUSCO LA FORMA DE PAGO 2###################
+        #
+        # Pay Mode 2
+        #
         if voucher.pay_mode_2 and voucher.pay_amount_2:
             if voucher.voucher_type == 'receipt':
                 debit = Decimal(str(voucher.pay_amount_2))
@@ -108,7 +110,7 @@ class AccountVoucher(ModelWorkflow, ModelSQL, ModelView):
                 credit = Decimal(str(voucher.pay_amount_2))
 
             new_moves.append({
-                'name':voucher.number,
+                'name': voucher.number,
                 'debit': debit,
                 'credit': credit,
                 'account': voucher.pay_mode_2.account_id.id,
@@ -119,9 +121,9 @@ class AccountVoucher(ModelWorkflow, ModelSQL, ModelView):
                 'party': voucher.party.id,
             })
 
-
-
-##############Busco las lineas del Voucher#####################3
+        #
+        # Voucher Lines
+        #
         if voucher.line_ids:
             line_move_ids = []
             for line in voucher.line_ids:
@@ -134,7 +136,7 @@ class AccountVoucher(ModelWorkflow, ModelSQL, ModelView):
                     credit = Decimal('0.00')
 
                 new_moves.append({
-                    'name':voucher.number,
+                    'name': voucher.number,
                     'debit': debit,
                     'credit': credit,
                     'account': line.account_id.id,
@@ -145,9 +147,14 @@ class AccountVoucher(ModelWorkflow, ModelSQL, ModelView):
                     'party': voucher.party.id,
                 })
 
-        return {'new_moves':new_moves,'invoice_moves':line_move_ids,'voucher_id':voucher.id,'move_id':move_id}
+        return {
+            'new_moves': new_moves,
+            'invoice_moves': line_move_ids,
+            'voucher_id': voucher.id,
+            'move_id': move_id,
+        }
 
-    def create_moves(self, pay_moves,invoice_moves,voucher_id):
+    def create_moves(self, pay_moves, invoice_moves, voucher_id):
         move_line_obj = self.pool.get('account.move.line')
         created_moves = []
         to_reconcile = []
@@ -162,25 +169,26 @@ class AccountVoucher(ModelWorkflow, ModelSQL, ModelView):
 
         move_line_obj.reconcile(to_reconcile)
 
-        self.write(voucher_id,{
-            'state':'posted'
-        })
+        self.write(voucher_id, {'state': 'posted'})
         return True
 
-    def action_paid(self,voucher_id):
+    def action_paid(self, voucher_id):
         params = self.prepare_moves(voucher_id)
-        self.create_moves(params.get('new_moves'),params.get('invoice_moves'),params.get('voucher_id'))
+        self.create_moves(
+                params.get('new_moves'),
+                params.get('invoice_moves'),
+                params.get('voucher_id'),
+            )
         return True
-
 
     def action_cancel(self, voucher_id):
-        self.write(voucher_id,{
-            'state':'cancel'
-        })
+        self.write(voucher_id, {'state': 'cancel'})
 
-    number = fields.Char('Number', required=True, help="Voucher Number", states=_STATES)
+    number = fields.Char('Number', required=True, help="Voucher Number",
+        states=_STATES)
 
-    party = fields.Many2One('party.party', 'Party', required=True, states=_STATES)
+    party = fields.Many2One('party.party', 'Party', required=True,
+        states=_STATES)
 
     voucher_type = fields.Selection([
         ('payment', 'Payment'),
@@ -189,25 +197,32 @@ class AccountVoucher(ModelWorkflow, ModelSQL, ModelView):
 
     name = fields.Char('Memo', size=256, states=_STATES)
 
-    pay_mode_1 = fields.Many2One('account.voucher.paymode', 'Pay Mode 1', states=_STATES)
+    pay_mode_1 = fields.Many2One('account.voucher.paymode', 'Pay Mode 1',
+        states=_STATES)
 
-    pay_amount_1 = fields.Float('Pay Amount 1', on_change=['pay_amount_1', 'pay_amount_2'], states=_STATES)
+    pay_amount_1 = fields.Float('Pay Amount 1',
+        on_change=['pay_amount_1', 'pay_amount_2'], states=_STATES)
 
-    pay_mode_2 = fields.Many2One('account.voucher.paymode', 'Pay Mode 2', states=_STATES)
+    pay_mode_2 = fields.Many2One('account.voucher.paymode', 'Pay Mode 2',
+        states=_STATES)
 
-    pay_amount_2 = fields.Float('Pay Amount 2', on_change=['pay_amount_1', 'pay_amount_2'], states=_STATES)
+    pay_amount_2 = fields.Float('Pay Amount 2',
+        on_change=['pay_amount_1', 'pay_amount_2'], states=_STATES)
 
     date = fields.Date('Date', required=True, states=_STATES)
 
-    journal_id = fields.Many2One('account.journal', 'Journal', required=True, states=_STATES)
+    journal_id = fields.Many2One('account.journal', 'Journal', required=True,
+        states=_STATES)
 
-    period_id = fields.Many2One('account.period','Period')
+    period_id = fields.Many2One('account.period', 'Period')
 
-    currency_id = fields.Many2One('currency.currency', 'Currency', states=_STATES)
+    currency_id = fields.Many2One('currency.currency', 'Currency',
+        states=_STATES)
 
     company_id = fields.Many2One('company.company', 'Company', states=_STATES)
 
-    line_ids = fields.One2Many('account.voucher.line','voucher_id','Lines', states=_STATES)
+    line_ids = fields.One2Many('account.voucher.line', 'voucher_id', 'Lines',
+        states=_STATES)
 
     state = fields.Selection([
         ('draft', 'Draft'),
@@ -220,6 +235,7 @@ class AccountVoucher(ModelWorkflow, ModelSQL, ModelView):
     amount_pay = fields.Function(fields.Float('Deuda'), 'pay_amount')
 
 AccountVoucher()
+
 
 class AccountVoucherLine(ModelSQL, ModelView):
     _name = 'account.voucher.line'
