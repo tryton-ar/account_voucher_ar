@@ -12,7 +12,9 @@ _STATES = {
 
 
 class AccountVoucherPayMode(ModelSQL, ModelView):
+    'Account Voucher Pay Mode'
     _name = 'account.voucher.paymode'
+    _description = __doc__
 
     name = fields.Char('Name')
     account_id = fields.Many2One('account.account', 'Account')
@@ -23,7 +25,7 @@ AccountVoucherPayMode()
 class AccountVoucher(ModelWorkflow, ModelSQL, ModelView):
     'Account Voucher'
     _name = 'account.voucher'
-#    _description = __doc__
+    _description = __doc__
 
     def __init__(self):
         super(AccountVoucher, self).__init__()
@@ -238,7 +240,9 @@ AccountVoucher()
 
 
 class AccountVoucherLine(ModelSQL, ModelView):
+    'Account Voucher Line'
     _name = 'account.voucher.line'
+    _description = __doc__
 
     voucher_id = fields.Many2One('account.voucher', 'Voucher')
     name = fields.Char('Name')
