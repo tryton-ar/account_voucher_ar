@@ -3,9 +3,9 @@
 {
     'name': 'Account Voucher',
     'version': '2.0.1',
-    'author': 'Ignacio E. Parszyk',
+    'author': 'Thymbra - Torre de Hanoi',
     'email': 'iparszyk@thymbra.com',
-    'website': 'http://thymbra.com',
+    'website': 'http://www.thymbra.com/',
     'description': '''Account Voucher''',
     'depends': [
         'account',
