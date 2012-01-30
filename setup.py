@@ -19,18 +19,18 @@ for dep in info.get('depends', []):
 requires.append('trytond >= %s.%s, < %s.%s' %
         (major_version, minor_version, major_version, minor_version + 1))
 
-setup(name='trytond_account_voucher',
+setup(name='trytond_account_voucher_ar',
     version=info.get('version', '0.0.1'),
     description=info.get('description', ''),
     author=info.get('author', ''),
     author_email=info.get('email', ''),
     url=info.get('website', ''),
-    package_dir={'trytond.modules.account_voucher': '.'},
+    package_dir={'trytond.modules.account_voucher_ar': '.'},
     packages=[
-        'trytond.modules.account_voucher',
+        'trytond.modules.account_voucher_ar',
     ],
     package_data={
-        'trytond.modules.account_voucher': info.get('xml', []) \
+        'trytond.modules.account_voucher_ar': info.get('xml', []) \
                 + info.get('translation', []),
     },
     classifiers=[
@@ -54,6 +54,6 @@ setup(name='trytond_account_voucher',
     zip_safe=False,
     entry_points="""
     [trytond.modules]
-    account_voucher = trytond.modules.account_voucher
+    account_voucher_ar = trytond.modules.account_voucher_ar
     """,
 )

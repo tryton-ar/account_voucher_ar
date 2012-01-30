@@ -1,7 +1,7 @@
-trytond_account_voucher
-=======================
+trytond_account_voucher_ar
+==========================
 
-The account_voucher module of the Tryton application platform.
+The account_voucher_ar module of the Tryton application platform.
 See __tryton__.py
 
 Installing

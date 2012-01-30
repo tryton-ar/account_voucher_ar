@@ -1,5 +1,5 @@
-Installing trytond_account_voucher
-==================================
+Installing trytond_account_voucher_ar
+=====================================
 
 Prerequisites
 -------------
@@ -12,7 +12,7 @@ Prerequisites
 Installation
 ------------
 
-Once you've downloaded and unpacked the trytond_account_voucher source release, enter the
+Once you've downloaded and unpacked the trytond_account_voucher_ar source release, enter the
 directory where the archive was unpacked, and run:
 
     python setup.py install
@@ -28,4 +28,4 @@ documentation:
   http://docs.python.org/inst/inst.html
 
 To use without installation, extract the archive into ``trytond/modules`` with
-the directory name account_voucher.
+the directory name account_voucher_ar.
