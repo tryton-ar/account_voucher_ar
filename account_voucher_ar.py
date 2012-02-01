@@ -1,8 +1,6 @@
 #This file is part of Tryton.  The COPYRIGHT file at the top level of
 #this repository contains the full copyright notices and license terms.
 from trytond.model import ModelWorkflow, ModelView, ModelSQL, fields
-from trytond.tools import safe_eval, datetime_strftime
-from trytond.transaction import Transaction
 from decimal import Decimal
 from trytond.pyson import Eval, In
 
@@ -64,7 +62,6 @@ class AccountVoucher(ModelWorkflow, ModelSQL, ModelView):
         return res
 
     def prepare_moves(self, voucher_id):
-        move_line_obj = self.pool.get('account.move.line')
         move_obj = self.pool.get('account.move')
         period_obj = self.pool.get('account.period')
         voucher = self.pool.get('account.voucher').browse(voucher_id)

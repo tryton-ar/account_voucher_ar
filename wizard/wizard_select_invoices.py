@@ -1,6 +1,6 @@
 #This file is part of Tryton.  The COPYRIGHT file at the top level of
 #this repository contains the full copyright notices and license terms.
-from trytond.model import ModelView, ModelSQL, fields
+from trytond.model import ModelView, fields
 from trytond.wizard import Wizard
 
 
@@ -81,7 +81,7 @@ class SelectInvoices(Wizard):
                 amount = line.debit
                 line_type = 'dr'
 
-            new_line_ids = voucher_line_obj.create({
+            voucher_line_obj.create({
                 'voucher_id': data['id'],
                 'name': line.name,
                 'account_id': line.account.id,
