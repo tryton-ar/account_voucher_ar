@@ -3,6 +3,7 @@
 from trytond.model import ModelWorkflow, ModelView, ModelSQL, fields
 from decimal import Decimal
 from trytond.pyson import Eval, In
+from trytond.pool import Pool
 
 _STATES = {
     'readonly': In(Eval('state'), ['posted']),
@@ -62,9 +63,9 @@ class AccountVoucher(ModelWorkflow, ModelSQL, ModelView):
         return res
 
     def prepare_moves(self, voucher_id):
-        move_obj = self.pool.get('account.move')
-        period_obj = self.pool.get('account.period')
-        voucher = self.pool.get('account.voucher').browse(voucher_id)
+        move_obj = Pool().get('account.move')
+        period_obj = Pool().get('account.period')
+        voucher = Pool().get('account.voucher').browse(voucher_id.id)
         new_moves = []
         if voucher.amount != voucher.amount_pay:
             self.raise_user_error('partial_pay')
@@ -154,7 +155,7 @@ class AccountVoucher(ModelWorkflow, ModelSQL, ModelView):
         }
 
     def create_moves(self, pay_moves, invoice_moves, voucher_id):
-        move_line_obj = self.pool.get('account.move.line')
+        move_line_obj = Pool().get('account.move.line')
         created_moves = []
         to_reconcile = []
         for move_line in pay_moves:
@@ -180,8 +181,14 @@ class AccountVoucher(ModelWorkflow, ModelSQL, ModelView):
             )
         return True
 
+    def action_draft(self, voucher_id):
+        self.write(voucher_id.id, {'state': 'draft'})
+
     def action_cancel(self, voucher_id):
-        self.write(voucher_id, {'state': 'cancel'})
+        self.write(voucher_id.id, {'state': 'cancel'})
+
+    def default_state(self):
+        return 'draft'
 
     number = fields.Char('Number', required=True, help="Voucher Number",
         states=_STATES)

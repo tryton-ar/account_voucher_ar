@@ -2,7 +2,7 @@
 #this repository contains the full copyright notices and license terms.
 from trytond.model import ModelView, fields
 from trytond.wizard import Wizard
-
+from trytond.pool import Pool
 
 class InvoiceToPay(ModelView):
     _name = 'account.voucher.invoice_to_pay'
@@ -21,9 +21,9 @@ class SelectInvoices(Wizard):
 
     def search_lines(self, data):
         res = {}
-        voucher_obj = self.pool.get('account.voucher')
+        voucher_obj = Pool().get('account.voucher')
         voucher = voucher_obj.browse(data['id'])
-        move_line = self.pool.get('account.move.line')
+        move_line = Pool().get('account.move.line')
 
         if voucher.voucher_type == 'receipt':
             account_types = ['receivable']
@@ -66,9 +66,9 @@ class SelectInvoices(Wizard):
         res = {}
         total_credit = 0
         total_debit = 0
-        voucher_line_obj = self.pool.get('account.voucher.line')
-        voucher = self.pool.get('account.voucher').browse(data['id'])
-        move_line_obj = self.pool.get('account.move.line')
+        voucher_line_obj = Pool().get('account.voucher.line')
+        voucher = Pool().get('account.voucher').browse(data['id'])
+        move_line_obj = Pool().get('account.move.line')
         move_ids = data['form']['line_ids'][0][1]
 
         for line in move_line_obj.browse(move_ids):

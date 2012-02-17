@@ -59,8 +59,8 @@ this repository contains the full copyright notices and license terms. -->
                                     <field name="name"/>
                                     <field name="account_id"/>
                                     <field name="line_type"/>
-                                    <field name="amount_original" select="1"/>
-                                    <field name="amount_unreconciled" select="2"/>
+                                    <field name="amount_original"/>
+                                    <field name="amount_unreconciled"/>
                                     <field name="amount"/>
                                 </tree>
                             </field>

@@ -1,0 +1,279 @@
+# 
+msgid ""
+msgstr "Content-Type: text/plain; charset=utf-8\n"
+
+msgctxt "error:account.voucher:0"
+msgid "Partial Payments are not allowed (yet)!"
+msgstr "Pagos parciales no están permitidos (todavía)"
+
+msgctxt "field:account.voucher,amount:0"
+msgid "Pago"
+msgstr "Pago"
+
+msgctxt "field:account.voucher,amount_pay:0"
+msgid "Deuda"
+msgstr "Deuda"
+
+msgctxt "field:account.voucher,company_id:0"
+msgid "Company"
+msgstr "Empresa"
+
+msgctxt "field:account.voucher,currency_id:0"
+msgid "Currency"
+msgstr "Gestión de divisas"
+
+msgctxt "field:account.voucher,date:0"
+msgid "Date"
+msgstr "Fecha"
+
+msgctxt "field:account.voucher,journal_id:0"
+msgid "Journal"
+msgstr "Diario"
+
+msgctxt "field:account.voucher,line_ids:0"
+msgid "Lines"
+msgstr "Líneas"
+
+msgctxt "field:account.voucher,name:0"
+msgid "Memo"
+msgstr ""
+
+msgctxt "field:account.voucher,number:0"
+msgid "Number"
+msgstr "Número"
+
+msgctxt "field:account.voucher,party:0"
+msgid "Party"
+msgstr "Terceros"
+
+msgctxt "field:account.voucher,pay_amount_1:0"
+msgid "Pay Amount 1"
+msgstr "Importe de Pago 1"
+
+msgctxt "field:account.voucher,pay_amount_2:0"
+msgid "Pay Amount 2"
+msgstr "Importe de Pago 2"
+
+msgctxt "field:account.voucher,pay_mode_1:0"
+msgid "Pay Mode 1"
+msgstr "Forma de Pago 1"
+
+msgctxt "field:account.voucher,pay_mode_2:0"
+msgid "Pay Mode 2"
+msgstr "Forma de Pago 2"
+
+msgctxt "field:account.voucher,period_id:0"
+msgid "Period"
+msgstr "Período"
+
+msgctxt "field:account.voucher,rec_name:0"
+msgid "Name"
+msgstr "Nombre"
+
+msgctxt "field:account.voucher,state:0"
+msgid "State"
+msgstr "Estado"
+
+msgctxt "field:account.voucher,voucher_type:0"
+msgid "Type"
+msgstr "Tipo"
+
+msgctxt "field:account.voucher.invoice_to_pay,line_ids:0"
+msgid "Account Moves"
+msgstr "Asientos contables"
+
+msgctxt "field:account.voucher.invoice_to_pay,name:0"
+msgid "Name"
+msgstr "Nombre"
+
+msgctxt "field:account.voucher.invoice_to_pay,party:0"
+msgid "Party"
+msgstr "Terceros"
+
+msgctxt "field:account.voucher.line,account_id:0"
+msgid "Account"
+msgstr "Cuentas"
+
+msgctxt "field:account.voucher.line,amount:0"
+msgid "Amount"
+msgstr "Cantidad"
+
+msgctxt "field:account.voucher.line,amount_original:0"
+msgid "Original Amount"
+msgstr "Importe Original"
+
+msgctxt "field:account.voucher.line,amount_unreconciled:0"
+msgid "Unreconciled amount"
+msgstr "Importe sin conciliar"
+
+msgctxt "field:account.voucher.line,line_type:0"
+msgid "Type"
+msgstr "Tipo"
+
+msgctxt "field:account.voucher.line,move_line_id:0"
+msgid "Move Line"
+msgstr "Línea de asiento"
+
+msgctxt "field:account.voucher.line,name:0"
+msgid "Name"
+msgstr "Nombre"
+
+msgctxt "field:account.voucher.line,rec_name:0"
+msgid "Name"
+msgstr "Nombre"
+
+msgctxt "field:account.voucher.line,voucher_id:0"
+msgid "Voucher"
+msgstr ""
+
+msgctxt "field:account.voucher.paymode,account_id:0"
+msgid "Account"
+msgstr "Cuentas"
+
+msgctxt "field:account.voucher.paymode,name:0"
+msgid "Name"
+msgstr "Nombre"
+
+msgctxt "field:account.voucher.paymode,rec_name:0"
+msgid "Name"
+msgstr "Nombre"
+
+msgctxt "help:account.voucher,number:0"
+msgid "Voucher Number"
+msgstr "Número"
+
+msgctxt "model:account.voucher,name:0"
+msgid "Account Voucher"
+msgstr "Cuenta"
+
+msgctxt "model:account.voucher.invoice_to_pay,name:0"
+msgid "account.voucher.invoice_to_pay"
+msgstr ""
+
+msgctxt "model:account.voucher.line,name:0"
+msgid "Account Voucher Line"
+msgstr ""
+
+msgctxt "model:account.voucher.paymode,name:0"
+msgid "Account Voucher Pay Mode"
+msgstr "Forma de Pago"
+
+msgctxt "model:ir.action,name:act_voucher_form"
+msgid "All Vouchers"
+msgstr "Todos los Vouchers"
+
+msgctxt "model:ir.action,name:act_voucher_payment_form"
+msgid "Payments"
+msgstr "Pagos"
+
+msgctxt "model:ir.action,name:act_voucher_receipt_form"
+msgid "Receipts"
+msgstr "Recibos"
+
+msgctxt "model:ir.action,name:wizard_select_invoices"
+msgid "\"Select Invoices to Pay\""
+msgstr "Seleccione Facturas a Pagar"
+
+msgctxt "model:ir.ui.menu,name:menu_voucher_form"
+msgid "All Vouchers"
+msgstr "Todos los vouchers"
+
+msgctxt "model:ir.ui.menu,name:menu_voucher_payment_form"
+msgid "Payments"
+msgstr "Pagos"
+
+msgctxt "model:ir.ui.menu,name:menu_voucher_receipt_form"
+msgid "Receipts"
+msgstr "Recibos"
+
+msgctxt "model:ir.ui.menu,name:menu_vouchers"
+msgid "Voucher"
+msgstr "Voucher"
+
+msgctxt "model:workflow,name:voucher_workflow"
+msgid "Account Voucher"
+msgstr ""
+
+msgctxt "model:workflow.activity,name:act_voucher_cancel"
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgctxt "model:workflow.activity,name:act_voucher_draft"
+msgid "Draft"
+msgstr "Borrador"
+
+msgctxt "model:workflow.activity,name:act_voucher_posted"
+msgid "Posted"
+msgstr "Confirmado"
+
+msgctxt "selection:account.voucher,state:0"
+msgid "Cancelled"
+msgstr "Cancelado"
+
+msgctxt "selection:account.voucher,state:0"
+msgid "Draft"
+msgstr "Borrador"
+
+msgctxt "selection:account.voucher,state:0"
+msgid "Posted"
+msgstr "Confirmado"
+
+msgctxt "selection:account.voucher,state:0"
+msgid "Pro-forma"
+msgstr ""
+
+msgctxt "selection:account.voucher,voucher_type:0"
+msgid "Payment"
+msgstr "Pago"
+
+msgctxt "selection:account.voucher,voucher_type:0"
+msgid "Receipt"
+msgstr ""
+
+msgctxt "selection:account.voucher.line,line_type:0"
+msgid "Credit"
+msgstr "Haber"
+
+msgctxt "selection:account.voucher.line,line_type:0"
+msgid "Debit"
+msgstr "Débito"
+
+msgctxt "view:account.voucher.invoice_to_pay:0"
+msgid "Search Invoices"
+msgstr "Buscar Facturas"
+
+msgctxt "view:account.voucher:0"
+msgid "Lines"
+msgstr "Líneas"
+
+msgctxt "view:account.voucher:0"
+msgid "Pay Modes"
+msgstr "Formas de Pagos"
+
+msgctxt "view:account.voucher:0"
+msgid "Voucher"
+msgstr ""
+
+msgctxt "view:account.voucher:0"
+msgid "Voucher Lines"
+msgstr ""
+
+msgctxt "view:account.voucher:0"
+msgid "_Select Invoices to pay"
+msgstr ""
+
+msgctxt "view:account.voucher:0"
+msgid "_cancel"
+msgstr ""
+
+msgctxt "view:account.voucher:0"
+msgid "_pay"
+msgstr ""
+
+msgctxt "wizard_button:account.voucher.select_invoices,init,end:0"
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgctxt "wizard_button:account.voucher.select_invoices,init,open:0"
+msgid "Open"
+msgstr "Abrir"
