@@ -19,6 +19,6 @@
         'workflow.xml'
     ],
     'translation': [
-        'es_ES.csv',
+        'es_ES.po',
     ],
 }
