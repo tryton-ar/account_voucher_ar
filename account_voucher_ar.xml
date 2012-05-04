@@ -70,9 +70,9 @@ this repository contains the full copyright notices and license terms. -->
                     <label name="state"/>
                     <field name="state"/>
                     <group colspan="4" id="group_voucher_1">
-                        <button name="posted" string="_Pay" icon="tryton-go-next"
+                        <button name="cancel" string="_Cancel" icon="tryton-cancel"
                             states="{'invisible': In(Eval('state'), ['posted'])}"/>
-                        <button name="cancel" string="_Cancel" icon="tryton-go-next"
+                        <button name="posted" string="_Pay" icon="tryton-ok"
                             states="{'invisible': In(Eval('state'), ['posted'])}"/>
                     </group>
 
