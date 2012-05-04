@@ -236,9 +236,9 @@ class AccountVoucher(ModelWorkflow, ModelSQL, ModelView):
         ('posted', 'Posted'),
         ('cancel', 'Cancelled'),
         ], 'State', select='1', readonly=True)
-    amount = fields.Function(fields.Float('Pago'), 'amount_total')
+    amount = fields.Function(fields.Float('Payment'), 'amount_total')
 
-    amount_pay = fields.Function(fields.Float('Deuda'), 'pay_amount')
+    amount_pay = fields.Function(fields.Float('To Pay'), 'pay_amount')
 
 AccountVoucher()
 

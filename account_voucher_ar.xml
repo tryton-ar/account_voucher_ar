@@ -9,7 +9,7 @@ this repository contains the full copyright notices and license terms. -->
             id="menu_vouchers" sequence="21"/>
 
         <record model="ir.action.wizard" id="wizard_select_invoices">
-            <field name="name">"Select Invoices to Pay"</field>
+            <field name="name">Select Invoices to receive/pay</field>
             <field name="wiz_name">account.voucher.select_invoices</field>
             <field name="model">account.voucher</field>
         </record>
@@ -36,7 +36,7 @@ this repository contains the full copyright notices and license terms. -->
                     <label name="pay_amount_1"/>
                     <field name="pay_amount_1"/>
                     <button name="%(wizard_select_invoices)d" colspan="2"
-                        string="_Select Invoices to pay"
+                        string="_Select Invoices to receive/pay"
                         type="action"
                         icon="tryton-go-next"/>
                     <label name="pay_mode_2"/>
@@ -70,9 +70,9 @@ this repository contains the full copyright notices and license terms. -->
                     <label name="state"/>
                     <field name="state"/>
                     <group colspan="4" id="group_voucher_1">
-                        <button name="posted" string="_pay" icon="tryton-go-next"
+                        <button name="posted" string="_Pay" icon="tryton-go-next"
                             states="{'invisible': In(Eval('state'), ['posted'])}"/>
-                        <button name="cancel" string="_cancel" icon="tryton-go-next"
+                        <button name="cancel" string="_Cancel" icon="tryton-go-next"
                             states="{'invisible': In(Eval('state'), ['posted'])}"/>
                     </group>
 

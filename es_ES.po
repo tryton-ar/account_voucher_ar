@@ -4,15 +4,15 @@ msgstr "Content-Type: text/plain; charset=utf-8\n"
 
 msgctxt "error:account.voucher:0"
 msgid "Partial Payments are not allowed (yet)!"
-msgstr "Pagos parciales no están permitidos (todavía)"
+msgstr "¡Pagos parciales no están permitidos (todavía)!"
 
 msgctxt "field:account.voucher,amount:0"
-msgid "Pago"
-msgstr "Pago"
+msgid "Payment"
+msgstr "Pagado"
 
 msgctxt "field:account.voucher,amount_pay:0"
-msgid "Deuda"
-msgstr "Deuda"
+msgid "To Pay"
+msgstr "Adeudado"
 
 msgctxt "field:account.voucher,company_id:0"
 msgid "Company"
@@ -20,7 +20,7 @@ msgstr "Empresa"
 
 msgctxt "field:account.voucher,currency_id:0"
 msgid "Currency"
-msgstr "Gestión de divisas"
+msgstr "Divisa"
 
 msgctxt "field:account.voucher,date:0"
 msgid "Date"
@@ -44,7 +44,7 @@ msgstr "Número"
 
 msgctxt "field:account.voucher,party:0"
 msgid "Party"
-msgstr "Terceros"
+msgstr "Tercero"
 
 msgctxt "field:account.voucher,pay_amount_1:0"
 msgid "Pay Amount 1"
@@ -92,7 +92,7 @@ msgstr "Terceros"
 
 msgctxt "field:account.voucher.line,account_id:0"
 msgid "Account"
-msgstr "Cuentas"
+msgstr "Cuenta"
 
 msgctxt "field:account.voucher.line,amount:0"
 msgid "Amount"
@@ -160,7 +160,7 @@ msgstr "Forma de Pago"
 
 msgctxt "model:ir.action,name:act_voucher_form"
 msgid "All Vouchers"
-msgstr "Todos los Vouchers"
+msgstr "Todos los comprobantes"
 
 msgctxt "model:ir.action,name:act_voucher_payment_form"
 msgid "Payments"
@@ -171,12 +171,12 @@ msgid "Receipts"
 msgstr "Recibos"
 
 msgctxt "model:ir.action,name:wizard_select_invoices"
-msgid "\"Select Invoices to Pay\""
-msgstr "Seleccione Facturas a Pagar"
+msgid "Select Invoices to receive/pay"
+msgstr "Seleccione facturas a cobrar/pagar"
 
 msgctxt "model:ir.ui.menu,name:menu_voucher_form"
 msgid "All Vouchers"
-msgstr "Todos los vouchers"
+msgstr "Todos los comprobantes"
 
 msgctxt "model:ir.ui.menu,name:menu_voucher_payment_form"
 msgid "Payments"
@@ -188,7 +188,7 @@ msgstr "Recibos"
 
 msgctxt "model:ir.ui.menu,name:menu_vouchers"
 msgid "Voucher"
-msgstr "Voucher"
+msgstr "Comprobantes"
 
 msgctxt "model:workflow,name:voucher_workflow"
 msgid "Account Voucher"
@@ -220,7 +220,7 @@ msgstr "Confirmado"
 
 msgctxt "selection:account.voucher,state:0"
 msgid "Pro-forma"
-msgstr ""
+msgstr "Pro-forma"
 
 msgctxt "selection:account.voucher,voucher_type:0"
 msgid "Payment"
@@ -228,7 +228,7 @@ msgstr "Pago"
 
 msgctxt "selection:account.voucher,voucher_type:0"
 msgid "Receipt"
-msgstr ""
+msgstr "Recibo"
 
 msgctxt "selection:account.voucher.line,line_type:0"
 msgid "Credit"
@@ -240,7 +240,7 @@ msgstr "Débito"
 
 msgctxt "view:account.voucher.invoice_to_pay:0"
 msgid "Search Invoices"
-msgstr "Buscar Facturas"
+msgstr "Búsqueda de facturas"
 
 msgctxt "view:account.voucher:0"
 msgid "Lines"
@@ -248,27 +248,27 @@ msgstr "Líneas"
 
 msgctxt "view:account.voucher:0"
 msgid "Pay Modes"
-msgstr "Formas de Pagos"
+msgstr "Formas de Pago"
 
 msgctxt "view:account.voucher:0"
 msgid "Voucher"
-msgstr ""
+msgstr "Comprobantes"
 
 msgctxt "view:account.voucher:0"
 msgid "Voucher Lines"
-msgstr ""
+msgstr "Líneas de comprobante"
 
 msgctxt "view:account.voucher:0"
-msgid "_Select Invoices to pay"
-msgstr ""
+msgid "_Select Invoices to receive/pay"
+msgstr "_Seleccionar facturas a cobrar/pagar"
 
 msgctxt "view:account.voucher:0"
-msgid "_cancel"
-msgstr ""
+msgid "_Cancel"
+msgstr "_Cancelar"
 
 msgctxt "view:account.voucher:0"
-msgid "_pay"
-msgstr ""
+msgid "_Pay"
+msgstr "_Pagar"
 
 msgctxt "wizard_button:account.voucher.select_invoices,init,end:0"
 msgid "Cancel"
