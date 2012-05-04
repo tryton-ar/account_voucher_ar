@@ -199,7 +199,7 @@ class AccountVoucher(ModelWorkflow, ModelSQL, ModelView):
     voucher_type = fields.Selection([
         ('payment', 'Payment'),
         ('receipt', 'Receipt'),
-        ], 'Type', select='1', required=True, states=_STATES)
+        ], 'Type', select=True, required=True, states=_STATES)
 
     name = fields.Char('Memo', size=256, states=_STATES)
 
@@ -235,7 +235,7 @@ class AccountVoucher(ModelWorkflow, ModelSQL, ModelView):
         ('proforma', 'Pro-forma'),
         ('posted', 'Posted'),
         ('cancel', 'Cancelled'),
-        ], 'State', select='1', readonly=True)
+        ], 'State', select=True, readonly=True)
     amount = fields.Function(fields.Float('Payment'), 'amount_total')
 
     amount_pay = fields.Function(fields.Float('To Pay'), 'pay_amount')
@@ -255,7 +255,7 @@ class AccountVoucherLine(ModelSQL, ModelView):
     line_type = fields.Selection([
         ('cr', 'Credit'),
         ('dr', 'Debit'),
-        ], 'Type', select='1')
+        ], 'Type', select=True)
     move_line_id = fields.Many2One('account.move.line', 'Move Line')
     amount_original = fields.Float('Original Amount')
     amount_unreconciled = fields.Float('Unreconciled amount')
