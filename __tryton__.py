@@ -3,7 +3,7 @@
 {
     'name': 'Account Voucher Argentina',
     'name_es_ES': 'Comprobantes contables para Argentina',
-    'version': '2.0.1',
+    'version': '2.2.1',
     'author': 'Thymbra - Torre de Hanoi',
     'email': 'iparszyk@thymbra.com',
     'website': 'http://www.thymbra.com/',
