@@ -100,6 +100,16 @@ this repository contains the full copyright notices and license terms. -->
             <field name="name">All Vouchers</field>
             <field name="res_model">account.voucher</field>
         </record>
+        <record model="ir.action.act_window.view" id="act_voucher_form_view1">
+            <field name="sequence" eval="10"/>
+            <field name="view" ref="account_voucher_tree"/>
+            <field name="act_window" ref="act_voucher_form"/>
+        </record>
+        <record model="ir.action.act_window.view" id="act_voucher_form_view2">
+            <field name="sequence" eval="20"/>
+            <field name="view" ref="account_voucher_form"/>
+            <field name="act_window" ref="act_voucher_form"/>
+        </record>
         <menuitem parent="menu_vouchers" action="act_voucher_form"
             id="menu_voucher_form" sequence="5"/>
 
@@ -109,6 +119,16 @@ this repository contains the full copyright notices and license terms. -->
             <field name="domain">[('voucher_type', '=', 'receipt')]</field>
             <field name="context">{'voucher_type': 'receipt'}</field>
         </record>
+        <record model="ir.action.act_window.view" id="act_voucher_receipt_form_view1">
+            <field name="sequence" eval="10"/>
+            <field name="view" ref="account_voucher_tree"/>
+            <field name="act_window" ref="act_voucher_receipt_form"/>
+        </record>
+        <record model="ir.action.act_window.view" id="act_voucher_receipt_form_view2">
+            <field name="sequence" eval="20"/>
+            <field name="view" ref="account_voucher_form"/>
+            <field name="act_window" ref="act_voucher_receipt_form"/>
+        </record>
         <menuitem parent="menu_vouchers" action="act_voucher_receipt_form"
             id="menu_voucher_receipt_form" sequence="10"/>
 
@@ -117,6 +137,16 @@ this repository contains the full copyright notices and license terms. -->
             <field name="res_model">account.voucher</field>
             <field name="domain">[('voucher_type', '=', 'payment')]</field>
             <field name="context">{'voucher_type': 'payment'}</field>
+        </record>
+        <record model="ir.action.act_window.view" id="act_voucher_payment_form_view1">
+            <field name="sequence" eval="10"/>
+            <field name="view" ref="account_voucher_tree"/>
+            <field name="act_window" ref="act_voucher_payment_form"/>
+        </record>
+        <record model="ir.action.act_window.view" id="act_voucher_payment_form_view2">
+            <field name="sequence" eval="20"/>
+            <field name="view" ref="account_voucher_form"/>
+            <field name="act_window" ref="act_voucher_payment_form"/>
         </record>
         <menuitem parent="menu_vouchers" action="act_voucher_payment_form"
             id="menu_voucher_payment_form" sequence="15"/>
