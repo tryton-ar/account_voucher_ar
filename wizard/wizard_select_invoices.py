@@ -4,6 +4,7 @@ from trytond.model import ModelView, fields
 from trytond.wizard import Wizard
 from trytond.pool import Pool
 
+
 class InvoiceToPay(ModelView):
     _name = 'account.voucher.invoice_to_pay'
 
