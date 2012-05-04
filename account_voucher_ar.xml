@@ -49,9 +49,10 @@ this repository contains the full copyright notices and license terms. -->
                     <field name="amount_pay"/>
                     <label name="amount"/>
                     <field name="amount"/>
-
-<!--                    <label name="period_id"/>-->
-<!--                    <field name="period_id"/>-->
+<!--
+                    <label name="period_id"/>
+                    <field name="period_id"/>
+-->
                     <notebook colspan="6">
                         <page string="Voucher Lines" id="lines" col="6">
                             <field name="line_ids" colspan="6">
@@ -65,7 +66,6 @@ this repository contains the full copyright notices and license terms. -->
                                 </tree>
                             </field>
                         </page>
-
                     </notebook>
                     <label name="state"/>
                     <field name="state"/>
@@ -75,18 +75,16 @@ this repository contains the full copyright notices and license terms. -->
                         <button name="posted" string="_Pay" icon="tryton-ok"
                             states="{'invisible': In(Eval('state'), ['posted'])}"/>
                     </group>
-
                 </form>
                 ]]>
             </field>
         </record>
-
         <record model="ir.ui.view" id="account_voucher_tree">
             <field name="model">account.voucher</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <![CDATA[
-                <tree string='Voucher'>
+                <tree string="Voucher">
                     <field name="number"/>
                     <field name="party"/>
                     <field name="date"/>
