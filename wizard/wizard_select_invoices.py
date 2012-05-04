@@ -101,7 +101,7 @@ class SelectInvoices(Wizard):
 #    line_type = fields.Selection([
 #        ('cr', 'Credit'),
 #        ('dr', 'Debit'),
-#        ], 'Type', select='1')
+#        ], 'Type', select=True)
 #    move_line_id = fields.Many2One('account.move.line', 'Move Line')
 #    amount_original = fields.Float('Original Amount')
 #    amount_unreconciled = fields.Float('Unreconciled amount')
