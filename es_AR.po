@@ -1,0 +1,384 @@
+# 
+msgid ""
+msgstr "Content-Type: text/plain; charset=utf-8\n"
+
+msgctxt "error:account.voucher:"
+msgid "Partial Payments are not allowed (yet)!"
+msgstr "¡Pagos parciales no están permitidos (todavía)!"
+
+msgctxt "field:account.voucher,amount:"
+msgid "Payment"
+msgstr "Pagado"
+
+msgctxt "field:account.voucher,amount_pay:"
+msgid "To Pay"
+msgstr "Adeudado"
+
+msgctxt "field:account.voucher,company:"
+msgid "Company"
+msgstr "Empresa"
+
+msgctxt "field:account.voucher,create_date:"
+msgid "Create Date"
+msgstr "Fecha de Creación"
+
+msgctxt "field:account.voucher,create_uid:"
+msgid "Create User"
+msgstr "Usuario creación"
+
+msgctxt "field:account.voucher,currency:"
+msgid "Currency"
+msgstr "Gestión de divisas"
+
+msgctxt "field:account.voucher,date:"
+msgid "Date"
+msgstr "Fecha"
+
+msgctxt "field:account.voucher,id:"
+msgid "ID"
+msgstr "ID"
+
+msgctxt "field:account.voucher,journal:"
+msgid "Journal"
+msgstr "Diario"
+
+msgctxt "field:account.voucher,lines:"
+msgid "Lines"
+msgstr "Líneas"
+
+msgctxt "field:account.voucher,name:"
+msgid "Memo"
+msgstr ""
+
+msgctxt "field:account.voucher,number:"
+msgid "Number"
+msgstr "Número"
+
+msgctxt "field:account.voucher,party:"
+msgid "Party"
+msgstr "Tercero"
+
+msgctxt "field:account.voucher,pay_lines:"
+msgid "Pay Mode Lines"
+msgstr "Líneas de forma de pago"
+
+msgctxt "field:account.voucher,rec_name:"
+msgid "Name"
+msgstr "Nombre"
+
+msgctxt "field:account.voucher,state:"
+msgid "State"
+msgstr "Estado"
+
+msgctxt "field:account.voucher,voucher_type:"
+msgid "Type"
+msgstr "Tipo"
+
+msgctxt "field:account.voucher,write_date:"
+msgid "Write Date"
+msgstr "Fecha modificación"
+
+msgctxt "field:account.voucher,write_uid:"
+msgid "Write User"
+msgstr "Usuario modificación"
+
+msgctxt "field:account.voucher.invoice_to_pay,id:"
+msgid "ID"
+msgstr "ID"
+
+msgctxt "field:account.voucher.invoice_to_pay,lines:"
+msgid "Account Moves"
+msgstr "Asientos contables"
+
+msgctxt "field:account.voucher.line,account:"
+msgid "Account"
+msgstr "Cuenta"
+
+msgctxt "field:account.voucher.line,amount:"
+msgid "Amount"
+msgstr "Importe"
+
+msgctxt "field:account.voucher.line,amount_original:"
+msgid "Original Amount"
+msgstr "Importe Original"
+
+msgctxt "field:account.voucher.line,amount_unreconciled:"
+msgid "Unreconciled amount"
+msgstr "Importe sin conciliar"
+
+msgctxt "field:account.voucher.line,create_date:"
+msgid "Create Date"
+msgstr "Fecha de Creación"
+
+msgctxt "field:account.voucher.line,create_uid:"
+msgid "Create User"
+msgstr "Usuario creación"
+
+msgctxt "field:account.voucher.line,id:"
+msgid "ID"
+msgstr "ID"
+
+msgctxt "field:account.voucher.line,line_type:"
+msgid "Type"
+msgstr "Tipo"
+
+msgctxt "field:account.voucher.line,move_line:"
+msgid "Move Line"
+msgstr "Línea de asiento"
+
+msgctxt "field:account.voucher.line,name:"
+msgid "Name"
+msgstr "Nombre"
+
+msgctxt "field:account.voucher.line,rec_name:"
+msgid "Name"
+msgstr "Nombre"
+
+msgctxt "field:account.voucher.line,voucher:"
+msgid "Voucher"
+msgstr "Comprobantes"
+
+msgctxt "field:account.voucher.line,write_date:"
+msgid "Write Date"
+msgstr "Fecha modificación"
+
+msgctxt "field:account.voucher.line,write_uid:"
+msgid "Write User"
+msgstr "Usuario modificación"
+
+msgctxt "field:account.voucher.line.paymode,create_date:"
+msgid "Create Date"
+msgstr "Fecha de Creación"
+
+msgctxt "field:account.voucher.line.paymode,create_uid:"
+msgid "Create User"
+msgstr "Usuario creación"
+
+msgctxt "field:account.voucher.line.paymode,id:"
+msgid "ID"
+msgstr "ID"
+
+msgctxt "field:account.voucher.line.paymode,pay_amount:"
+msgid "Pay Amount 1"
+msgstr "Importe"
+
+msgctxt "field:account.voucher.line.paymode,pay_mode:"
+msgid "Pay Mode"
+msgstr "Forma de pago"
+
+msgctxt "field:account.voucher.line.paymode,rec_name:"
+msgid "Name"
+msgstr "Nombre del campo"
+
+msgctxt "field:account.voucher.line.paymode,voucher:"
+msgid "Voucher"
+msgstr "Comprobantes"
+
+msgctxt "field:account.voucher.line.paymode,write_date:"
+msgid "Write Date"
+msgstr "Fecha modificación"
+
+msgctxt "field:account.voucher.line.paymode,write_uid:"
+msgid "Write User"
+msgstr "Usuario modificación"
+
+msgctxt "field:account.voucher.paymode,account:"
+msgid "Account"
+msgstr "Cuenta"
+
+msgctxt "field:account.voucher.paymode,create_date:"
+msgid "Create Date"
+msgstr "Fecha de Creación"
+
+msgctxt "field:account.voucher.paymode,create_uid:"
+msgid "Create User"
+msgstr "Usuario creación"
+
+msgctxt "field:account.voucher.paymode,id:"
+msgid "ID"
+msgstr "ID"
+
+msgctxt "field:account.voucher.paymode,name:"
+msgid "Name"
+msgstr "Nombre"
+
+msgctxt "field:account.voucher.paymode,rec_name:"
+msgid "Name"
+msgstr "Nombre"
+
+msgctxt "field:account.voucher.paymode,write_date:"
+msgid "Write Date"
+msgstr "Fecha modificación"
+
+msgctxt "field:account.voucher.paymode,write_uid:"
+msgid "Write User"
+msgstr "Usuario modificación"
+
+msgctxt "field:account.voucher.sequence,create_date:"
+msgid "Create Date"
+msgstr "Fecha de Creación"
+
+msgctxt "field:account.voucher.sequence,create_uid:"
+msgid "Create User"
+msgstr "Usuario creación"
+
+msgctxt "field:account.voucher.sequence,id:"
+msgid "ID"
+msgstr "ID"
+
+msgctxt "field:account.voucher.sequence,rec_name:"
+msgid "Name"
+msgstr "Nombre del campo"
+
+msgctxt "field:account.voucher.sequence,voucher_sequence:"
+msgid "Voucher Sequence"
+msgstr "Secuencia de comprobante"
+
+msgctxt "field:account.voucher.sequence,write_date:"
+msgid "Write Date"
+msgstr "Fecha modificación"
+
+msgctxt "field:account.voucher.sequence,write_uid:"
+msgid "Write User"
+msgstr "Usuario modificación"
+
+msgctxt "help:account.voucher,number:"
+msgid "Voucher Number"
+msgstr "Número"
+
+msgctxt "model:account.voucher,name:"
+msgid "Account Voucher"
+msgstr "Cuenta"
+
+msgctxt "model:account.voucher.invoice_to_pay,name:"
+msgid "account.voucher.invoice_to_pay"
+msgstr ""
+
+msgctxt "model:account.voucher.line,name:"
+msgid "Account Voucher Line"
+msgstr ""
+
+msgctxt "model:account.voucher.line.paymode,name:"
+msgid "Account Voucher Line Pay Mode"
+msgstr "Línea de comprobante de forma de pago "
+
+msgctxt "model:account.voucher.paymode,name:"
+msgid "Account Voucher Pay Mode"
+msgstr "Forma de Pago"
+
+msgctxt "model:account.voucher.sequence,name:"
+msgid "Account Voucher Sequence"
+msgstr "Secuencia de comprobante"
+
+msgctxt "model:ir.action,name:act_voucher_form"
+msgid "All Vouchers"
+msgstr "Todos los comprobantes"
+
+msgctxt "model:ir.action,name:act_voucher_payment_form"
+msgid "Payments"
+msgstr "Pagos"
+
+msgctxt "model:ir.action,name:act_voucher_receipt_form"
+msgid "Receipts"
+msgstr "Recibos"
+
+msgctxt "model:ir.action,name:wizard_select_invoices"
+msgid "Select Invoices to receive/pay"
+msgstr "Seleccione facturas a cobrar/pagar"
+
+msgctxt "model:ir.ui.menu,name:menu_voucher_form"
+msgid "All Vouchers"
+msgstr "Todos los comprobantes"
+
+msgctxt "model:ir.ui.menu,name:menu_voucher_payment_form"
+msgid "Payments"
+msgstr "Pagos"
+
+msgctxt "model:ir.ui.menu,name:menu_voucher_receipt_form"
+msgid "Receipts"
+msgstr "Recibos"
+
+msgctxt "model:ir.ui.menu,name:menu_vouchers"
+msgid "Voucher"
+msgstr "Comprobantes"
+
+msgctxt "selection:account.voucher,state:"
+msgid "Draft"
+msgstr "Borrador"
+
+msgctxt "selection:account.voucher,state:"
+msgid "Posted"
+msgstr "Confirmado"
+
+msgctxt "selection:account.voucher,voucher_type:"
+msgid "Payment"
+msgstr "Pago"
+
+msgctxt "selection:account.voucher,voucher_type:"
+msgid "Receipt"
+msgstr "Recibo"
+
+msgctxt "selection:account.voucher.line,line_type:"
+msgid "Credit"
+msgstr "Haber"
+
+msgctxt "selection:account.voucher.line,line_type:"
+msgid "Debit"
+msgstr "Débito"
+
+msgctxt "view:account.move.line:"
+msgid "Lines"
+msgstr "Líneas"
+
+msgctxt "view:account.voucher.invoice_to_pay:"
+msgid "Search Invoices"
+msgstr "Búsqueda de facturas"
+
+msgctxt "view:account.voucher.line.paymode:"
+msgid "Pay Mode Lines"
+msgstr "Líneas de forma de pago"
+
+msgctxt "view:account.voucher.line:"
+msgid "Lines"
+msgstr "Líneas"
+
+msgctxt "view:account.voucher:"
+msgid "Lines"
+msgstr "Líneas"
+
+msgctxt "view:account.voucher:"
+msgid "Pay Mode Lines"
+msgstr "Líneas de forma de pago"
+
+msgctxt "view:account.voucher:"
+msgid "Pay Modes"
+msgstr "Formas de Pago"
+
+msgctxt "view:account.voucher:"
+msgid "Voucher"
+msgstr "Comprobantes"
+
+msgctxt "view:account.voucher:"
+msgid "Voucher Lines"
+msgstr "Líneas de comprobante"
+
+msgctxt "view:account.voucher:"
+msgid "_Cancel"
+msgstr "_Cancelar"
+
+msgctxt "view:account.voucher:"
+msgid "_Pay"
+msgstr "_Pagar"
+
+msgctxt "view:account.voucher:"
+msgid "_Select Invoices to receive/pay"
+msgstr "_Seleccionar facturas a cobrar/pagar"
+
+msgctxt ""
+"wizard_button:account.voucher.select_invoices,select_lines,add_lines:"
+msgid "Add"
+msgstr "Añadir"
+
+msgctxt "wizard_button:account.voucher.select_invoices,select_lines,end:"
+msgid "Cancel"
+msgstr "Cancelar"

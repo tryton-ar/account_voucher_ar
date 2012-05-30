@@ -2,4 +2,3 @@
 #this repository contains the full copyright notices and license terms.
 
 from account_voucher_ar import *  
-from wizard import *
