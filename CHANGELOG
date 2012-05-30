@@ -1,3 +1,9 @@
+Version 2.4.0 - 2012-05-30
+* Update to Tryton 2.4
+* Refactor Pay Modes
+* Add default date
+* Add number sequence
+
 Version 2.2.1 - 2012-05-04
 * Bug fixes (see mercurial logs for details)
 

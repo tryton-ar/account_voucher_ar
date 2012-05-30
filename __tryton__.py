@@ -3,22 +3,20 @@
 {
     'name': 'Account Voucher Argentina',
     'name_es_ES': 'Comprobantes contables para Argentina',
-    'version': '2.2.1',
+    'version': '2.4.0',
     'author': 'Thymbra - Torre de Hanoi',
-    'email': 'iparszyk@thymbra.com',
+    'email': 'info@thymbra.com',
     'website': 'http://www.thymbra.com/',
     'description': '''Account Voucher for Argentina''',
-    'description_es_ES': '''Manejo de comprobantes contables para Argentina''',
+    'description_es_AR': '''Manejo de comprobantes contables para Argentina''',
     'depends': [
         'account',
         'account_invoice',
     ],
     'xml': [
         'account_voucher_ar.xml',
-        'wizard/select_invoices.xml',
-        'workflow.xml'
     ],
     'translation': [
-        'es_ES.po',
+        'es_AR.po',
     ],
 }

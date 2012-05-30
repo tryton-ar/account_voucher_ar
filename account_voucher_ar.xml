@@ -28,52 +28,32 @@ this repository contains the full copyright notices and license terms. -->
                     <field name="date"/>
                     <label name="voucher_type"/>
                     <field name="voucher_type"/>
-                    <label name="journal_id"/>
-                    <field name="journal_id"/>
-                    <separator name="pay_mode_1" string="Pay Modes" colspan="6"/>
-                    <label name="pay_mode_1"/>
-                    <field name="pay_mode_1"/>
-                    <label name="pay_amount_1"/>
-                    <field name="pay_amount_1"/>
+                    <label name="journal"/>
+                    <field name="journal"/>
                     <button name="%(wizard_select_invoices)d" colspan="2"
                         string="_Select Invoices to receive/pay"
                         type="action"
                         icon="tryton-go-next"/>
-                    <label name="pay_mode_2"/>
-                    <field name="pay_mode_2"/>
-                    <label name="pay_amount_2"/>
-                    <field name="pay_amount_2"/>
-                    <label name="currency_id"/>
-                    <field name="currency_id"/>
+                    <label name="currency"/>
+                    <field name="currency"/>
                     <label name="amount_pay"/>
                     <field name="amount_pay"/>
                     <label name="amount"/>
                     <field name="amount"/>
-<!--
-                    <label name="period_id"/>
-                    <field name="period_id"/>
--->
                     <notebook colspan="6">
                         <page string="Voucher Lines" id="lines" col="6">
-                            <field name="line_ids" colspan="6">
-                                <tree string="Lines">
-                                    <field name="name"/>
-                                    <field name="account_id"/>
-                                    <field name="line_type"/>
-                                    <field name="amount_original"/>
-                                    <field name="amount_unreconciled"/>
-                                    <field name="amount"/>
-                                </tree>
-                            </field>
+                            <field name="lines" mode="tree" colspan="6"
+                                view_ids="account_voucher_ar.lines_view_tree"/>
+                        </page>
+                        <page string="Pay Mode Lines" id="pay_lines" col="6">
+                            <field name="pay_lines" mode="tree" colspan="6"
+                                view_ids="account_voucher_ar.pay_lines_view_tree"/>
                         </page>
                     </notebook>
                     <label name="state"/>
                     <field name="state"/>
                     <group colspan="4" id="group_voucher_1">
-                        <button name="cancel" string="_Cancel" icon="tryton-cancel"
-                            states="{'invisible': In(Eval('state'), ['posted'])}"/>
-                        <button name="posted" string="_Pay" icon="tryton-ok"
-                            states="{'invisible': In(Eval('state'), ['posted'])}"/>
+                        <button name="post" string="_Pay" type="object"/>
                     </group>
                 </form>
                 ]]>
@@ -148,6 +128,48 @@ this repository contains the full copyright notices and license terms. -->
         </record>
         <menuitem parent="menu_vouchers" action="act_voucher_payment_form"
             id="menu_voucher_payment_form" sequence="15"/>
+
+        <record model="ir.ui.view" id="lines_view_tree">
+            <field name="model">account.voucher.line</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <![CDATA[
+                <tree string="Lines">
+                    <field name="name" expand="1"/>
+                    <field name="account" expand="1"/>
+                    <field name="line_type" expand="1"/>
+                    <field name="amount_original" expand="1"/>
+                    <field name="amount_unreconciled" expand="1"/>
+                    <field name="amount" expand="1"/>
+                </tree>                
+                ]]>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="pay_lines_view_tree">
+            <field name="model">account.voucher.line.paymode</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <![CDATA[
+                <tree editable="top" string="Pay Mode Lines">
+                    <field name="pay_mode" expand="1"/>
+                    <field name="pay_amount" expand="1"/>
+                </tree>                
+                ]]>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_search_invoices">
+            <field name="model">account.voucher.invoice_to_pay</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <![CDATA[
+                <form string="Search Invoices">
+                    <field name="lines" colspan="4"/>
+                </form>
+                ]]>
+            </field>
+        </record>
 
     </data>
 </tryton>
