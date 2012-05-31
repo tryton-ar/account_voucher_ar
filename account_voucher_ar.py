@@ -76,9 +76,6 @@ class AccountVoucher(ModelSQL, ModelView):
                 'post': {
                     'invisible': Eval('state') == 'posted',
                     },
-                'draft': {
-                    'invisible': Eval('state') == 'draft',
-                    },
                 })
 
     def default_state(self):

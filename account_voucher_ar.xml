@@ -32,6 +32,7 @@ this repository contains the full copyright notices and license terms. -->
                     <field name="journal"/>
                     <button name="%(wizard_select_invoices)d" colspan="2"
                         string="_Select Invoices to receive/pay"
+                        states="{'invisible': Not(Equal(Eval('state'), 'draft'))}"
                         type="action"
                         icon="tryton-go-next"/>
                     <label name="currency"/>
