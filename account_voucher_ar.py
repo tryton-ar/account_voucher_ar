@@ -39,6 +39,7 @@ class AccountVoucher(ModelSQL, ModelView):
     'Account Voucher'
     _name = 'account.voucher'
     _description = __doc__
+    _rec_name = 'number'
 
     number = fields.Char('Number', readonly=True, help="Voucher Number")
     party = fields.Many2One('party.party', 'Party', required=True,
