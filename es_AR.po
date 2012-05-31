@@ -60,7 +60,7 @@ msgstr "Tercero"
 
 msgctxt "field:account.voucher,pay_lines:"
 msgid "Pay Mode Lines"
-msgstr "Líneas de forma de pago"
+msgstr "Formas de pago"
 
 msgctxt "field:account.voucher,rec_name:"
 msgid "Name"
@@ -159,7 +159,7 @@ msgid "ID"
 msgstr "ID"
 
 msgctxt "field:account.voucher.line.paymode,pay_amount:"
-msgid "Pay Amount 1"
+msgid "Pay Amount"
 msgstr "Importe"
 
 msgctxt "field:account.voucher.line.paymode,pay_mode:"
@@ -247,7 +247,7 @@ msgid "Voucher Number"
 msgstr "Número"
 
 msgctxt "model:account.voucher,name:"
-msgid "Account Voucher"
+msgid "Account Check Voucher"
 msgstr "Cuenta"
 
 msgctxt "model:account.voucher.invoice_to_pay,name:"
@@ -336,7 +336,7 @@ msgstr "Búsqueda de facturas"
 
 msgctxt "view:account.voucher.line.paymode:"
 msgid "Pay Mode Lines"
-msgstr "Líneas de forma de pago"
+msgstr "Formas de pago"
 
 msgctxt "view:account.voucher.line:"
 msgid "Lines"
@@ -348,7 +348,7 @@ msgstr "Líneas"
 
 msgctxt "view:account.voucher:"
 msgid "Pay Mode Lines"
-msgstr "Líneas de forma de pago"
+msgstr "Formas de pago"
 
 msgctxt "view:account.voucher:"
 msgid "Pay Modes"
@@ -360,7 +360,7 @@ msgstr "Comprobantes"
 
 msgctxt "view:account.voucher:"
 msgid "Voucher Lines"
-msgstr "Líneas de comprobante"
+msgstr "Facturas a pagar"
 
 msgctxt "view:account.voucher:"
 msgid "_Cancel"
