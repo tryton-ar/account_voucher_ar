@@ -70,6 +70,7 @@ this repository contains the full copyright notices and license terms. -->
                     <field name="party"/>
                     <field name="date"/>
                     <field name="amount"/>
+                    <field name="state"/>
                 </tree>
                 ]]>
             </field>
