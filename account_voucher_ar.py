@@ -1,5 +1,6 @@
-#This file is part of Tryton.  The COPYRIGHT file at the top level of
-#this repository contains the full copyright notices and license terms.
+#This file is part of the account_voucher_ar module for Tryton.
+#The COPYRIGHT file at the top level of this repository contains
+#the full copyright notices and license terms.
 from decimal import Decimal
 from trytond.model import ModelSingleton, ModelView, ModelSQL, fields
 from trytond.wizard import Wizard, StateView, StateTransition, Button
@@ -49,7 +50,7 @@ class AccountVoucher(ModelSQL, ModelView):
         ('receipt', 'Receipt'),
         ], 'Type', select=True, required=True, states=_STATES)
     name = fields.Char('Memo', size=256, states=_STATES)
-    pay_lines = fields.One2Many('account.voucher.line.paymode', 'voucher', 
+    pay_lines = fields.One2Many('account.voucher.line.paymode', 'voucher',
         'Pay Mode Lines', states=_STATES)
     date = fields.Date('Date', required=True, states=_STATES)
     journal = fields.Many2One('account.journal', 'Journal', required=True,
@@ -63,9 +64,9 @@ class AccountVoucher(ModelSQL, ModelView):
         ('draft', 'Draft'),
         ('posted', 'Posted'),
         ], 'State', select=True, readonly=True)
-    amount = fields.Function(fields.Numeric('Payment', digits=(16, 2)), 
+    amount = fields.Function(fields.Numeric('Payment', digits=(16, 2)),
         'amount_total')
-    amount_pay = fields.Function(fields.Numeric('To Pay', digits=(16, 2)), 
+    amount_pay = fields.Function(fields.Numeric('To Pay', digits=(16, 2)),
         'pay_amount')
 
     def __init__(self):
@@ -241,7 +242,7 @@ class AccountVoucherLinePaymode(ModelSQL, ModelView):
     _description = __doc__
 
     voucher = fields.Many2One('account.voucher', 'Voucher')
-    pay_mode = fields.Many2One('account.voucher.paymode', 'Pay Mode', 
+    pay_mode = fields.Many2One('account.voucher.paymode', 'Pay Mode',
         required=True, states=_STATES)
     pay_amount = fields.Numeric('Pay Amount', digits=(16, 2), states=_STATES)
 
@@ -269,7 +270,7 @@ class SelectInvoices(Wizard):
             Button('Add', 'add_lines', 'tryton-ok', default=True),
             ])
     add_lines = StateTransition()
-    
+
     def transition_search_lines(self, session):
         voucher_obj = Pool().get('account.voucher')
         move_line = Pool().get('account.move.line')
@@ -321,5 +322,5 @@ class SelectInvoices(Wizard):
             })
         voucher.write(Transaction().context.get('active_id'), {})
         return 'end'
-        
+
 SelectInvoices()
