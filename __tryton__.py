@@ -18,6 +18,6 @@
         'account_voucher_ar.xml',
     ],
     'translation': [
-        'es_AR.po',
+        'locale/es_AR.po',
     ],
 }
