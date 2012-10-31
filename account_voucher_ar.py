@@ -289,9 +289,10 @@ class SelectInvoices(Wizard):
         return 'select_lines'
 
     def default_select_lines(self, session, fields):
-        return {
-            'lines': [l.id for l in session.select_lines.lines],
-            }
+        res = {}
+        if session.select_lines.lines:
+            res = {'lines': [l.id for l in session.select_lines.lines]}
+        return res
 
     def transition_add_lines(self, session):
         voucher_line_obj = Pool().get('account.voucher.line')
