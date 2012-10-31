@@ -29,6 +29,7 @@ setup(name='trytond_account_voucher_ar',
     package_dir={'trytond.modules.account_voucher_ar': '.'},
     packages=[
         'trytond.modules.account_voucher_ar',
+        'trytond.modules.account_voucher_ar.tests',
     ],
     package_data={
         'trytond.modules.account_voucher_ar': info.get('xml', []) \
@@ -57,4 +58,6 @@ setup(name='trytond_account_voucher_ar',
     [trytond.modules]
     account_voucher_ar = trytond.modules.account_voucher_ar
     """,
+    test_suite='tests',
+    test_loader='trytond.test_loader:Loader',
 )
