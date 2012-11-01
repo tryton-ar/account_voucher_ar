@@ -43,12 +43,18 @@ the full copyright notices and license terms. -->
                     <label name="amount"/>
                     <field name="amount"/>
                     <notebook colspan="6">
-                        <page string="Voucher Lines" id="lines" col="6">
-                            <field name="lines" mode="tree" colspan="6"
+                        <page string="Voucher Lines" id="lines">
+                            <field name="lines" mode="tree" colspan="4"
                                 view_ids="account_voucher_ar.lines_view_tree"/>
                         </page>
-                        <page string="Pay Mode Lines" id="pay_lines" col="6">
-                            <field name="pay_lines" mode="tree" colspan="6"
+                        <page string="Other Info" id="info">
+                            <label name="company"/>
+                            <field name="company"/>
+                            <separator name="comment" colspan="4"/>
+                            <field name="comment" colspan="4"/>
+                        </page>
+                        <page string="Pay Mode Lines" id="pay_lines">
+                            <field name="pay_lines" mode="tree" colspan="4"
                                 view_ids="account_voucher_ar.pay_lines_view_tree"/>
                         </page>
                     </notebook>
