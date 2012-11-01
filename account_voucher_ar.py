@@ -55,11 +55,13 @@ class AccountVoucher(ModelSQL, ModelView):
     date = fields.Date('Date', required=True, states=_STATES)
     journal = fields.Many2One('account.journal', 'Journal', required=True,
         states=_STATES)
-    currency = fields.Many2One('currency.currency', 'Currency',
+    currency = fields.Many2One('currency.currency', 'Currency', required=True,
         states=_STATES)
-    company = fields.Many2One('company.company', 'Company', states=_STATES)
+    company = fields.Many2One('company.company', 'Company', required=True,
+        states=_STATES)
     lines = fields.One2Many('account.voucher.line', 'voucher', 'Lines',
         states=_STATES)
+    comment = fields.Text('Comment', states=_STATES)
     state = fields.Selection([
         ('draft', 'Draft'),
         ('posted', 'Posted'),
@@ -82,6 +84,15 @@ class AccountVoucher(ModelSQL, ModelView):
 
     def default_state(self):
         return 'draft'
+
+    def default_currency(self):
+        company_obj = Pool().get('company.company')
+        if Transaction().context.get('company'):
+            company = company_obj.browse(Transaction().context['company'])
+            return company.currency.id
+
+    def default_company(self):
+        return Transaction().context.get('company')
 
     def default_date(self):
         date_obj = Pool().get('ir.date')
@@ -250,6 +261,7 @@ AccountVoucherLinePaymode()
 
 
 class InvoiceToPay(ModelView):
+    'Invoice To Pay'
     _name = 'account.voucher.invoice_to_pay'
 
     lines = fields.Many2Many('account.move.line', None, None,

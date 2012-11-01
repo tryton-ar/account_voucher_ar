@@ -14,6 +14,10 @@ msgctxt "field:account.voucher,amount_pay:"
 msgid "To Pay"
 msgstr "Adeudado"
 
+msgctxt "field:account.voucher,comment:"
+msgid "Comment"
+msgstr "Comentario"
+
 msgctxt "field:account.voucher,company:"
 msgid "Company"
 msgstr "Empresa"
@@ -45,6 +49,10 @@ msgstr "Diario"
 msgctxt "field:account.voucher,lines:"
 msgid "Lines"
 msgstr "Líneas"
+
+msgctxt "view:account.voucher:"
+msgid "Other Info"
+msgstr "Información adicional"
 
 msgctxt "field:account.voucher,name:"
 msgid "Memo"
