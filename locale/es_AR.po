@@ -20,7 +20,7 @@ msgstr "Empresa"
 
 msgctxt "field:account.voucher,create_date:"
 msgid "Create Date"
-msgstr "Fecha de Creación"
+msgstr "Fecha creación"
 
 msgctxt "field:account.voucher,create_uid:"
 msgid "Create User"
@@ -28,7 +28,7 @@ msgstr "Usuario creación"
 
 msgctxt "field:account.voucher,currency:"
 msgid "Currency"
-msgstr "Gestión de divisas"
+msgstr "Divisa"
 
 msgctxt "field:account.voucher,date:"
 msgid "Date"
@@ -48,7 +48,7 @@ msgstr "Líneas"
 
 msgctxt "field:account.voucher,name:"
 msgid "Memo"
-msgstr ""
+msgstr "Memoria"
 
 msgctxt "field:account.voucher,number:"
 msgid "Number"
@@ -56,7 +56,7 @@ msgstr "Número"
 
 msgctxt "field:account.voucher,party:"
 msgid "Party"
-msgstr "Tercero"
+msgstr "Entidad"
 
 msgctxt "field:account.voucher,pay_lines:"
 msgid "Pay Mode Lines"
@@ -92,7 +92,7 @@ msgstr "Asientos contables"
 
 msgctxt "field:account.voucher.line,account:"
 msgid "Account"
-msgstr "Cuenta"
+msgstr "Cuenta contable"
 
 msgctxt "field:account.voucher.line,amount:"
 msgid "Amount"
@@ -100,15 +100,15 @@ msgstr "Importe"
 
 msgctxt "field:account.voucher.line,amount_original:"
 msgid "Original Amount"
-msgstr "Importe Original"
+msgstr "Importe original"
 
 msgctxt "field:account.voucher.line,amount_unreconciled:"
 msgid "Unreconciled amount"
-msgstr "Importe sin conciliar"
+msgstr "Importe no conciliado"
 
 msgctxt "field:account.voucher.line,create_date:"
 msgid "Create Date"
-msgstr "Fecha de Creación"
+msgstr "Fecha creación"
 
 msgctxt "field:account.voucher.line,create_uid:"
 msgid "Create User"
@@ -148,7 +148,7 @@ msgstr "Usuario modificación"
 
 msgctxt "field:account.voucher.line.paymode,create_date:"
 msgid "Create Date"
-msgstr "Fecha de Creación"
+msgstr "Fecha creación"
 
 msgctxt "field:account.voucher.line.paymode,create_uid:"
 msgid "Create User"
@@ -168,7 +168,7 @@ msgstr "Forma de pago"
 
 msgctxt "field:account.voucher.line.paymode,rec_name:"
 msgid "Name"
-msgstr "Nombre del campo"
+msgstr "Nombre"
 
 msgctxt "field:account.voucher.line.paymode,voucher:"
 msgid "Voucher"
@@ -184,11 +184,11 @@ msgstr "Usuario modificación"
 
 msgctxt "field:account.voucher.paymode,account:"
 msgid "Account"
-msgstr "Cuenta"
+msgstr "Cuenta contable"
 
 msgctxt "field:account.voucher.paymode,create_date:"
 msgid "Create Date"
-msgstr "Fecha de Creación"
+msgstr "Fecha creación"
 
 msgctxt "field:account.voucher.paymode,create_uid:"
 msgid "Create User"
@@ -216,7 +216,7 @@ msgstr "Usuario modificación"
 
 msgctxt "field:account.voucher.sequence,create_date:"
 msgid "Create Date"
-msgstr "Fecha de Creación"
+msgstr "Fecha creación"
 
 msgctxt "field:account.voucher.sequence,create_uid:"
 msgid "Create User"
@@ -228,7 +228,7 @@ msgstr "ID"
 
 msgctxt "field:account.voucher.sequence,rec_name:"
 msgid "Name"
-msgstr "Nombre del campo"
+msgstr "Nombre"
 
 msgctxt "field:account.voucher.sequence,voucher_sequence:"
 msgid "Voucher Sequence"
@@ -252,11 +252,15 @@ msgstr "Cuenta"
 
 msgctxt "model:account.voucher.invoice_to_pay,name:"
 msgid "account.voucher.invoice_to_pay"
-msgstr ""
+msgstr "Línea del comprobante"
 
 msgctxt "model:account.voucher.line,name:"
 msgid "Account Voucher Line"
-msgstr ""
+msgstr "Línea del comprobante"
+
+msgctxt "view:account.voucher.line:"
+msgid "Account Voucher Line"
+msgstr "Línea del comprobante"
 
 msgctxt "model:account.voucher.line.paymode,name:"
 msgid "Account Voucher Line Pay Mode"
@@ -320,7 +324,7 @@ msgstr "Recibo"
 
 msgctxt "selection:account.voucher.line,line_type:"
 msgid "Credit"
-msgstr "Haber"
+msgstr "Crédito"
 
 msgctxt "selection:account.voucher.line,line_type:"
 msgid "Debit"
