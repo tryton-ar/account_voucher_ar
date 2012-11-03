@@ -90,11 +90,11 @@ msgctxt "field:account.voucher,write_uid:"
 msgid "Write User"
 msgstr "Usuario modificación"
 
-msgctxt "field:account.voucher.invoice_to_pay,id:"
+msgctxt "field:account.voucher.select_invoices.ask,id:"
 msgid "ID"
 msgstr "ID"
 
-msgctxt "field:account.voucher.invoice_to_pay,lines:"
+msgctxt "field:account.voucher.select_invoices.ask,lines:"
 msgid "Account Moves"
 msgstr "Asientos contables"
 
@@ -255,12 +255,12 @@ msgid "Voucher Number"
 msgstr "Número"
 
 msgctxt "model:account.voucher,name:"
-msgid "Account Check Voucher"
-msgstr "Cuenta"
+msgid "Account Voucher"
+msgstr "Comprobante contable"
 
-msgctxt "model:account.voucher.invoice_to_pay,name:"
-msgid "account.voucher.invoice_to_pay"
-msgstr "Línea del comprobante"
+msgctxt "model:account.voucher.select_invoices.ask,name:"
+msgid "account.voucher.select_invoices.ask"
+msgstr "Seleccionar facturas - Petición"
 
 msgctxt "model:account.voucher.line,name:"
 msgid "Account Voucher Line"
@@ -271,6 +271,10 @@ msgid "Account Voucher Line"
 msgstr "Línea del comprobante"
 
 msgctxt "model:account.voucher.line.paymode,name:"
+msgid "Account Voucher Line Pay Mode"
+msgstr "Línea de comprobante de forma de pago "
+
+msgctxt "view:account.voucher.line.paymode:"
 msgid "Account Voucher Line Pay Mode"
 msgstr "Línea de comprobante de forma de pago "
 
@@ -342,7 +346,7 @@ msgctxt "view:account.move.line:"
 msgid "Lines"
 msgstr "Líneas"
 
-msgctxt "view:account.voucher.invoice_to_pay:"
+msgctxt "view:account.voucher.select_invoices.ask:"
 msgid "Search Invoices"
 msgstr "Búsqueda de facturas"
 

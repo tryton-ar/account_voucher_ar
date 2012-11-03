@@ -260,23 +260,24 @@ class AccountVoucherLinePaymode(ModelSQL, ModelView):
 AccountVoucherLinePaymode()
 
 
-class InvoiceToPay(ModelView):
-    'Invoice To Pay'
-    _name = 'account.voucher.invoice_to_pay'
+class SelectInvoicesAsk(ModelView):
+    'Select Invoices Ask'
+    _name = 'account.voucher.select_invoices.ask'
+    _description = __doc__
 
     lines = fields.Many2Many('account.move.line', None, None,
         'Account Moves')
 
-InvoiceToPay()
+SelectInvoicesAsk()
 
 
 class SelectInvoices(Wizard):
-    'Open Chart Of Account'
+    'Select Invoices'
     _name = 'account.voucher.select_invoices'
 
     start_state = 'search_lines'
     search_lines = StateTransition()
-    select_lines = StateView('account.voucher.invoice_to_pay',
+    select_lines = StateView('account.voucher.select_invoices.ask',
         'account_voucher_ar.view_search_invoices', [
             Button('Cancel', 'end', 'tryton-cancel'),
             Button('Add', 'add_lines', 'tryton-ok', default=True),
