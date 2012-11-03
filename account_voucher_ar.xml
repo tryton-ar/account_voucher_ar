@@ -169,7 +169,7 @@ the full copyright notices and license terms. -->
         </record>
 
         <record model="ir.ui.view" id="view_search_invoices">
-            <field name="model">account.voucher.invoice_to_pay</field>
+            <field name="model">account.voucher.select_invoices.ask</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <![CDATA[
