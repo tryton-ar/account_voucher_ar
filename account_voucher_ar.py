@@ -255,7 +255,8 @@ class AccountVoucherLinePaymode(ModelSQL, ModelView):
     voucher = fields.Many2One('account.voucher', 'Voucher')
     pay_mode = fields.Many2One('account.voucher.paymode', 'Pay Mode',
         required=True, states=_STATES)
-    pay_amount = fields.Numeric('Pay Amount', digits=(16, 2), states=_STATES)
+    pay_amount = fields.Numeric('Pay Amount', digits=(16, 2), required=True,
+        states=_STATES)
 
 AccountVoucherLinePaymode()
 
