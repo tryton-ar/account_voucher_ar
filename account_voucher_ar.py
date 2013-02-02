@@ -8,6 +8,10 @@ from trytond.transaction import Transaction
 from trytond.pyson import Eval, In
 from trytond.pool import Pool
 
+__all__ = ['AccountVoucherSequence', 'AccountVoucherPayMode', 'AccountVoucher',
+    'AccountVoucherLine', 'AccountVoucherLinePaymode', 'SelectInvoicesAsk',
+    'SelectInvoices', ]
+
 _STATES = {
     'readonly': In(Eval('state'), ['posted']),
 }
@@ -22,8 +26,6 @@ class AccountVoucherSequence(ModelSingleton, ModelSQL, ModelView):
         'Voucher Sequence', required=True,
         domain=[('code', '=', 'account.voucher')]))
 
-AccountVoucherSequence()
-
 
 class AccountVoucherPayMode(ModelSQL, ModelView):
     'Account Voucher Pay Mode'
@@ -32,8 +34,6 @@ class AccountVoucherPayMode(ModelSQL, ModelView):
 
     name = fields.Char('Name')
     account = fields.Many2One('account.account', 'Account')
-
-AccountVoucherPayMode()
 
 
 class AccountVoucher(ModelSQL, ModelView):
@@ -224,8 +224,6 @@ class AccountVoucher(ModelSQL, ModelView):
             )
         return True
 
-AccountVoucher()
-
 
 class AccountVoucherLine(ModelSQL, ModelView):
     'Account Voucher Line'
@@ -244,8 +242,6 @@ class AccountVoucherLine(ModelSQL, ModelView):
     amount_original = fields.Numeric('Original Amount', digits=(16, 2))
     amount_unreconciled = fields.Numeric('Unreconciled amount', digits=(16, 2))
 
-AccountVoucherLine()
-
 
 class AccountVoucherLinePaymode(ModelSQL, ModelView):
     'Account Voucher Line Pay Mode'
@@ -258,8 +254,6 @@ class AccountVoucherLinePaymode(ModelSQL, ModelView):
     pay_amount = fields.Numeric('Pay Amount', digits=(16, 2), required=True,
         states=_STATES)
 
-AccountVoucherLinePaymode()
-
 
 class SelectInvoicesAsk(ModelView):
     'Select Invoices Ask'
@@ -268,8 +262,6 @@ class SelectInvoicesAsk(ModelView):
 
     lines = fields.Many2Many('account.move.line', None, None,
         'Account Moves')
-
-SelectInvoicesAsk()
 
 
 class SelectInvoices(Wizard):
@@ -337,5 +329,3 @@ class SelectInvoices(Wizard):
             })
         voucher.write(Transaction().context.get('active_id'), {})
         return 'end'
-
-SelectInvoices()
