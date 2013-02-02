@@ -80,19 +80,23 @@ class AccountVoucher(ModelSQL, ModelView):
                     },
                 })
 
-    def default_state(self):
+    @staticmethod
+    def default_state():
         return 'draft'
 
-    def default_currency(self):
+    @staticmethod
+    def default_currency():
         company_obj = Pool().get('company.company')
         if Transaction().context.get('company'):
             company = company_obj.browse(Transaction().context['company'])
             return company.currency.id
 
-    def default_company(self):
+    @staticmethod
+    def default_company():
         return Transaction().context.get('company')
 
-    def default_date(self):
+    @staticmethod
+    def default_date():
         date_obj = Pool().get('ir.date')
         return date_obj.today()
 
