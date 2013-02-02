@@ -108,24 +108,19 @@ class AccountVoucher(ModelSQL, ModelView):
         self.write(voucher_id, {'number': sequence_obj.get_id(
             sequence.voucher_sequence.id)})
 
-    def amount_total(self, ids, name):
-        res = {}
-        for voucher in self.browse(ids):
-            res[voucher.id] = Decimal('0.0')
-            if voucher.pay_lines:
-                for line in voucher.pay_lines:
-                    res[voucher.id] += line.pay_amount
+    def amount_total(self, name):
+        res = Decimal('0.0')
+        if self.pay_lines:
+            for line in self.pay_lines:
+                res += line.pay_amount
         return res
 
-    def pay_amount(self, ids, name):
-        res = {}
+    def pay_amount(self, name):
         total = 0
-        for voucher in self.browse(ids):
-            if voucher.lines:
-                for line in voucher.lines:
-                    total += line.amount_original
-            res[voucher.id] = total
-        return res
+        if self.lines:
+            for line in self.lines:
+                total += line.amount_original
+        return total
 
     def prepare_moves(self, voucher_id):
         move_obj = Pool().get('account.move')
