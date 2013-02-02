@@ -5,6 +5,24 @@ the full copyright notices and license terms. -->
 <tryton>
     <data>
 
+        <!-- Sequences for Account Voucher -->
+        <record id="seq_type_account_voucher" model="ir.sequence.type">
+            <field name="name">Account Voucher</field>
+            <field name="code">account.voucher</field>
+        </record>
+        <record id="seq_account_voucher" model="ir.sequence">
+            <field name="name">Account Voucher</field>
+            <field name="code">account.voucher</field>
+            <field name="prefix">${year}/</field>
+            <field name="padding">3</field>
+        </record>
+
+        <record model="ir.property" id="property_account_voucher_sequence">
+            <field name="field"
+                search="[('model.model', '=', 'account.voucher.sequence'), ('name', '=', 'voucher_sequence')]"/>
+            <field name="value" eval="'ir.sequence,' + str(ref('seq_account_voucher'))"/>
+        </record>
+
 <!-- Account Voucher -->
         <menuitem name="Voucher" parent="account.menu_account"
             id="menu_vouchers" sequence="21"/>
@@ -31,10 +49,8 @@ the full copyright notices and license terms. -->
                     <field name="voucher_type"/>
                     <label name="journal"/>
                     <field name="journal"/>
-                    <button name="%(wizard_select_invoices)d" colspan="2"
+                    <button name="select_invoices" colspan="2"
                         string="_Select Invoices to receive/pay"
-                        states="{'invisible': Not(Equal(Eval('state'), 'draft'))}"
-                        type="action"
                         icon="tryton-go-next"/>
                     <label name="currency"/>
                     <field name="currency"/>
@@ -61,7 +77,7 @@ the full copyright notices and license terms. -->
                     <label name="state"/>
                     <field name="state"/>
                     <group colspan="4" id="group_voucher_1">
-                        <button name="post" string="_Pay" type="object"/>
+                        <button name="post" string="_Pay"/>
                     </group>
                 </form>
                 ]]>

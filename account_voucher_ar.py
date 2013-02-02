@@ -78,6 +78,9 @@ class AccountVoucher(ModelSQL, ModelView):
                 'post': {
                     'invisible': Eval('state') == 'posted',
                     },
+                'select_invoices': {
+                    'invisible': Eval('state') == 'posted',
+                    },
                 })
 
     @staticmethod
@@ -106,7 +109,7 @@ class AccountVoucher(ModelSQL, ModelView):
         AccountVoucherSequence = Pool().get('account.voucher.sequence')
 
         sequence = AccountVoucherSequence(1)
-        cls.write(voucher, {'number': Sequence.get_id(
+        cls.write([voucher], {'number': Sequence.get_id(
             sequence.voucher_sequence.id)})
 
     def amount_total(self, name):
@@ -128,11 +131,10 @@ class AccountVoucher(ModelSQL, ModelView):
         Move = Pool().get('account.move')
         Period = Pool().get('account.period')
 
-        new_moves = []
+        move_lines = []
         if voucher.amount != voucher.amount_pay:
             cls.raise_user_error('partial_pay')
         move = Move.create({
-            'name': voucher.number,
             'period': Period.find(1, date=voucher.date),
             'journal': voucher.journal.id,
             'date': voucher.date,
@@ -150,8 +152,7 @@ class AccountVoucher(ModelSQL, ModelView):
                     debit = Decimal('0.0')
                     credit = line.pay_amount
 
-                new_moves.append({
-                    'name': voucher.number,
+                move_lines.append({
                     'debit': debit,
                     'credit': credit,
                     'account': line.pay_mode.account.id,
@@ -167,7 +168,7 @@ class AccountVoucher(ModelSQL, ModelView):
         if voucher.lines:
             line_move_ids = []
             for line in voucher.lines:
-                line_move_ids.append(line.move_line.id)
+                line_move_ids.append(line.move_line)
                 if voucher.voucher_type == 'receipt':
                     debit = Decimal('0.00')
                     credit = Decimal(str(line.amount_original))
@@ -175,8 +176,7 @@ class AccountVoucher(ModelSQL, ModelView):
                     debit = Decimal(str(line.amount_original))
                     credit = Decimal('0.00')
 
-                new_moves.append({
-                    'name': voucher.number,
+                move_lines.append({
                     'debit': debit,
                     'credit': credit,
                     'account': line.account.id,
@@ -187,7 +187,7 @@ class AccountVoucher(ModelSQL, ModelView):
                     'party': voucher.party.id,
                 })
         return {
-            'new_moves': new_moves,
+            'move_lines': move_lines,
             'invoice_moves': line_move_ids,
             'voucher': voucher,
             'move': move,
@@ -202,14 +202,13 @@ class AccountVoucher(ModelSQL, ModelView):
         to_reconcile = []
         for move_line in pay_moves:
             created_moves.append(MoveLine.create(move_line))
-        Move.write(move, {'state': 'posted'})
+        Move.post([move])
         for line in created_moves:
             if line.account.reconcile:
-                to_reconcile.append(line.id)
+                to_reconcile.append(line)
         for invoice_line in invoice_moves:
             to_reconcile.append(invoice_line)
         MoveLine.reconcile(to_reconcile)
-        cls.write(voucher, {'state': 'posted'})
         return True
 
     @classmethod
@@ -218,12 +217,17 @@ class AccountVoucher(ModelSQL, ModelView):
         cls.set_number(vouchers[0])
         params = cls.prepare_moves(vouchers[0])
         cls.create_moves(
-                params.get('new_moves'),
+                params.get('move_lines'),
                 params.get('invoice_moves'),
-                params.get('voucher_id'),
-                params.get('move_id'),
+                params.get('voucher'),
+                params.get('move'),
             )
-        return True
+        cls.write([vouchers[0]], {'state': 'posted'})
+
+    @classmethod
+    @ModelView.button_action('account_voucher_ar.wizard_select_invoices')
+    def select_invoices(cls, ids):
+        pass
 
 
 class AccountVoucherLine(ModelSQL, ModelView):
@@ -275,7 +279,7 @@ class SelectInvoices(Wizard):
             ])
     add_lines = StateTransition()
 
-    def transition_search_lines(self, session):
+    def transition_search_lines(self):
         Voucher = Pool().get('account.voucher')
         MoveLine = Pool().get('account.move.line')
 
@@ -290,24 +294,23 @@ class SelectInvoices(Wizard):
             ('state', '=', 'valid'),
             ('reconciliation', '=', False),
         ]
-        session.select_lines.lines = move_line.search(line_domain)
+        self.select_lines.lines = MoveLine.search(line_domain)
         return 'select_lines'
 
-    def default_select_lines(self, session, fields):
+    def default_select_lines(self, fields):
         res = {}
-        if session.select_lines.lines:
-            res = {'lines': [l.id for l in session.select_lines.lines]}
+        if self.select_lines.lines:
+            res = {'lines': [l.id for l in self.select_lines.lines]}
         return res
 
-    def transition_add_lines(self, session):
+    def transition_add_lines(self):
         Voucher = Pool().get('account.voucher')
         VoucherLine = Pool().get('account.voucher.line')
-        MoveLine = Pool().get('account.move.line')
 
         voucher = Voucher(Transaction().context.get('active_id'))
         total_credit = 0
         total_debit = 0
-        move_ids = session.select_lines.lines
+        move_ids = self.select_lines.lines
         for line in move_ids:
             total_credit += line.credit
             total_debit += line.debit
@@ -319,12 +322,10 @@ class SelectInvoices(Wizard):
                 line_type = 'dr'
             VoucherLine.create({
                 'voucher': Transaction().context.get('active_id'),
-                'name': line.name,
                 'account': line.account.id,
                 'amount_original': amount,
                 'amount_unreconciled': amount,
                 'line_type': line_type,
                 'move_line': line.id,
             })
-        voucher.write(Transaction().context.get('active_id'), {})
         return 'end'
