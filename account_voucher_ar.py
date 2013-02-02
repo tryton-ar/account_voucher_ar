@@ -100,12 +100,13 @@ class AccountVoucher(ModelSQL, ModelView):
         Date = Pool().get('ir.date')
         return Date.today()
 
-    def set_number(self, voucher_id):
+    @classmethod
+    def set_number(cls, voucher):
         Sequence = Pool().get('ir.sequence')
         AccountVoucherSequence = Pool().get('account.voucher.sequence')
 
         sequence = AccountVoucherSequence(1)
-        self.write(voucher_id, {'number': Sequence.get_id(
+        cls.write(voucher, {'number': Sequence.get_id(
             sequence.voucher_sequence.id)})
 
     def amount_total(self, name):
@@ -122,16 +123,15 @@ class AccountVoucher(ModelSQL, ModelView):
                 total += line.amount_original
         return total
 
-    def prepare_moves(self, voucher_id):
+    @classmethod
+    def prepare_moves(cls, voucher):
         Move = Pool().get('account.move')
         Period = Pool().get('account.period')
-        Voucher = Pool().get('account.voucher')
 
-        voucher = Voucher(voucher_id)
         new_moves = []
         if voucher.amount != voucher.amount_pay:
-            self.raise_user_error('partial_pay')
-        move_id = Move.create({
+            cls.raise_user_error('partial_pay')
+        move = Move.create({
             'name': voucher.number,
             'period': Period.find(1, date=voucher.date),
             'journal': voucher.journal.id,
@@ -155,7 +155,7 @@ class AccountVoucher(ModelSQL, ModelView):
                     'debit': debit,
                     'credit': credit,
                     'account': line.pay_mode.account.id,
-                    'move': move_id,
+                    'move': move.id,
                     'journal': voucher.journal.id,
                     'period': Period.find(1, date=voucher.date),
                     'party': voucher.party.id,
@@ -180,7 +180,7 @@ class AccountVoucher(ModelSQL, ModelView):
                     'debit': debit,
                     'credit': credit,
                     'account': line.account.id,
-                    'move': move_id,
+                    'move': move.id,
                     'journal': voucher.journal.id,
                     'period': Period.find(1, date=voucher.date),
                     'date': voucher.date,
@@ -189,11 +189,12 @@ class AccountVoucher(ModelSQL, ModelView):
         return {
             'new_moves': new_moves,
             'invoice_moves': line_move_ids,
-            'voucher_id': voucher.id,
-            'move_id': move_id,
+            'voucher': voucher,
+            'move': move,
         }
 
-    def create_moves(self, pay_moves, invoice_moves, voucher_id, move_id):
+    @classmethod
+    def create_moves(cls, pay_moves, invoice_moves, voucher, move):
         Move = Pool().get('account.move')
         MoveLine = Pool().get('account.move.line')
 
@@ -201,21 +202,22 @@ class AccountVoucher(ModelSQL, ModelView):
         to_reconcile = []
         for move_line in pay_moves:
             created_moves.append(MoveLine.create(move_line))
-        Move.write(move_id, {'state': 'posted'})
-        for line in MoveLine.browse(created_moves):
+        Move.write(move, {'state': 'posted'})
+        for line in created_moves:
             if line.account.reconcile:
                 to_reconcile.append(line.id)
         for invoice_line in invoice_moves:
             to_reconcile.append(invoice_line)
         MoveLine.reconcile(to_reconcile)
-        self.write(voucher_id, {'state': 'posted'})
+        cls.write(voucher, {'state': 'posted'})
         return True
 
+    @classmethod
     @ModelView.button
-    def post(self, voucher_id):
-        self.set_number(voucher_id[0])
-        params = self.prepare_moves(voucher_id[0])
-        self.create_moves(
+    def post(cls, vouchers):
+        cls.set_number(vouchers[0])
+        params = cls.prepare_moves(vouchers[0])
+        cls.create_moves(
                 params.get('new_moves'),
                 params.get('invoice_moves'),
                 params.get('voucher_id'),
