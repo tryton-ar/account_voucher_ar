@@ -19,8 +19,7 @@ _STATES = {
 
 class AccountVoucherSequence(ModelSingleton, ModelSQL, ModelView):
     'Account Voucher Sequence'
-    _name = 'account.voucher.sequence'
-    _description = __doc__
+    __name__ = 'account.voucher.sequence'
 
     voucher_sequence = fields.Property(fields.Many2One('ir.sequence',
         'Voucher Sequence', required=True,
@@ -29,8 +28,7 @@ class AccountVoucherSequence(ModelSingleton, ModelSQL, ModelView):
 
 class AccountVoucherPayMode(ModelSQL, ModelView):
     'Account Voucher Pay Mode'
-    _name = 'account.voucher.paymode'
-    _description = __doc__
+    __name__ = 'account.voucher.paymode'
 
     name = fields.Char('Name')
     account = fields.Many2One('account.account', 'Account')
@@ -38,8 +36,7 @@ class AccountVoucherPayMode(ModelSQL, ModelView):
 
 class AccountVoucher(ModelSQL, ModelView):
     'Account Voucher'
-    _name = 'account.voucher'
-    _description = __doc__
+    __name__ = 'account.voucher'
     _rec_name = 'number'
 
     number = fields.Char('Number', readonly=True, help="Voucher Number")
@@ -227,8 +224,7 @@ class AccountVoucher(ModelSQL, ModelView):
 
 class AccountVoucherLine(ModelSQL, ModelView):
     'Account Voucher Line'
-    _name = 'account.voucher.line'
-    _description = __doc__
+    __name__ = 'account.voucher.line'
 
     voucher = fields.Many2One('account.voucher', 'Voucher')
     name = fields.Char('Name')
@@ -245,8 +241,7 @@ class AccountVoucherLine(ModelSQL, ModelView):
 
 class AccountVoucherLinePaymode(ModelSQL, ModelView):
     'Account Voucher Line Pay Mode'
-    _name = 'account.voucher.line.paymode'
-    _description = __doc__
+    __name__ = 'account.voucher.line.paymode'
 
     voucher = fields.Many2One('account.voucher', 'Voucher')
     pay_mode = fields.Many2One('account.voucher.paymode', 'Pay Mode',
@@ -257,8 +252,7 @@ class AccountVoucherLinePaymode(ModelSQL, ModelView):
 
 class SelectInvoicesAsk(ModelView):
     'Select Invoices Ask'
-    _name = 'account.voucher.select_invoices.ask'
-    _description = __doc__
+    __name__ = 'account.voucher.select_invoices.ask'
 
     lines = fields.Many2Many('account.move.line', None, None,
         'Account Moves')
@@ -266,7 +260,7 @@ class SelectInvoicesAsk(ModelView):
 
 class SelectInvoices(Wizard):
     'Select Invoices'
-    _name = 'account.voucher.select_invoices'
+    __name__ = 'account.voucher.select_invoices'
 
     start_state = 'search_lines'
     search_lines = StateTransition()
