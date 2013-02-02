@@ -68,12 +68,13 @@ class AccountVoucher(ModelSQL, ModelView):
     amount_pay = fields.Function(fields.Numeric('To Pay', digits=(16, 2)),
         'pay_amount')
 
-    def __init__(self):
-        super(AccountVoucher, self).__init__()
-        self._error_messages.update({
+    @classmethod
+    def __setup__(cls):
+        super(AccountVoucher, cls).__setup__()
+        cls._error_messages.update({
             'partial_pay': 'Partial Payments are not allowed (yet)!',
         })
-        self._buttons.update({
+        cls._buttons.update({
                 'post': {
                     'invisible': Eval('state') == 'posted',
                     },
