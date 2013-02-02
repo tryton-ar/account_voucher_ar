@@ -86,9 +86,9 @@ class AccountVoucher(ModelSQL, ModelView):
 
     @staticmethod
     def default_currency():
-        company_obj = Pool().get('company.company')
+        Company = Pool().get('company.company')
         if Transaction().context.get('company'):
-            company = company_obj.browse(Transaction().context['company'])
+            company = Company(Transaction().context['company'])
             return company.currency.id
 
     @staticmethod
@@ -97,15 +97,15 @@ class AccountVoucher(ModelSQL, ModelView):
 
     @staticmethod
     def default_date():
-        date_obj = Pool().get('ir.date')
-        return date_obj.today()
+        Date = Pool().get('ir.date')
+        return Date.today()
 
     def set_number(self, voucher_id):
-        sequence_obj = Pool().get('ir.sequence')
-        account_voucher_sequence_obj = Pool().get('account.voucher.sequence')
+        Sequence = Pool().get('ir.sequence')
+        AccountVoucherSequence = Pool().get('account.voucher.sequence')
 
-        sequence = account_voucher_sequence_obj.browse(1)
-        self.write(voucher_id, {'number': sequence_obj.get_id(
+        sequence = AccountVoucherSequence(1)
+        self.write(voucher_id, {'number': Sequence.get_id(
             sequence.voucher_sequence.id)})
 
     def amount_total(self, name):
@@ -123,15 +123,17 @@ class AccountVoucher(ModelSQL, ModelView):
         return total
 
     def prepare_moves(self, voucher_id):
-        move_obj = Pool().get('account.move')
-        period_obj = Pool().get('account.period')
-        voucher = Pool().get('account.voucher').browse(voucher_id)
+        Move = Pool().get('account.move')
+        Period = Pool().get('account.period')
+        Voucher = Pool().get('account.voucher')
+
+        voucher = Voucher(voucher_id)
         new_moves = []
         if voucher.amount != voucher.amount_pay:
             self.raise_user_error('partial_pay')
-        move_id = move_obj.create({
+        move_id = Move.create({
             'name': voucher.number,
-            'period': period_obj.find(1, date=voucher.date),
+            'period': Period.find(1, date=voucher.date),
             'journal': voucher.journal.id,
             'date': voucher.date,
         })
@@ -155,7 +157,7 @@ class AccountVoucher(ModelSQL, ModelView):
                     'account': line.pay_mode.account.id,
                     'move': move_id,
                     'journal': voucher.journal.id,
-                    'period': period_obj.find(1, date=voucher.date),
+                    'period': Period.find(1, date=voucher.date),
                     'party': voucher.party.id,
                 })
 
@@ -180,7 +182,7 @@ class AccountVoucher(ModelSQL, ModelView):
                     'account': line.account.id,
                     'move': move_id,
                     'journal': voucher.journal.id,
-                    'period': period_obj.find(1, date=voucher.date),
+                    'period': Period.find(1, date=voucher.date),
                     'date': voucher.date,
                     'party': voucher.party.id,
                 })
@@ -192,20 +194,20 @@ class AccountVoucher(ModelSQL, ModelView):
         }
 
     def create_moves(self, pay_moves, invoice_moves, voucher_id, move_id):
-        move_obj = Pool().get('account.move')
-        move_line_obj = Pool().get('account.move.line')
+        Move = Pool().get('account.move')
+        MoveLine = Pool().get('account.move.line')
 
         created_moves = []
         to_reconcile = []
         for move_line in pay_moves:
-            created_moves.append(move_line_obj.create(move_line))
-        move_obj.write(move_id, {'state': 'posted'})
-        for line in move_line_obj.browse(created_moves):
+            created_moves.append(MoveLine.create(move_line))
+        Move.write(move_id, {'state': 'posted'})
+        for line in MoveLine.browse(created_moves):
             if line.account.reconcile:
                 to_reconcile.append(line.id)
         for invoice_line in invoice_moves:
             to_reconcile.append(invoice_line)
-        move_line_obj.reconcile(to_reconcile)
+        MoveLine.reconcile(to_reconcile)
         self.write(voucher_id, {'state': 'posted'})
         return True
 
@@ -272,9 +274,10 @@ class SelectInvoices(Wizard):
     add_lines = StateTransition()
 
     def transition_search_lines(self, session):
-        voucher_obj = Pool().get('account.voucher')
-        move_line = Pool().get('account.move.line')
-        voucher = voucher_obj.browse(Transaction().context.get('active_id'))
+        Voucher = Pool().get('account.voucher')
+        MoveLine = Pool().get('account.move.line')
+
+        voucher = Voucher(Transaction().context.get('active_id'))
         if voucher.voucher_type == 'receipt':
             account_types = ['receivable']
         else:
@@ -295,11 +298,11 @@ class SelectInvoices(Wizard):
         return res
 
     def transition_add_lines(self, session):
-        voucher_line_obj = Pool().get('account.voucher.line')
-        voucher = Pool().get('account.voucher').browse(
-            Transaction().context.get('active_id'))
-        move_line_obj = Pool().get('account.move.line')
+        Voucher = Pool().get('account.voucher')
+        VoucherLine = Pool().get('account.voucher.line')
+        MoveLine = Pool().get('account.move.line')
 
+        voucher = Voucher(Transaction().context.get('active_id'))
         total_credit = 0
         total_debit = 0
         move_ids = session.select_lines.lines
@@ -312,7 +315,7 @@ class SelectInvoices(Wizard):
             else:
                 amount = line.debit
                 line_type = 'dr'
-            voucher_line_obj.create({
+            VoucherLine.create({
                 'voucher': Transaction().context.get('active_id'),
                 'name': line.name,
                 'account': line.account.id,
