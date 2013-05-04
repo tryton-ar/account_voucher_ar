@@ -134,11 +134,11 @@ class AccountVoucher(ModelSQL, ModelView):
         move_lines = []
         if voucher.amount != voucher.amount_pay:
             cls.raise_user_error('partial_pay')
-        move = Move.create({
+        move, = Move.create([{
             'period': Period.find(1, date=voucher.date),
             'journal': voucher.journal.id,
             'date': voucher.date,
-        })
+        }])
 
         #
         # Pay Modes
@@ -198,10 +198,8 @@ class AccountVoucher(ModelSQL, ModelView):
         Move = Pool().get('account.move')
         MoveLine = Pool().get('account.move.line')
 
-        created_moves = []
         to_reconcile = []
-        for move_line in pay_moves:
-            created_moves.append(MoveLine.create(move_line))
+        created_moves = MoveLine.create(pay_moves)
         Move.post([move])
         for line in created_moves:
             if line.account.reconcile:
@@ -320,12 +318,12 @@ class SelectInvoices(Wizard):
             else:
                 amount = line.debit
                 line_type = 'dr'
-            VoucherLine.create({
+            VoucherLine.create([{
                 'voucher': Transaction().context.get('active_id'),
                 'account': line.account.id,
                 'amount_original': amount,
                 'amount_unreconciled': amount,
                 'line_type': line_type,
                 'move_line': line.id,
-            })
+            }])
         return 'end'
