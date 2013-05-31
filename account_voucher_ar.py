@@ -132,6 +132,7 @@ class AccountVoucher(ModelSQL, ModelView):
         Period = Pool().get('account.period')
 
         move_lines = []
+        line_move_ids = []
         if voucher.amount != voucher.amount_pay:
             cls.raise_user_error('partial_pay')
         move, = Move.create([{
@@ -166,7 +167,6 @@ class AccountVoucher(ModelSQL, ModelView):
         # Voucher Lines
         #
         if voucher.lines:
-            line_move_ids = []
             for line in voucher.lines:
                 line_move_ids.append(line.move_line)
                 if voucher.voucher_type == 'receipt':
