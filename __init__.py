@@ -4,19 +4,20 @@
 
 
 from trytond.pool import Pool
+from .move import *
 from .account_voucher_ar import *
 
 
 def register():
     Pool.register(
+        Move,
+        Line,
         AccountVoucherSequence,
         AccountVoucherPayMode,
         AccountVoucher,
         AccountVoucherLine,
+        AccountVoucherLineCredits,
+        AccountVoucherLineDebits,
         AccountVoucherLinePaymode,
-        SelectInvoicesAsk,
         module='account_voucher_ar', type_='model')
-    Pool.register(
-        SelectInvoices,
-        module='account_voucher_ar', type_='wizard')
 
