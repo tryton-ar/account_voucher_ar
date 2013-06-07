@@ -3,14 +3,13 @@
 #the full copyright notices and license terms.
 from decimal import Decimal
 from trytond.model import ModelSingleton, ModelView, ModelSQL, fields
-from trytond.wizard import Wizard, StateView, StateTransition, Button
 from trytond.transaction import Transaction
 from trytond.pyson import Eval, In
 from trytond.pool import Pool
 
 __all__ = ['AccountVoucherSequence', 'AccountVoucherPayMode', 'AccountVoucher',
-    'AccountVoucherLine', 'AccountVoucherLinePaymode', 'SelectInvoicesAsk',
-    'SelectInvoices', ]
+    'AccountVoucherLine', 'AccountVoucherLineCredits',
+    'AccountVoucherLineDebits', 'AccountVoucherLinePaymode']
 
 _STATES = {
     'readonly': In(Eval('state'), ['posted']),
@@ -41,47 +40,58 @@ class AccountVoucher(ModelSQL, ModelView):
 
     number = fields.Char('Number', readonly=True, help="Voucher Number")
     party = fields.Many2One('party.party', 'Party', required=True,
-        states=_STATES)
+        on_change=['party', 'voucher_type', 'lines', 'lines_credits',
+            'lines_debits'], states=_STATES)
     voucher_type = fields.Selection([
         ('payment', 'Payment'),
         ('receipt', 'Receipt'),
         ], 'Type', select=True, required=True, states=_STATES)
-    name = fields.Char('Memo', size=256, states=_STATES)
     pay_lines = fields.One2Many('account.voucher.line.paymode', 'voucher',
         'Pay Mode Lines', states=_STATES)
     date = fields.Date('Date', required=True, states=_STATES)
     journal = fields.Many2One('account.journal', 'Journal', required=True,
         states=_STATES)
-    currency = fields.Many2One('currency.currency', 'Currency', required=True,
-        states=_STATES)
-    company = fields.Many2One('company.company', 'Company', required=True,
-        states=_STATES)
+    currency = fields.Many2One('currency.currency', 'Currency', states=_STATES)
+    company = fields.Many2One('company.company', 'Company', states=_STATES)
     lines = fields.One2Many('account.voucher.line', 'voucher', 'Lines',
         states=_STATES)
+    lines_credits = fields.One2Many('account.voucher.line.credits', 'voucher',
+        'Credits', states={
+            'invisible': ~Eval('lines_credits'),
+            })
+    lines_debits = fields.One2Many('account.voucher.line.debits', 'voucher',
+        'Debits', states={
+            'invisible': ~Eval('lines_debits'),
+            })
     comment = fields.Text('Comment', states=_STATES)
     state = fields.Selection([
         ('draft', 'Draft'),
         ('posted', 'Posted'),
         ], 'State', select=True, readonly=True)
-    amount = fields.Function(fields.Numeric('Payment', digits=(16, 2)),
-        'amount_total')
-    amount_pay = fields.Function(fields.Numeric('To Pay', digits=(16, 2)),
-        'pay_amount')
+    amount = fields.Function(fields.Numeric('Payment', digits=(16, 2),
+        on_change_with=['party', 'pay_lines', 'lines_credits', 'lines_debits']),
+        'on_change_with_amount')
+    amount_to_pay = fields.Function(fields.Numeric('To Pay', digits=(16, 2),
+        on_change_with=['party', 'lines']), 'on_change_with_amount_to_pay')
+    amount_invoices = fields.Function(fields.Numeric('Invoices',
+        digits=(16, 2), on_change_with=['lines']),
+        'on_change_with_amount_invoices')
+    move = fields.Many2One('account.move', 'Move', readonly=True)
 
     @classmethod
     def __setup__(cls):
         super(AccountVoucher, cls).__setup__()
         cls._error_messages.update({
-            'partial_pay': 'Partial Payments are not allowed (yet)!',
+            'missing_pay_lines': 'You have to enter pay mode lines!',
+            'delete_voucher': 'You can not delete a voucher that is posted!',
         })
         cls._buttons.update({
                 'post': {
                     'invisible': Eval('state') == 'posted',
                     },
-                'select_invoices': {
-                    'invisible': Eval('state') == 'posted',
-                    },
                 })
+        cls._order.insert(0, ('date', 'DESC'))
+        cls._order.insert(1, ('number', 'DESC'))
 
     @staticmethod
     def default_state():
@@ -90,9 +100,9 @@ class AccountVoucher(ModelSQL, ModelView):
     @staticmethod
     def default_currency():
         Company = Pool().get('company.company')
-        if Transaction().context.get('company'):
-            company = Company(Transaction().context['company'])
-            return company.currency.id
+        company_id = Transaction().context.get('company')
+        if company_id:
+            return Company(company_id).currency.id
 
     @staticmethod
     def default_company():
@@ -103,50 +113,152 @@ class AccountVoucher(ModelSQL, ModelView):
         Date = Pool().get('ir.date')
         return Date.today()
 
-    @classmethod
-    def set_number(cls, voucher):
+    def set_number(self):
         Sequence = Pool().get('ir.sequence')
         AccountVoucherSequence = Pool().get('account.voucher.sequence')
 
         sequence = AccountVoucherSequence(1)
-        cls.write([voucher], {'number': Sequence.get_id(
+        self.write([self], {'number': Sequence.get_id(
             sequence.voucher_sequence.id)})
 
-    def amount_total(self, name):
-        res = Decimal('0.0')
+    def on_change_with_amount(self, name=None):
+        amount = Decimal('0.0')
         if self.pay_lines:
             for line in self.pay_lines:
-                res += line.pay_amount
-        return res
+                if line.pay_amount:
+                    amount += line.pay_amount
+        if self.lines_credits:
+            for line in self.lines_credits:
+                if line.amount_original:
+                    amount += line.amount_original
+        if self.lines_debits:
+            for line in self.lines_debits:
+                if line.amount_original:
+                    amount += line.amount_original
+        return amount
 
-    def pay_amount(self, name):
+    def on_change_with_amount_to_pay(self, name=None):
         total = 0
         if self.lines:
             for line in self.lines:
-                total += line.amount_original
+                total += line.amount_unreconciled or Decimal('0.00')
         return total
 
+    def on_change_with_amount_invoices(self, name=None):
+        total = 0
+        if self.lines:
+            for line in self.lines:
+                total += line.amount or Decimal('0.00')
+        return total
+
+    def on_change_party(self):
+        pool = Pool()
+        Invoice = pool.get('account.invoice')
+        MoveLine = pool.get('account.move.line')
+        InvoiceAccountMoveLine = pool.get('account.invoice-account.move.line')
+        res = {}
+        res['lines'] = {}
+        res['lines_credits'] = {}
+        res['lines_debits'] = {}
+
+        if self.lines:
+            res['lines']['remove'] = [x['id'] for x in self.lines]
+        if self.lines_credits:
+            res['lines_credits']['remove'] = \
+                [x['id'] for x in self.lines_credits]
+        if self.lines_debits:
+            res['lines_debits']['remove'] = \
+                [x['id'] for x in self.lines_debits]
+
+        if not self.party:
+            return res
+
+        if self.voucher_type == 'receipt':
+            account_types = ['receivable']
+        else:
+            account_types = ['payable']
+        move_lines = MoveLine.search([
+            ('party', '=', self.party),
+            ('account.kind', 'in', account_types),
+            ('state', '=', 'valid'),
+            ('reconciliation', '=', False),
+        ])
+
+        for line in move_lines:
+
+            invoice = InvoiceAccountMoveLine.search([
+                ('line', '=', line.id),
+            ])
+            if invoice:
+                continue
+
+            if line.credit:
+                line_type = 'cr'
+                amount = line.credit
+            else:
+                amount = line.debit
+                line_type = 'dr'
+
+            name = ''
+            model = str(line.origin)
+            if model[:model.find(',')] == 'account.invoice':
+                name = Invoice(line.origin.id).number
+            payment_line = {
+                'name': name,
+                'account': line.account.id,
+                'amount': Decimal('0.00'),
+                'amount_original': amount,
+                'amount_unreconciled': abs(line.amount_residual),
+                'line_type': line_type,
+                'move_line': line.id,
+                'date': line.date,
+            }
+            if line.credit and self.voucher_type == 'receipt':
+                res['lines_credits'].setdefault('add', []).append(payment_line)
+            elif line.debit and self.voucher_type == 'payment':
+                res['lines_debits'].setdefault('add', []).append(payment_line)
+            else:
+                res['lines'].setdefault('add', []).append(payment_line)
+        return res
+
     @classmethod
-    def prepare_moves(cls, voucher):
-        Move = Pool().get('account.move')
-        Period = Pool().get('account.period')
+    def delete(cls, vouchers):
+        if not vouchers:
+            return True
+        for voucher in vouchers:
+            if voucher.state == 'posted':
+                cls.raise_user_error('delete_voucher')
+        return super(AccountVoucher, cls).delete(vouchers)
+
+    def create_move(self):
+        pool = Pool()
+        Period = pool.get('account.period')
+        Move = pool.get('account.move')
+        MoveLine = pool.get('account.move.line')
+        Invoice = pool.get('account.invoice')
+
+        # Check amount
+        if not self.amount > Decimal("0.0"):
+            self.raise_user_error('missing_pay_lines')
 
         move_lines = []
         line_move_ids = []
-        if voucher.amount != voucher.amount_pay:
-            cls.raise_user_error('partial_pay')
         move, = Move.create([{
-            'period': Period.find(1, date=voucher.date),
-            'journal': voucher.journal.id,
-            'date': voucher.date,
+            'period': Period.find(1, date=self.date),
+            'journal': self.journal.id,
+            'date': self.date,
+            'origin': str(self),
         }])
+        self.write([self], {
+                'move': move.id,
+                })
 
         #
         # Pay Modes
         #
-        if voucher.pay_lines:
-            for line in voucher.pay_lines:
-                if voucher.voucher_type == 'receipt':
+        if self.pay_lines:
+            for line in self.pay_lines:
+                if self.voucher_type == 'receipt':
                     debit = line.pay_amount
                     credit = Decimal('0.0')
                 else:
@@ -158,79 +270,175 @@ class AccountVoucher(ModelSQL, ModelView):
                     'credit': credit,
                     'account': line.pay_mode.account.id,
                     'move': move.id,
-                    'journal': voucher.journal.id,
-                    'period': Period.find(1, date=voucher.date),
-                    'party': voucher.party.id,
+                    'journal': self.journal.id,
+                    'period': Period.find(1, date=self.date),
+                    'party': self.party.id,
+                })
+
+        #
+        # Credits
+        #
+        if self.lines_credits:
+            for line in self.lines_credits:
+                debit = line.amount_original
+                credit = Decimal('0.0')
+                move_lines.append({
+                    'description': 'advance',
+                    'debit': debit,
+                    'credit': credit,
+                    'account': line.account.id,
+                    'move': move.id,
+                    'journal': self.journal.id,
+                    'period': Period.find(1, date=self.date),
+                    'party': self.party.id,
+                })
+
+        #
+        # Debits
+        #
+        if self.lines_debits:
+            for line in self.lines_debits:
+                debit = Decimal('0.0')
+                credit = line.amount_original
+                move_lines.append({
+                    'description': 'advance',
+                    'debit': debit,
+                    'credit': credit,
+                    'account': line.account.id,
+                    'move': move.id,
+                    'journal': self.journal.id,
+                    'period': Period.find(1, date=self.date),
+                    'party': self.party.id,
                 })
 
         #
         # Voucher Lines
         #
-        if voucher.lines:
-            for line in voucher.lines:
+        total = self.amount
+        if self.lines:
+            for line in self.lines:
+                if not line.amount:
+                    continue
                 line_move_ids.append(line.move_line)
-                if voucher.voucher_type == 'receipt':
+                if self.voucher_type == 'receipt':
                     debit = Decimal('0.00')
-                    credit = Decimal(str(line.amount_original))
+                    credit = line.amount
                 else:
-                    debit = Decimal(str(line.amount_original))
+                    debit = line.amount
                     credit = Decimal('0.00')
-
+                total -= line.amount
                 move_lines.append({
+                    'description': Invoice(line.move_line.origin.id).number,
                     'debit': debit,
                     'credit': credit,
                     'account': line.account.id,
                     'move': move.id,
-                    'journal': voucher.journal.id,
-                    'period': Period.find(1, date=voucher.date),
-                    'date': voucher.date,
-                    'party': voucher.party.id,
+                    'journal': self.journal.id,
+                    'period': Period.find(1, date=self.date),
+                    'party': self.party.id,
                 })
-        return {
-            'move_lines': move_lines,
-            'invoice_moves': line_move_ids,
-            'voucher': voucher,
-            'move': move,
-        }
+        if total != Decimal('0.00'):
+            if self.voucher_type == 'receipt':
+                debit = Decimal('0.00')
+                credit = total
+                account_id = self.party.account_receivable.id
+            else:
+                debit = total
+                credit = Decimal('0.00')
+                account_id = self.party.account_payable.id
+            move_lines.append({
+                'description': self.number,
+                'debit': debit,
+                'credit': credit,
+                'account': account_id,
+                'move': move.id,
+                'journal': self.journal.id,
+                'period': Period.find(1, date=self.date),
+                'date': self.date,
+                'party': self.party.id,
+            })
 
-    @classmethod
-    def create_moves(cls, pay_moves, invoice_moves, voucher, move):
-        Move = Pool().get('account.move')
-        MoveLine = Pool().get('account.move.line')
-
-        to_reconcile = []
-        created_moves = MoveLine.create(pay_moves)
+        created_lines = MoveLine.create(move_lines)
         Move.post([move])
-        for line in created_moves:
-            if line.account.reconcile:
-                to_reconcile.append(line)
-        for invoice_line in invoice_moves:
-            to_reconcile.append(invoice_line)
-        MoveLine.reconcile(to_reconcile)
+
+        # reconcile check
+        for line in self.lines:
+            if line.amount == Decimal("0.00"):
+                continue
+            invoice = Invoice(line.move_line.origin.id)
+            reconcile_lines, remainder = \
+                Invoice.get_reconcile_lines_for_amount(
+                    invoice, line.amount)
+            for move_line in created_lines:
+                if move_line.description == 'advance':
+                    continue
+                if move_line.description == invoice.number:
+                    reconcile_lines.append(move_line)
+                    Invoice.write([invoice], {
+                        'payment_lines': [('add', [move_line.id])],
+                        })
+            if remainder == Decimal('0.00'):
+                MoveLine.reconcile(reconcile_lines)
+
+        reconcile_lines = []
+        for line in self.lines_credits:
+            reconcile_lines.append(line.move_line)
+            for move_line in created_lines:
+                if move_line.description == 'advance':
+                    reconcile_lines.append(move_line)
+            MoveLine.reconcile(reconcile_lines)
+
+        reconcile_lines = []
+        for line in self.lines_debits:
+            reconcile_lines.append(line.move_line)
+            for move_line in created_lines:
+                if move_line.description == 'advance':
+                    reconcile_lines.append(move_line)
+            MoveLine.reconcile(reconcile_lines)
+
         return True
 
     @classmethod
     @ModelView.button
     def post(cls, vouchers):
-        cls.set_number(vouchers[0])
-        params = cls.prepare_moves(vouchers[0])
-        cls.create_moves(
-                params.get('move_lines'),
-                params.get('invoice_moves'),
-                params.get('voucher'),
-                params.get('move'),
-            )
-        cls.write([vouchers[0]], {'state': 'posted'})
-
-    @classmethod
-    @ModelView.button_action('account_voucher_ar.wizard_select_invoices')
-    def select_invoices(cls, ids):
-        pass
+        for voucher in vouchers:
+            voucher.set_number()
+            voucher.create_move()
+        cls.write(vouchers, {'state': 'posted'})
 
 
 class AccountVoucherLine(ModelSQL, ModelView):
     'Account Voucher Line'
     __name__ = 'account.voucher.line'
+
+    voucher = fields.Many2One('account.voucher', 'Voucher')
+    reference = fields.Function(fields.Char('reference',),
+        'get_reference')
+    name = fields.Char('Name')
+    account = fields.Many2One('account.account', 'Account')
+    amount = fields.Numeric('Amount', digits=(16, 2))
+    line_type = fields.Selection([
+        ('cr', 'Credit'),
+        ('dr', 'Debit'),
+        ], 'Type', select=True)
+    move_line = fields.Many2One('account.move.line', 'Move Line')
+    amount_original = fields.Numeric('Original Amount', digits=(16, 2))
+    amount_unreconciled = fields.Numeric('Unreconciled amount', digits=(16, 2))
+    date = fields.Date('Date')
+
+    def get_reference(self, name):
+        Invoice = Pool().get('account.invoice')
+
+        if self.move_line.move:
+            invoices = Invoice.search(
+                [('move', '=', self.move_line.move.id)])
+            if invoices:
+                return invoices[0].reference
+
+
+class AccountVoucherLineCredits(ModelSQL, ModelView):
+    'Account Voucher Line Credits'
+    __name__ = 'account.voucher.line.credits'
 
     voucher = fields.Many2One('account.voucher', 'Voucher')
     name = fields.Char('Name')
@@ -243,6 +451,25 @@ class AccountVoucherLine(ModelSQL, ModelView):
     move_line = fields.Many2One('account.move.line', 'Move Line')
     amount_original = fields.Numeric('Original Amount', digits=(16, 2))
     amount_unreconciled = fields.Numeric('Unreconciled amount', digits=(16, 2))
+    date = fields.Date('Date')
+
+
+class AccountVoucherLineDebits(ModelSQL, ModelView):
+    'Account Voucher Line Debits'
+    __name__ = 'account.voucher.line.debits'
+
+    voucher = fields.Many2One('account.voucher', 'Voucher')
+    name = fields.Char('Name')
+    account = fields.Many2One('account.account', 'Account')
+    amount = fields.Numeric('Amount', digits=(16, 2))
+    line_type = fields.Selection([
+        ('cr', 'Credit'),
+        ('dr', 'Debit'),
+        ], 'Type', select=True)
+    move_line = fields.Many2One('account.move.line', 'Move Line')
+    amount_original = fields.Numeric('Original Amount', digits=(16, 2))
+    amount_unreconciled = fields.Numeric('Unreconciled amount', digits=(16, 2))
+    date = fields.Date('Date')
 
 
 class AccountVoucherLinePaymode(ModelSQL, ModelView):
@@ -255,75 +482,3 @@ class AccountVoucherLinePaymode(ModelSQL, ModelView):
     pay_amount = fields.Numeric('Pay Amount', digits=(16, 2), required=True,
         states=_STATES)
 
-
-class SelectInvoicesAsk(ModelView):
-    'Select Invoices Ask'
-    __name__ = 'account.voucher.select_invoices.ask'
-
-    lines = fields.Many2Many('account.move.line', None, None,
-        'Account Moves')
-
-
-class SelectInvoices(Wizard):
-    'Select Invoices'
-    __name__ = 'account.voucher.select_invoices'
-
-    start_state = 'search_lines'
-    search_lines = StateTransition()
-    select_lines = StateView('account.voucher.select_invoices.ask',
-        'account_voucher_ar.view_search_invoices', [
-            Button('Cancel', 'end', 'tryton-cancel'),
-            Button('Add', 'add_lines', 'tryton-ok', default=True),
-            ])
-    add_lines = StateTransition()
-
-    def transition_search_lines(self):
-        Voucher = Pool().get('account.voucher')
-        MoveLine = Pool().get('account.move.line')
-
-        voucher = Voucher(Transaction().context.get('active_id'))
-        if voucher.voucher_type == 'receipt':
-            account_types = ['receivable']
-        else:
-            account_types = ['payable']
-        line_domain = [
-            ('party', '=', voucher.party.id),
-            ('account.kind', 'in', account_types),
-            ('state', '=', 'valid'),
-            ('reconciliation', '=', False),
-        ]
-        self.select_lines.lines = MoveLine.search(line_domain)
-        return 'select_lines'
-
-    def default_select_lines(self, fields):
-        res = {}
-        if self.select_lines.lines:
-            res = {'lines': [l.id for l in self.select_lines.lines]}
-        return res
-
-    def transition_add_lines(self):
-        Voucher = Pool().get('account.voucher')
-        VoucherLine = Pool().get('account.voucher.line')
-
-        voucher = Voucher(Transaction().context.get('active_id'))
-        total_credit = 0
-        total_debit = 0
-        move_ids = self.select_lines.lines
-        for line in move_ids:
-            total_credit += line.credit
-            total_debit += line.debit
-            if line.credit:
-                line_type = 'cr'
-                amount = line.credit
-            else:
-                amount = line.debit
-                line_type = 'dr'
-            VoucherLine.create([{
-                'voucher': Transaction().context.get('active_id'),
-                'account': line.account.id,
-                'amount_original': amount,
-                'amount_unreconciled': amount,
-                'line_type': line_type,
-                'move_line': line.id,
-            }])
-        return 'end'
