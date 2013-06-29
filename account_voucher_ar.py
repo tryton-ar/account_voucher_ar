@@ -230,11 +230,10 @@ class AccountVoucher(ModelSQL, ModelView):
                 cls.raise_user_error('delete_voucher')
         return super(AccountVoucher, cls).delete(vouchers)
 
-    def create_move(self):
+    def prepare_move_lines(self):
         pool = Pool()
         Period = pool.get('account.period')
         Move = pool.get('account.move')
-        MoveLine = pool.get('account.move.line')
         Invoice = pool.get('account.invoice')
 
         # Check amount
@@ -358,8 +357,16 @@ class AccountVoucher(ModelSQL, ModelView):
                 'party': self.party.id,
             })
 
+        return move_lines
+
+    def create_move(self, move_lines):
+        pool = Pool()
+        Move = pool.get('account.move')
+        MoveLine = pool.get('account.move.line')
+        Invoice = pool.get('account.invoice')
+
         created_lines = MoveLine.create(move_lines)
-        Move.post([move])
+        Move.post([self.move])
 
         # reconcile check
         for line in self.lines:
@@ -403,7 +410,8 @@ class AccountVoucher(ModelSQL, ModelView):
     def post(cls, vouchers):
         for voucher in vouchers:
             voucher.set_number()
-            voucher.create_move()
+            move_lines = voucher.prepare_move_lines()
+            voucher.create_move(move_lines)
         cls.write(vouchers, {'state': 'posted'})
 
 
