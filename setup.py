@@ -47,7 +47,7 @@ setup(name='trytond_account_voucher_ar',
                 + ['tryton.cfg', 'locale/*.po'],
     },
     classifiers=[
-        'Development Status :: 1 - Alpha',
+        'Development Status :: 3 - Alpha',
         'Environment :: Plugins',
         'Framework :: Tryton',
         'Intended Audience :: Developers',
