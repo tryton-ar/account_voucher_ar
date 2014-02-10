@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!-- This file is part of the account_voucher_ar module for Tryton.
+The COPYRIGHT file at the top level of this repository contains
+the full copyright notices and license terms. -->
+<form string="Voucher" col="8">
+    <label name="party"/>
+    <field name="party"/>
+    <label name="number"/>
+    <field name="number"/>
+    <group col="4" colspan="4" id="amounts">
+        <label name="amount_to_pay"/>
+        <field name="amount_to_pay"/>
+        <label name="amount"/>
+        <field name="amount"/>
+        <label name="amount_invoices"/>
+        <field name="amount_invoices"/>
+    </group>
+    <label name="date"/>
+    <field name="date"/>
+    <label name="journal"/>
+    <field name="journal"/>
+    <label name="currency"/>
+    <field name="currency"/>
+    <field name="voucher_type" invisible="1"/>
+    <newline/>
+    <notebook colspan="4">
+        <page string="Pay Mode Lines" id="pay_lines">
+            <field name="pay_lines" mode="tree" colspan="4"
+                view_ids="account_voucher_ar.pay_lines_view_tree"/>
+        </page>
+    </notebook>
+    <notebook colspan="4">
+        <page string="Voucher Lines" id="lines">
+            <field name="lines" mode="tree" colspan="4"
+                view_ids="account_voucher_ar.lines_view_tree"/>
+            <field name="lines_credits" mode="tree" colspan="4"
+                view_ids="account_voucher_ar.lines_credits_view_tree"/>
+            <field name="lines_debits" mode="tree" colspan="4"
+                view_ids="account_voucher_ar.lines_debits_view_tree"/>
+        </page>
+        <page string="Other Info" id="info">
+            <label name="company"/>
+            <field name="company"/>
+            <label name="move"/>
+            <field name="move"/>
+            <separator name="comment" colspan="4"/>
+            <field name="comment" colspan="4"/>
+        </page>
+    </notebook>
+    <label name="state"/>
+    <field name="state"/>
+    <group colspan="6" id="group_voucher_1">
+        <button name="post" string="_Pay"/>
+    </group>
+</form>
