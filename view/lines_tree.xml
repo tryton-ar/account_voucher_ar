@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!-- This file is part of the account_voucher_ar module for Tryton.
+The COPYRIGHT file at the top level of this repository contains
+the full copyright notices and license terms. -->
+<tree string="Lines" editable="top">
+    <field name="name" expand="1"/>
+    <field name="date"/>
+    <field name="amount_original"/>
+    <field name="amount_unreconciled"/>
+    <field name="amount"/>
+</tree>

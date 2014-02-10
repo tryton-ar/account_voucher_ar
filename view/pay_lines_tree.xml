@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<!-- This file is part of the account_voucher_ar module for Tryton.
+The COPYRIGHT file at the top level of this repository contains
+the full copyright notices and license terms. -->
+<tree editable="top" string="Pay Mode Lines">
+    <field name="pay_mode" expand="1"/>
+    <field name="pay_amount" expand="1"/>
+</tree>
