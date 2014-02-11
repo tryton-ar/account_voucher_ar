@@ -181,7 +181,7 @@ class AccountVoucher(ModelSQL, ModelView):
             ('party', '=', self.party),
             ('account.kind', 'in', account_types),
             ('state', '=', 'valid'),
-            ('reconciliation', '=', False),
+            ('reconciliation', '=', None),
         ])
 
         for line in move_lines:
