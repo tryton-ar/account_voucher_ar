@@ -243,7 +243,7 @@ class AccountVoucher(ModelSQL, ModelView):
         move_lines = []
         line_move_ids = []
         move, = Move.create([{
-            'period': Period.find(1, date=self.date),
+            'period': Period.find(self.company.id, date=self.date),
             'journal': self.journal.id,
             'date': self.date,
             'origin': str(self),
@@ -270,7 +270,7 @@ class AccountVoucher(ModelSQL, ModelView):
                     'account': line.pay_mode.account.id,
                     'move': move.id,
                     'journal': self.journal.id,
-                    'period': Period.find(1, date=self.date),
+                    'period': Period.find(self.company.id, date=self.date),
                     'party': self.party.id,
                 })
 
@@ -288,7 +288,7 @@ class AccountVoucher(ModelSQL, ModelView):
                     'account': line.account.id,
                     'move': move.id,
                     'journal': self.journal.id,
-                    'period': Period.find(1, date=self.date),
+                    'period': Period.find(self.company.id, date=self.date),
                     'party': self.party.id,
                 })
 
@@ -306,7 +306,7 @@ class AccountVoucher(ModelSQL, ModelView):
                     'account': line.account.id,
                     'move': move.id,
                     'journal': self.journal.id,
-                    'period': Period.find(1, date=self.date),
+                    'period': Period.find(self.company.id, date=self.date),
                     'party': self.party.id,
                 })
 
@@ -333,7 +333,7 @@ class AccountVoucher(ModelSQL, ModelView):
                     'account': line.account.id,
                     'move': move.id,
                     'journal': self.journal.id,
-                    'period': Period.find(1, date=self.date),
+                    'period': Period.find(self.company.id, date=self.date),
                     'party': self.party.id,
                 })
         if total != Decimal('0.00'):
@@ -352,7 +352,7 @@ class AccountVoucher(ModelSQL, ModelView):
                 'account': account_id,
                 'move': move.id,
                 'journal': self.journal.id,
-                'period': Period.find(1, date=self.date),
+                'period': Period.find(self.company.id, date=self.date),
                 'date': self.date,
                 'party': self.party.id,
             })
