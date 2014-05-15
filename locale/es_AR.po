@@ -62,9 +62,10 @@ msgctxt "field:account.voucher,lines:"
 msgid "Lines"
 msgstr "Líneas"
 
+#, fuzzy
 msgctxt "field:account.voucher,lines_credits:"
 msgid "Credits"
-msgstr ""
+msgstr "Créditos"
 
 msgctxt "field:account.voucher,lines_debits:"
 msgid "Debits"
@@ -133,6 +134,10 @@ msgstr "Usuario creación"
 msgctxt "field:account.voucher.line,date:"
 msgid "Date"
 msgstr "Fecha"
+
+msgctxt "field:account.voucher.line,date_expire:"
+msgid "Date expire"
+msgstr "Fecha de vencimiento"
 
 msgctxt "field:account.voucher.line,id:"
 msgid "ID"
