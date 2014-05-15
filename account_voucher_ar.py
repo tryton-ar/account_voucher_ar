@@ -212,6 +212,7 @@ class AccountVoucher(ModelSQL, ModelView):
                 'line_type': line_type,
                 'move_line': line.id,
                 'date': line.date,
+                'date_expire': line.maturity_date,
             }
             if line.credit and self.voucher_type == 'receipt':
                 res['lines_credits'].setdefault('add', []).append(payment_line)
@@ -433,6 +434,8 @@ class AccountVoucherLine(ModelSQL, ModelView):
     amount_original = fields.Numeric('Original Amount', digits=(16, 2))
     amount_unreconciled = fields.Numeric('Unreconciled amount', digits=(16, 2))
     date = fields.Date('Date')
+    date_expire = fields.Function(fields.Date('Expire date'),
+            'get_expire_date')
 
     def get_reference(self, name):
         Invoice = Pool().get('account.invoice')
@@ -442,6 +445,10 @@ class AccountVoucherLine(ModelSQL, ModelView):
                 [('move', '=', self.move_line.move.id)])
             if invoices:
                 return invoices[0].reference
+
+    def get_expire_date(self, name):
+        res = self.move_line.maturity_date
+        return res
 
 
 class AccountVoucherLineCredits(ModelSQL, ModelView):
