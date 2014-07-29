@@ -39,9 +39,8 @@ class AccountVoucher(ModelSQL, ModelView):
     _rec_name = 'number'
 
     number = fields.Char('Number', readonly=True, help="Voucher Number")
-    party = fields.Many2One('party.party', 'Party', required=True,
-        on_change=['party', 'voucher_type', 'lines', 'lines_credits',
-            'lines_debits'], states=_STATES)
+    party = fields.Many2One('party.party', 'Party', required=True, 
+        states=_STATES)
     voucher_type = fields.Selection([
         ('payment', 'Payment'),
         ('receipt', 'Receipt'),
@@ -68,14 +67,12 @@ class AccountVoucher(ModelSQL, ModelView):
         ('draft', 'Draft'),
         ('posted', 'Posted'),
         ], 'State', select=True, readonly=True)
-    amount = fields.Function(fields.Numeric('Payment', digits=(16, 2),
-        on_change_with=['party', 'pay_lines', 'lines_credits', 'lines_debits']),
+    amount = fields.Function(fields.Numeric('Payment', digits=(16, 2)),
         'on_change_with_amount')
-    amount_to_pay = fields.Function(fields.Numeric('To Pay', digits=(16, 2),
-        on_change_with=['party', 'lines']), 'on_change_with_amount_to_pay')
+    amount_to_pay = fields.Function(fields.Numeric('To Pay', digits=(16, 2)), 
+        'on_change_with_amount_to_pay')
     amount_invoices = fields.Function(fields.Numeric('Invoices',
-        digits=(16, 2), on_change_with=['lines']),
-        'on_change_with_amount_invoices')
+        digits=(16, 2)), 'on_change_with_amount_invoices')
     move = fields.Many2One('account.move', 'Move', readonly=True)
 
     @classmethod
@@ -121,6 +118,7 @@ class AccountVoucher(ModelSQL, ModelView):
         self.write([self], {'number': Sequence.get_id(
             sequence.voucher_sequence.id)})
 
+    @fields.depends('party', 'pay_lines', 'lines_credits', 'lines_debits')
     def on_change_with_amount(self, name=None):
         amount = Decimal('0.0')
         if self.pay_lines:
@@ -137,6 +135,7 @@ class AccountVoucher(ModelSQL, ModelView):
                     amount += line.amount_original
         return amount
 
+    @fields.depends('party', 'lines')
     def on_change_with_amount_to_pay(self, name=None):
         total = 0
         if self.lines:
@@ -144,6 +143,7 @@ class AccountVoucher(ModelSQL, ModelView):
                 total += line.amount_unreconciled or Decimal('0.00')
         return total
 
+    @fields.depends('lines')
     def on_change_with_amount_invoices(self, name=None):
         total = 0
         if self.lines:
@@ -151,6 +151,8 @@ class AccountVoucher(ModelSQL, ModelView):
                 total += line.amount or Decimal('0.00')
         return total
 
+    @fields.depends('party', 'voucher_type', 'lines', 'lines_credits', 
+        'lines_debits')
     def on_change_party(self):
         pool = Pool()
         Invoice = pool.get('account.invoice')
