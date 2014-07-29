@@ -215,11 +215,13 @@ class AccountVoucher(ModelSQL, ModelView):
                 'date_expire': line.maturity_date,
             }
             if line.credit and self.voucher_type == 'receipt':
-                res['lines_credits'].setdefault('add', []).append(payment_line)
+                res['lines_credits'].setdefault('add', []).append((0, 
+                    payment_line))
             elif line.debit and self.voucher_type == 'payment':
-                res['lines_debits'].setdefault('add', []).append(payment_line)
+                res['lines_debits'].setdefault('add', []).append((0, 
+                    payment_line))
             else:
-                res['lines'].setdefault('add', []).append(payment_line)
+                res['lines'].setdefault('add', []).append((0, payment_line))
         return res
 
     @classmethod
