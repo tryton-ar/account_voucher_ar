@@ -374,9 +374,13 @@ class AccountVoucher(ModelSQL, ModelView):
             if line.amount == Decimal("0.00"):
                 continue
             invoice = Invoice(line.move_line.origin.id)
+            if self.voucher_type == 'receipt':
+                amount = line.amount
+            else:
+                amount = -line.amount
             reconcile_lines, remainder = \
                 Invoice.get_reconcile_lines_for_amount(
-                    invoice, line.amount)
+                    invoice, amount)
             for move_line in created_lines:
                 if move_line.description == 'advance':
                     continue
