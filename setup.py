@@ -31,12 +31,12 @@ for dep in info.get('depends', []):
 requires.append('trytond >= %s.%s, < %s.%s' %
         (major_version, minor_version, major_version, minor_version + 1))
 
-setup(name='trytond_account_voucher_ar',
+setup(name='trytonar_account_voucher_ar',
     version=info.get('version', '0.0.1'),
     description='Tryton module to add payments and receipts for Argentina',
     long_description=read('README'),
-    author='Thymbra',
-    url='http://www.thymbra.com/',
+    author='tryton-ar',
+    url='https://bitbucket.org/thymbra/account_voucher_ar',
     package_dir={'trytond.modules.account_voucher_ar': '.'},
     packages=[
         'trytond.modules.account_voucher_ar',
@@ -47,7 +47,7 @@ setup(name='trytond_account_voucher_ar',
             + ['tryton.cfg', 'view/*.xml', 'locale/*.po']),
         },
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Environment :: Plugins',
         'Framework :: Tryton',
         'Intended Audience :: Developers',
@@ -57,7 +57,6 @@ setup(name='trytond_account_voucher_ar',
         'Natural Language :: English',
         'Natural Language :: Spanish',
         'Operating System :: OS Independent',
-        'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
         'Topic :: Office/Business',
         'Topic :: Office/Business :: Financial :: Accounting',
