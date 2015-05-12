@@ -50,6 +50,10 @@ msgctxt "field:account.voucher,date:"
 msgid "Date"
 msgstr "Fecha"
 
+msgctxt "field:account.voucher,from_pay_invoice:"
+msgid "Voucher launched from Pay invoice"
+msgstr "Comprobante lanzadado desde Pagar en factura"
+
 msgctxt "field:account.voucher,id:"
 msgid "ID"
 msgstr "ID"
@@ -136,7 +140,7 @@ msgid "Date"
 msgstr "Fecha"
 
 msgctxt "field:account.voucher.line,date_expire:"
-msgid "Date expire"
+msgid "Expire date"
 msgstr "Fecha de vencimiento"
 
 msgctxt "field:account.voucher.line,id:"

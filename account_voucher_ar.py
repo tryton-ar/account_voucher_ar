@@ -39,7 +39,7 @@ class AccountVoucher(ModelSQL, ModelView):
     _rec_name = 'number'
 
     number = fields.Char('Number', readonly=True, help="Voucher Number")
-    party = fields.Many2One('party.party', 'Party', required=True, 
+    party = fields.Many2One('party.party', 'Party', required=True,
         states=_STATES)
     voucher_type = fields.Selection([
         ('payment', 'Payment'),
@@ -69,11 +69,12 @@ class AccountVoucher(ModelSQL, ModelView):
         ], 'State', select=True, readonly=True)
     amount = fields.Function(fields.Numeric('Payment', digits=(16, 2)),
         'on_change_with_amount')
-    amount_to_pay = fields.Function(fields.Numeric('To Pay', digits=(16, 2)), 
+    amount_to_pay = fields.Function(fields.Numeric('To Pay', digits=(16, 2)),
         'on_change_with_amount_to_pay')
     amount_invoices = fields.Function(fields.Numeric('Invoices',
         digits=(16, 2)), 'on_change_with_amount_invoices')
     move = fields.Many2One('account.move', 'Move', readonly=True)
+    from_pay_invoice = fields.Boolean('Voucher launched from Pay invoice')
 
     @classmethod
     def __setup__(cls):
@@ -109,6 +110,10 @@ class AccountVoucher(ModelSQL, ModelView):
     def default_date():
         Date = Pool().get('ir.date')
         return Date.today()
+
+    @staticmethod
+    def default_from_pay_invoice():
+        return False
 
     def set_number(self):
         Sequence = Pool().get('ir.sequence')
@@ -151,13 +156,19 @@ class AccountVoucher(ModelSQL, ModelView):
                 total += line.amount or Decimal('0.00')
         return total
 
-    @fields.depends('party', 'voucher_type', 'lines', 'lines_credits', 
-        'lines_debits')
+    @fields.depends('party', 'voucher_type', 'lines', 'lines_credits',
+        'lines_debits', 'from_pay_invoice')
     def on_change_party(self):
         pool = Pool()
         Invoice = pool.get('account.invoice')
         MoveLine = pool.get('account.move.line')
         InvoiceAccountMoveLine = pool.get('account.invoice-account.move.line')
+
+        if self.from_pay_invoice:
+            # The voucher was launched from Invoice's PayInvoice wizard:
+            # 'lines', 'lines_credits', 'lines_debits' should be set there
+            return {}
+
         res = {}
         res['lines'] = {}
         res['lines_credits'] = {}
@@ -217,10 +228,10 @@ class AccountVoucher(ModelSQL, ModelView):
                 'date_expire': line.maturity_date,
             }
             if line.credit and self.voucher_type == 'receipt':
-                res['lines_credits'].setdefault('add', []).append((0, 
+                res['lines_credits'].setdefault('add', []).append((0,
                     payment_line))
             elif line.debit and self.voucher_type == 'payment':
-                res['lines_debits'].setdefault('add', []).append((0, 
+                res['lines_debits'].setdefault('add', []).append((0,
                     payment_line))
             else:
                 res['lines'].setdefault('add', []).append((0, payment_line))
@@ -276,7 +287,6 @@ class AccountVoucher(ModelSQL, ModelView):
                     'move': move.id,
                     'journal': self.journal.id,
                     'period': Period.find(self.company.id, date=self.date),
-                    'party': self.party.id,
                 })
 
         #
@@ -504,4 +514,3 @@ class AccountVoucherLinePaymode(ModelSQL, ModelView):
         required=True, states=_STATES)
     pay_amount = fields.Numeric('Pay Amount', digits=(16, 2), required=True,
         states=_STATES)
-
