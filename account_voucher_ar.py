@@ -167,24 +167,24 @@ class AccountVoucher(ModelSQL, ModelView):
         if self.from_pay_invoice:
             # The voucher was launched from Invoice's PayInvoice wizard:
             # 'lines', 'lines_credits', 'lines_debits' should be set there
-            return {}
+            return
 
-        res = {}
-        res['lines'] = {}
-        res['lines_credits'] = {}
-        res['lines_debits'] = {}
+        #res = {}
+        lines = []
+        lines_credits = []
+        lines_debits = []
 
-        if self.lines:
-            res['lines']['remove'] = [x['id'] for x in self.lines]
-        if self.lines_credits:
-            res['lines_credits']['remove'] = \
-                [x['id'] for x in self.lines_credits]
-        if self.lines_debits:
-            res['lines_debits']['remove'] = \
-                [x['id'] for x in self.lines_debits]
+        #if self.lines:
+        #    lines['remove'] = [x['id'] for x in self.lines]
+        #if self.lines_credits:
+        #    lines_credits['remove'] = \
+        #        [x['id'] for x in self.lines_credits]
+        #if self.lines_debits:
+        #    lines_debits['remove'] = \
+        #        [x['id'] for x in self.lines_debits]
 
         if not self.party:
-            return res
+            return
 
         if self.voucher_type == 'receipt':
             account_types = ['receivable']
@@ -216,26 +216,28 @@ class AccountVoucher(ModelSQL, ModelView):
             model = str(line.origin)
             if model[:model.find(',')] == 'account.invoice':
                 name = Invoice(line.origin.id).number
-            payment_line = {
-                'name': name,
-                'account': line.account.id,
-                'amount': Decimal('0.00'),
-                'amount_original': amount,
-                'amount_unreconciled': abs(line.amount_residual),
-                'line_type': line_type,
-                'move_line': line.id,
-                'date': line.date,
-                'date_expire': line.maturity_date,
-            }
+
+            payment_line = AccountVoucherLine()
+            payment_line.name = name
+            payment_line.account = line.account.id
+            payment_line.amount = Decimal('0.00')
+            payment_line.amount_original = amount
+            payment_line.amount_unreconciled = abs(line.amount_residual)
+            payment_line.line_type = line_type
+            payment_line.move_line = line.id
+            payment_line.date = line.date
+            payment_line.date_expire = line.maturity_date
+
             if line.credit and self.voucher_type == 'receipt':
-                res['lines_credits'].setdefault('add', []).append((0,
-                    payment_line))
+                lines_credits.append(payment_line)
             elif line.debit and self.voucher_type == 'payment':
-                res['lines_debits'].setdefault('add', []).append((0,
-                    payment_line))
+                lines_debits.append(payment_line)
             else:
-                res['lines'].setdefault('add', []).append((0, payment_line))
-        return res
+                lines.append(payment_line)
+
+        self.lines = lines
+        self.lines_credits = lines_credits
+        self.lines_debits = lines_debits
 
     @classmethod
     def delete(cls, vouchers):
