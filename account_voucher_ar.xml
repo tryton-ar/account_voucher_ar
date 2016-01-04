@@ -64,8 +64,10 @@ the full copyright notices and license terms. -->
         <record model="ir.action.act_window" id="act_voucher_receipt_form">
             <field name="name">Receipts</field>
             <field name="res_model">account.voucher</field>
-            <field name="domain">[('voucher_type', '=', 'receipt')]</field>
-            <field name="context">{'voucher_type': 'receipt'}</field>
+            <field name="domain"
+                eval="[('voucher_type', '=', 'receipt')]"
+                pyson="1"/>
+            <field name="context" eval="{'voucher_type': 'receipt'}" pyson="1"/>
         </record>
         <record model="ir.action.act_window.view" id="act_voucher_receipt_form_view1">
             <field name="sequence" eval="10"/>
@@ -83,8 +85,10 @@ the full copyright notices and license terms. -->
         <record model="ir.action.act_window" id="act_voucher_payment_form">
             <field name="name">Payments</field>
             <field name="res_model">account.voucher</field>
-            <field name="domain">[('voucher_type', '=', 'payment')]</field>
-            <field name="context">{'voucher_type': 'payment'}</field>
+            <field name="domain"
+                eval="[('voucher_type', '=', 'payment')]"
+                pyson="1"/>
+            <field name="context" eval="{'voucher_type': 'payment'}" pyson="1"/>
         </record>
         <record model="ir.action.act_window.view" id="act_voucher_payment_form_view1">
             <field name="sequence" eval="10"/>
