@@ -184,6 +184,9 @@ class AccountVoucher(ModelSQL, ModelView):
         #        [x['id'] for x in self.lines_debits]
 
         if not self.party:
+            self.lines = []
+            self.lines_credits = []
+            self.lines_debits = []
             return
 
         if self.voucher_type == 'receipt':
@@ -236,8 +239,10 @@ class AccountVoucher(ModelSQL, ModelView):
                 lines.append(payment_line)
 
         self.lines = lines
-        self.lines_credits = lines_credits
-        self.lines_debits = lines_debits
+        if lines_credits != []:
+            self.lines_credits = lines_credits
+        if lines_debits != []:
+            self.lines_debits = lines_debits
 
     @classmethod
     def delete(cls, vouchers):
