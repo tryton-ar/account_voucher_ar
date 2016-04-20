@@ -184,9 +184,9 @@ class AccountVoucher(ModelSQL, ModelView):
         #        [x['id'] for x in self.lines_debits]
 
         if not self.party:
-            self.lines = []
-            self.lines_credits = []
-            self.lines_debits = []
+            self.lines = None
+            self.lines_credits = None
+            self.lines_debits = None
             return
 
         if self.voucher_type == 'receipt':
@@ -200,7 +200,9 @@ class AccountVoucher(ModelSQL, ModelView):
             ('reconciliation', '=', None),
         ])
 
+        count_id = 0
         for line in move_lines:
+            count_id = count_id - 1
 
             invoice = InvoiceAccountMoveLine.search([
                 ('line', '=', line.id),
@@ -220,7 +222,13 @@ class AccountVoucher(ModelSQL, ModelView):
             if model[:model.find(',')] == 'account.invoice':
                 name = Invoice(line.origin.id).number
 
-            payment_line = AccountVoucherLine()
+            if line.credit and self.voucher_type == 'receipt':
+                payment_line = AccountVoucherLineCredits()
+            elif line.debit and self.voucher_type == 'payment':
+                payment_line = AccountVoucherLineDebits()
+            else:
+                payment_line = AccountVoucherLine()
+
             payment_line.name = name
             payment_line.account = line.account.id
             payment_line.amount = Decimal('0.00')
@@ -230,6 +238,7 @@ class AccountVoucher(ModelSQL, ModelView):
             payment_line.move_line = line.id
             payment_line.date = line.date
             payment_line.date_expire = line.maturity_date
+            payment_line.id = count_id
 
             if line.credit and self.voucher_type == 'receipt':
                 lines_credits.append(payment_line)
@@ -239,10 +248,8 @@ class AccountVoucher(ModelSQL, ModelView):
                 lines.append(payment_line)
 
         self.lines = lines
-        if lines_credits != []:
-            self.lines_credits = lines_credits
-        if lines_debits != []:
-            self.lines_debits = lines_debits
+        self.lines_credits = lines_credits
+        self.lines_debits = lines_debits
 
     @classmethod
     def delete(cls, vouchers):
