@@ -21,8 +21,9 @@ the full copyright notices and license terms. -->
     <field name="journal"/>
     <label name="currency"/>
     <field name="currency"/>
+    <field name="currency_code" invisible="1"/>
     <field name="voucher_type" invisible="1"/>
-    <field name="from_pay_invoice" invisible="1"/>
+    <field name="pay_invoice" invisible="1"/>
     <newline/>
     <notebook colspan="4">
         <page string="Pay Mode Lines" id="pay_lines">
@@ -44,6 +45,8 @@ the full copyright notices and license terms. -->
             <field name="company"/>
             <label name="move"/>
             <field name="move"/>
+            <label name="move_canceled"/>
+            <field name="move_canceled"/>
             <separator name="comment" colspan="4"/>
             <field name="comment" colspan="4"/>
         </page>
@@ -52,5 +55,6 @@ the full copyright notices and license terms. -->
     <field name="state"/>
     <group colspan="6" id="group_voucher_1">
         <button name="post" string="_Pay"/>
+        <button name="cancel" string="_Cancel"/>
     </group>
 </form>
