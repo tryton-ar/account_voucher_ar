@@ -5,22 +5,51 @@ the full copyright notices and license terms. -->
 <tryton>
     <data>
 
-        <!-- Sequences for Account Voucher -->
-        <record id="seq_type_account_voucher" model="ir.sequence.type">
-            <field name="name">Account Voucher</field>
-            <field name="code">account.voucher</field>
+        <!-- Sequences for Account Voucher Payment -->
+        <record id="seq_type_account_voucher_payment" model="ir.sequence.type">
+            <field name="name">Account Voucher Payment</field>
+            <field name="code">account.voucher.payment</field>
         </record>
-        <record id="seq_account_voucher" model="ir.sequence">
-            <field name="name">Account Voucher</field>
-            <field name="code">account.voucher</field>
-            <field name="prefix">${year}/</field>
-            <field name="padding">3</field>
+        <record model="ir.sequence.type-res.group"
+            id="seq_type_account_voucher_payment_group_admin">
+            <field name="sequence_type" ref="seq_type_account_voucher_payment"/>
+            <field name="group" ref="res.group_admin"/>
+        </record>
+        <record model="ir.sequence.type-res.group"
+            id="seq_type_account_voucher_payment_group_account_admin">
+            <field name="sequence_type" ref="seq_type_account_voucher_payment"/>
+            <field name="group" ref="account.group_account_admin"/>
         </record>
 
-        <record model="ir.property" id="property_account_voucher_sequence">
+        <record id="seq_account_voucher_payment" model="ir.sequence">
+            <field name="name">Account Voucher Payment</field>
+            <field name="code">account.voucher.payment</field>
+            <field name="prefix">OP ${year}/</field>
+            <field name="padding">6</field>
+        </record>
+
+        <record model="ir.property" id="property_account_voucher_payment_sequence">
             <field name="field"
-                search="[('model.model', '=', 'account.voucher.sequence'), ('name', '=', 'voucher_sequence')]"/>
-            <field name="value" eval="'ir.sequence,' + str(ref('seq_account_voucher'))"/>
+                search="[('model.model', '=', 'account.voucher.sequence'), ('name', '=', 'voucher_payment_sequence')]"/>
+            <field name="value" eval="'ir.sequence,' + str(ref('seq_account_voucher_payment'))"/>
+        </record>
+
+        <!-- Sequences for Account Voucher Receipt -->
+        <record id="seq_type_account_voucher_receipt" model="ir.sequence.type">
+            <field name="name">Account Voucher Receipt</field>
+            <field name="code">account.voucher.receipt</field>
+        </record>
+        <record id="seq_account_voucher_receipt" model="ir.sequence">
+            <field name="name">Account Voucher Receipt</field>
+            <field name="code">account.voucher.receipt</field>
+            <field name="prefix">REC ${year}/</field>
+            <field name="padding">6</field>
+        </record>
+
+        <record model="ir.property" id="property_account_voucher_receipt_sequence">
+            <field name="field"
+                search="[('model.model', '=', 'account.voucher.sequence'), ('name', '=', 'voucher_receipt_sequence')]"/>
+            <field name="value" eval="'ir.sequence,' + str(ref('seq_account_voucher_receipt'))"/>
         </record>
 
 <!-- Account Voucher -->

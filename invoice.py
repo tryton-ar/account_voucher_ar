@@ -29,7 +29,8 @@ class PayInvoice(Wizard):
         invoice = Invoice(Transaction().context.get('active_id'))
         default['date'] = Date.today()
         default['party'] = invoice.party.id
-        default['from_pay_invoice'] = True
+        default['currency'] = invoice.currency.id
+        default['pay_invoice'] = invoice.id
 
         amount_to_pay = Decimal('0.0')
         if invoice.type in ['in_invoice', 'in_credit_note']:
