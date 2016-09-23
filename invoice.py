@@ -33,10 +33,10 @@ class PayInvoice(Wizard):
         default['pay_invoice'] = invoice.id
 
         amount_to_pay = Decimal('0.0')
-        if invoice.type in ['in_invoice', 'in_credit_note']:
+        if invoice.type == 'in':
             default['voucher_type'] = 'payment'
             line_type = 'cr'
-        elif invoice.type in ['out_invoice', 'out_credit_note']:
+        elif invoice.type == 'out':
             default['voucher_type'] = 'receipt'
             line_type = 'dr'
             amount_to_pay = invoice.amount_to_pay

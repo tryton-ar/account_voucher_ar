@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<form string="Paymode" col="8">
+    <label name="name"/>
+    <field name="name"/>
+    <label name="account"/>
+    <field name="account"/>
+</form>

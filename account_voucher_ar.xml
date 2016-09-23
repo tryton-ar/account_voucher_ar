@@ -21,35 +21,27 @@ the full copyright notices and license terms. -->
             <field name="group" ref="account.group_account_admin"/>
         </record>
 
-        <record id="seq_account_voucher_payment" model="ir.sequence">
-            <field name="name">Account Voucher Payment</field>
-            <field name="code">account.voucher.payment</field>
-            <field name="prefix">OP ${year}/</field>
-            <field name="padding">6</field>
-        </record>
-
-        <record model="ir.property" id="property_account_voucher_payment_sequence">
-            <field name="field"
-                search="[('model.model', '=', 'account.voucher.sequence'), ('name', '=', 'voucher_payment_sequence')]"/>
-            <field name="value" eval="'ir.sequence,' + str(ref('seq_account_voucher_payment'))"/>
-        </record>
-
         <!-- Sequences for Account Voucher Receipt -->
         <record id="seq_type_account_voucher_receipt" model="ir.sequence.type">
             <field name="name">Account Voucher Receipt</field>
             <field name="code">account.voucher.receipt</field>
         </record>
-        <record id="seq_account_voucher_receipt" model="ir.sequence">
-            <field name="name">Account Voucher Receipt</field>
-            <field name="code">account.voucher.receipt</field>
-            <field name="prefix">REC ${year}/</field>
-            <field name="padding">6</field>
+        <record model="ir.sequence.type-res.group"
+            id="seq_type_account_voucher_receipt_group_admin">
+            <field name="sequence_type" ref="seq_type_account_voucher_receipt"/>
+            <field name="group" ref="res.group_admin"/>
+        </record>
+        <record model="ir.sequence.type-res.group"
+            id="seq_type_account_voucher_receipt_group_account_admin">
+            <field name="sequence_type" ref="seq_type_account_voucher_receipt"/>
+            <field name="group" ref="account.group_account_admin"/>
         </record>
 
-        <record model="ir.property" id="property_account_voucher_receipt_sequence">
-            <field name="field"
-                search="[('model.model', '=', 'account.voucher.sequence'), ('name', '=', 'voucher_receipt_sequence')]"/>
-            <field name="value" eval="'ir.sequence,' + str(ref('seq_account_voucher_receipt'))"/>
+        <!--Fiscal Year -->
+        <record model="ir.ui.view" id="fiscalyear_view_form">
+            <field name="model">account.fiscalyear</field>
+            <field name="inherit" ref="account.fiscalyear_view_form"/>
+            <field name="name">fiscalyear_form</field>
         </record>
 
 <!-- Account Voucher -->
@@ -154,6 +146,37 @@ the full copyright notices and license terms. -->
             <field name="type">tree</field>
             <field name="name">pay_lines_tree</field>
         </record>
+
+        <menuitem name="Paymode" parent="account.menu_account_configuration"
+            id="menu_paymode" sequence="21"/>
+
+        <record model="ir.ui.view" id="account_voucher_paymode_form">
+            <field name="model">account.voucher.paymode</field>
+            <field name="type">form</field>
+            <field name="name">paymode_form</field>
+        </record>
+        <record model="ir.ui.view" id="account_voucher_paymode_tree">
+            <field name="model">account.voucher.paymode</field>
+            <field name="type">tree</field>
+            <field name="name">paymode_tree</field>
+        </record>
+
+        <record model="ir.action.act_window" id="act_voucher_paymode_form">
+            <field name="name">Paymode</field>
+            <field name="res_model">account.voucher.paymode</field>
+        </record>
+        <record model="ir.action.act_window.view" id="act_voucher_paymode_form_view1">
+            <field name="sequence" eval="10"/>
+            <field name="view" ref="account_voucher_paymode_tree"/>
+            <field name="act_window" ref="act_voucher_paymode_form"/>
+        </record>
+        <record model="ir.action.act_window.view" id="act_voucher_paymode_form_view2">
+            <field name="sequence" eval="20"/>
+            <field name="view" ref="account_voucher_paymode_form"/>
+            <field name="act_window" ref="act_voucher_paymode_form"/>
+        </record>
+        <menuitem parent="menu_paymode" action="act_voucher_paymode_form"
+            id="menu_paymodes" sequence="5"/>
 
     </data>
 </tryton>

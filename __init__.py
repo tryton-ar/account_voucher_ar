@@ -13,7 +13,7 @@ def register():
     Pool.register(
         Move,
         Line,
-        AccountVoucherSequence,
+        FiscalYear,
         AccountVoucherPayMode,
         AccountVoucher,
         AccountVoucherLine,

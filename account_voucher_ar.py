@@ -2,37 +2,108 @@
 #The COPYRIGHT file at the top level of this repository contains
 #the full copyright notices and license terms.
 from decimal import Decimal
-from trytond.model import Workflow, ModelSingleton, ModelView, ModelSQL, fields
+from trytond.model import Workflow, ModelView, ModelSQL, fields
 from trytond.transaction import Transaction
 from trytond.pyson import Eval, In
-from trytond.pool import Pool
+from trytond.pool import Pool, PoolMeta
 
-__all__ = ['AccountVoucherSequence', 'AccountVoucherPayMode', 'AccountVoucher',
+__all__ = ['FiscalYear', 'AccountVoucherPayMode', 'AccountVoucher',
     'AccountVoucherLine', 'AccountVoucherLineCredits',
     'AccountVoucherLineDebits', 'AccountVoucherLinePaymode']
+__metaclass__ = PoolMeta
 
 _STATES = {
     'readonly': In(Eval('state'), ['posted', 'canceled']),
 }
 _DEPENDS = ['state']
 
+_ZERO = Decimal('0.0')
 
-class AccountVoucherSequence(ModelSingleton, ModelSQL, ModelView):
-    'Account Voucher Sequence'
-    __name__ = 'account.voucher.sequence'
 
-    voucher_payment_sequence = fields.Property(fields.Many2One('ir.sequence',
-        'Voucher Payment Sequence', required=True,
+class FiscalYear:
+    __name__ = 'account.fiscalyear'
+
+    payment_sequence = fields.Many2One('ir.sequence',
+        'Payment Sequence', required=True,
         domain=[
             ('code', '=', 'account.voucher.payment'),
-            ('company', 'in', [Eval('context', {}).get('company'), None]),
-            ]))
-    voucher_receipt_sequence = fields.Property(fields.Many2One('ir.sequence',
-        'Voucher Receipt Sequence', required=True,
+                ['OR',
+                    ('company', '=', Eval('company')),
+                    ('company', '=', None)
+                ]],
+            context={
+                'code': 'account.voucher.payment',
+                'company': Eval('company'),
+            },
+            depends=['company'])
+    receipt_sequence = fields.Many2One('ir.sequence',
+        'Receipt Sequence', required=True,
         domain=[
             ('code', '=', 'account.voucher.receipt'),
-            ('company', 'in', [Eval('context', {}).get('company'), None]),
-            ]))
+                ['OR',
+                    ('company', '=', Eval('company')),
+                    ('company', '=', None)
+                ]],
+            context={
+                'code': 'account.voucher.receipt',
+                'company': Eval('company'),
+            },
+            depends=['company'])
+
+    @classmethod
+    def __setup__(cls):
+        super(FiscalYear, cls).__setup__()
+        cls._error_messages.update({
+                'change_voucher_sequence': ('You can not change '
+                    'voucher sequence in fiscal year "%s" because there are '
+                    'already posted vouchers in this fiscal year.'),
+                'different_voucher_sequence': ('Fiscal year "%(first)s" and '
+                    '"%(second)s" have the same voucher sequence.'),
+                })
+
+    @classmethod
+    def validate(cls, years):
+        super(FiscalYear, cls).validate(years)
+        for year in years:
+            year.check_voucher_sequences()
+
+    def check_voucher_sequences(self):
+        for sequence in ('payment_sequence', 'receipt_sequence'):
+            fiscalyears = self.search([
+                    (sequence, '=', getattr(self, sequence).id),
+                    ('id', '!=', self.id),
+                    ])
+            if fiscalyears:
+                self.raise_user_error('different_voucher_sequence', {
+                        'first': self.rec_name,
+                        'second': fiscalyears[0].rec_name,
+                        })
+
+    @classmethod
+    def write(cls, *args):
+        Voucher = Pool().get('account.voucher')
+
+        actions = iter(args)
+        for fiscalyears, values in zip(actions, actions):
+            for sequence in ('payment_sequence', 'receipt_sequence'):
+                    if not values.get(sequence):
+                        continue
+                    for fiscalyear in fiscalyears:
+                        if (getattr(fiscalyear, sequence)
+                                and (getattr(fiscalyear, sequence).id !=
+                                    values[sequence])):
+                            if Voucher.search([
+                                        ('date', '>=', fiscalyear.start_date),
+                                        ('date', '<=', fiscalyear.end_date),
+                                        ('number', '!=', None),
+                                        ('type', '=', sequence[:-9]),
+                                        ]):
+                                cls.raise_user_error('change_voucher_sequence',
+                                    (fiscalyear.rec_name,))
+        super(FiscalYear, cls).write(*args)
+
+    def get_voucher_sequence(self, voucher_type):
+        return getattr(self, voucher_type + '_sequence')
 
 
 class AccountVoucherPayMode(ModelSQL, ModelView):
@@ -41,7 +112,6 @@ class AccountVoucherPayMode(ModelSQL, ModelView):
 
     name = fields.Char('Name')
     account = fields.Many2One('account.account', 'Account')
-
 
 
 class AccountVoucher(Workflow, ModelSQL, ModelView):
@@ -55,7 +125,8 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
     voucher_type = fields.Selection([
         ('payment', 'Payment'),
         ('receipt', 'Receipt'),
-        ], 'Type', select=True, required=True, states=_STATES, depends=_DEPENDS)
+        ], 'Type', select=True, required=True, states=_STATES,
+        depends=_DEPENDS)
     pay_lines = fields.One2Many('account.voucher.line.paymode', 'voucher',
         'Pay Mode Lines', states=_STATES, depends=_DEPENDS)
     date = fields.Date('Date', required=True, states=_STATES, depends=_DEPENDS)
@@ -65,18 +136,20 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         states=_STATES, depends=_DEPENDS)
     currency_code = fields.Function(fields.Char('Currency Code'),
         'on_change_with_currency_code')
-    company = fields.Many2One('company.company', 'Company', 
+    company = fields.Many2One('company.company', 'Company',
         states=_STATES, depends=_DEPENDS)
     lines = fields.One2Many('account.voucher.line', 'voucher', 'Lines',
         states=_STATES, depends=_DEPENDS)
     lines_credits = fields.One2Many('account.voucher.line.credits', 'voucher',
         'Credits', states={
             'invisible': ~Eval('lines_credits'),
-            })
+            'readonly': In(Eval('state'), ['posted', 'canceled']),
+            }, depends=['state'])
     lines_debits = fields.One2Many('account.voucher.line.debits', 'voucher',
         'Debits', states={
             'invisible': ~Eval('lines_debits'),
-            })
+            'readonly': In(Eval('state'), ['posted', 'canceled']),
+            }, depends=['state'])
     comment = fields.Text('Comment', states=_STATES, depends=_DEPENDS)
     state = fields.Selection([
         ('draft', 'Draft'),
@@ -90,21 +163,22 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
     amount_invoices = fields.Function(fields.Numeric('Invoices',
         digits=(16, 2)), 'on_change_with_amount_invoices')
     move = fields.Many2One('account.move', 'Move', readonly=True)
-    move_canceled = fields.Many2One('account.move', 'Move Canceled', 
+    move_canceled = fields.Many2One('account.move', 'Move Canceled',
         readonly=True, states={
             'invisible': ~Eval('move_canceled'),
             })
-    pay_invoice = fields.Many2One('account.invoice', 'Pay Invoice') 
+    pay_invoice = fields.Many2One('account.invoice', 'Pay Invoice')
 
     @classmethod
     def __setup__(cls):
         super(AccountVoucher, cls).__setup__()
         cls._error_messages.update({
             'missing_pay_lines': 'You have to enter pay mode lines!',
-            'amount_greater_unreconciled': 'Amount greater than invoice amount',
+            'amount_greater_unreconciled': 'Amount greater than invoice '
+                'amount',
             'delete_voucher': 'You can not delete a voucher that is posted!',
-            'post_already_reconciled': 'You can not post the voucher because it '
-                'already has reconciled lines!\n\nLines:\n%s',
+            'post_already_reconciled': 'You can not post the voucher because '
+                'it already has reconciled lines!\n\nLines:\n%s',
         })
         cls._transitions |= set((
                 ('draft', 'posted'),
@@ -116,7 +190,8 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                     },
                 'cancel': {
                     'invisible': Eval('state') != 'posted',
-                    },                })
+                    },
+                })
         cls._order.insert(0, ('date', 'DESC'))
         cls._order.insert(1, ('number', 'DESC'))
 
@@ -134,16 +209,20 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         return Date.today()
 
     def set_number(self):
-        Sequence = Pool().get('ir.sequence')
-        AccountVoucherSequence = Pool().get('account.voucher.sequence')
+        pool = Pool()
+        Sequence = pool.get('ir.sequence')
+        FiscalYear = pool.get('account.fiscalyear')
 
-        sequence = AccountVoucherSequence(1)
-        if self.voucher_type == 'payment':
-            self.write([self], {'number': Sequence.get_id(
-                sequence.voucher_payment_sequence.id)})
-        else:
-            self.write([self], {'number': Sequence.get_id(
-                sequence.voucher_receipt_sequence.id)})
+        fiscalyear_id = FiscalYear.find(self.company.id,
+            date=self.date)
+        fiscalyear = FiscalYear(fiscalyear_id)
+        sequence = fiscalyear.get_voucher_sequence(self.voucher_type)
+        if not sequence:
+            self.raise_user_error('no_voucher_sequence', {
+                    'voucher': self.rec_name,
+                    'fiscalyear': fiscalyear.rec_name,
+                    })
+        self.write([self], {'number': Sequence.get_id(sequence.id)})
 
     @fields.depends('currency')
     def on_change_with_currency_code(self, name=None):
@@ -152,7 +231,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
 
     @fields.depends('party', 'pay_lines', 'lines_credits', 'lines_debits')
     def on_change_with_amount(self, name=None):
-        amount = Decimal('0.0')
+        amount = _ZERO
         if self.pay_lines:
             for line in self.pay_lines:
                 if line.pay_amount:
@@ -172,7 +251,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         total = 0
         if self.lines:
             for line in self.lines:
-                total += line.amount_unreconciled or Decimal('0.00')
+                total += line.amount_unreconciled or _ZERO
         return total
 
     @fields.depends('lines')
@@ -180,7 +259,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         total = 0
         if self.lines:
             for line in self.lines:
-                total += line.amount or Decimal('0.00')
+                total += line.amount or _ZERO
         return total
 
     @fields.depends('party', 'voucher_type', 'lines', 'lines_credits',
@@ -233,9 +312,13 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                     ('account.kind', 'in', account_types),
                     ('state', '=', 'valid'),
                     ('reconciliation', '=', None),
-                ])
+                    ])
 
         for line in move_lines:
+            origin = str(line.origin)
+            origin = origin[:origin.find(',')]
+            if origin not in ['account.invoice', 'account.voucher']:
+                continue
 
             invoice = InvoiceAccountMoveLine.search([
                 ('line', '=', line.id),
@@ -267,10 +350,15 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                 else:
                     name = invoice.reference
 
-            payment_line = AccountVoucherLine()
+            if line.credit and self.voucher_type == 'receipt':
+                payment_line = AccountVoucherLineCredits()
+            elif line.debit and self.voucher_type == 'payment':
+                payment_line = AccountVoucherLineDebits()
+            else:
+                payment_line = AccountVoucherLine()
             payment_line.name = name
             payment_line.account = line.account.id
-            payment_line.amount = Decimal('0.00')
+            payment_line.amount = _ZERO
             payment_line.amount_original = amount
             payment_line.amount_unreconciled = amount_residual
             payment_line.line_type = line_type
@@ -322,7 +410,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         Currency = pool.get('currency.currency')
 
         # Check amount
-        if not self.amount > Decimal("0.0"):
+        if not self.amount > _ZERO:
             self.raise_user_error('missing_pay_lines')
 
         move_lines = []
@@ -338,7 +426,6 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                 })
 
         second_currency = None
-        amount_second_currency = Decimal('0.0')
         if self.currency != self.company.currency:
             second_currency = self.currency.id
 
@@ -348,6 +435,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         if self.pay_lines:
             for line in self.pay_lines:
                 amount = line.pay_amount
+                amount_second_currency = None
                 if second_currency:
                     amount_second_currency = amount
                     with Transaction().set_context(date=self.date):
@@ -355,11 +443,23 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                             amount, self.company.currency)
 
                 if self.voucher_type == 'receipt':
-                    debit = amount
-                    credit = Decimal('0.0')
+                    if amount < _ZERO:
+                        debit = _ZERO
+                        credit = amount * -1
+                    else:
+                        debit = amount
+                        credit = _ZERO
                 else:
-                    debit = Decimal('0.0')
-                    credit = amount
+                    if amount < _ZERO:
+                        debit = amount * -1
+                        credit = _ZERO
+                    else:
+                        debit = _ZERO
+                        credit = amount
+
+                if self.voucher_type == 'payment' and second_currency:
+                    amount_second_currency *= -1
+                if second_currency and amount < _ZERO:
                     amount_second_currency *= -1
 
                 move_lines.append({
@@ -379,6 +479,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         if self.lines_credits:
             for line in self.lines_credits:
                 amount = line.amount_original
+                amount_second_currency = None
                 if second_currency:
                     amount_second_currency = amount
                     with Transaction().set_context(date=self.date):
@@ -386,9 +487,9 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                             amount, self.company.currency)
 
                 debit = amount
-                credit = Decimal('0.0')
+                credit = _ZERO
 
-                if self.voucher_type == 'payment':
+                if self.voucher_type == 'payment' and second_currency:
                     amount_second_currency *= -1
 
                 move_lines.append({
@@ -412,16 +513,17 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         if self.lines_debits:
             for line in self.lines_debits:
                 amount = line.amount_original
+                amount_second_currency = None
                 if second_currency:
                     amount_second_currency = amount
                     with Transaction().set_context(date=self.date):
                         amount = Currency.compute(self.currency,
                             amount, self.company.currency)
 
-                debit = Decimal('0.0')
+                debit = _ZERO
                 credit = amount
 
-                if self.voucher_type == 'payment':
+                if self.voucher_type == 'payment' and second_currency:
                     amount_second_currency *= -1
 
                 move_lines.append({
@@ -453,13 +555,13 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
 
                 origin = str(line.move_line.origin)
                 origin = origin[:origin.find(',')]
-                if origin not in ['account.invoice',
-                        'account.voucher']:
+                if origin not in ('account.invoice', 'account.voucher'):
                     continue
                 if not line.amount:
                     continue
 
                 amount = line.amount
+                amount_second_currency = None
                 if second_currency:
                     amount_second_currency = amount
                     with Transaction().set_context(date=self.date):
@@ -468,14 +570,16 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
 
                 line_move_ids.append(line.move_line)
                 if self.voucher_type == 'receipt':
-                    debit = Decimal('0.00')
+                    debit = _ZERO
                     credit = amount
                     description = Invoice(line.move_line.origin.id).number
-                    amount_second_currency *= -1
                 else:
                     debit = amount
-                    credit = Decimal('0.00')
+                    credit = _ZERO
                     description = Invoice(line.move_line.origin.id).reference
+
+                if self.voucher_type == 'receipt' and second_currency:
+                    amount_second_currency *= -1
 
                 total -= amount
                 invoices += description + ', ' if description else ', '
@@ -493,16 +597,27 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                     'amount_second_currency': amount_second_currency,
                     'second_currency': second_currency,
                 })
-        if total != Decimal('0.00'):
+
+        if total != _ZERO:
+            amount = total
+            amount_second_currency = None
+            if second_currency:
+                with Transaction().set_context(date=self.date):
+                    amount_second_currency = Currency.compute(
+                        self.company.currency, amount, self.currency)
+
             if self.voucher_type == 'receipt':
-                debit = Decimal('0.00')
-                credit = total
+                debit = _ZERO
+                credit = amount
                 account_id = self.party.account_receivable.id
-                amount_second_currency *= -1
             else:
-                debit = total
-                credit = Decimal('0.00')
+                debit = amount
+                credit = _ZERO
                 account_id = self.party.account_payable.id
+
+            if self.voucher_type == 'receipt' and second_currency:
+                amount_second_currency *= -1
+
             move_lines.append({
                 'description': self.number,
                 'debit': debit,
@@ -514,8 +629,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                 'date': self.date,
                 'maturity_date': self.date,
                 'party': self.party.id,
-                'amount_second_currency': (-amount_second_currency
-                    if amount_second_currency else amount_second_currency),
+                'amount_second_currency': amount_second_currency,
                 'second_currency': second_currency,
             })
 
@@ -534,7 +648,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         Move.post([self.move])
 
         lines_to_reconcile = []
-        total_remainder = Decimal('0.00')
+        total_remainder = _ZERO
         # reconcile check
         for line in self.lines:
             origin = str(line.move_line.origin)
@@ -542,10 +656,10 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
             if origin not in ['account.invoice',
                     'account.voucher']:
                 continue
-            if line.amount == Decimal("0.00"):
+            if line.amount == _ZERO:
                 continue
             invoice = Invoice(line.move_line.origin.id)
-            
+
             with Transaction().set_context(date=self.date):
                 amount = Currency.compute(self.currency,
                     line.amount, self.company.currency)
@@ -554,7 +668,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                 amount = -amount
             reconcile_lines, remainder = \
                 Invoice.get_reconcile_lines_for_amount(
-                    invoice, amount, lines_to_reconcile)
+                    invoice, amount)
             lines_to_reconcile.extend(reconcile_lines)
             total_remainder += remainder
             for move_line in created_lines:
@@ -570,9 +684,10 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                     Invoice.write([invoice], {
                         'payment_lines': [('add', [move_line.id])],
                         })
-        if total_remainder == Decimal('0.00'):
+        if total_remainder == _ZERO:
             lines_to_reconcile = list(set(lines_to_reconcile))
-            MoveLine.reconcile(lines_to_reconcile)
+            if lines_to_reconcile:
+                MoveLine.reconcile(lines_to_reconcile)
 
         reconcile_lines = []
         for line in self.lines_credits:
@@ -602,12 +717,12 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         Reconciliation = pool.get('account.move.reconciliation')
         Invoice = pool.get('account.invoice')
         Date = pool.get('ir.date')
-        
+
         canceled_date = Date.today()
         canceled_move, = Move.copy([self.move], {
                 'period': Period.find(self.company.id, date=canceled_date),
                 'date': canceled_date,
-            })
+                })
         self.write([self], {
                 'move_canceled': canceled_move.id,
                 })
@@ -616,29 +731,34 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
             aux = line.debit
             line.debit = line.credit
             line.credit = aux
+            line.amount_second_currency = (line.amount_second_currency * -1 if
+                line.amount_second_currency else _ZERO)
             line.save()
 
         Move.post([self.move_canceled])
 
-        reconciliations = [x.reconciliation for x in self.move.lines 
-                            if x.reconciliation]
+        reconciliations = [x.reconciliation for x in self.move.lines
+                if x.reconciliation]
         with Transaction().set_user(0, set_context=True):
             if reconciliations:
                 Reconciliation.delete(reconciliations)
-        
+
         for line in self.lines:
             origin = str(line.move_line.origin)
             origin = origin[:origin.find(',')]
             if origin not in ['account.invoice',
                     'account.voucher']:
                 continue
-            if line.amount == Decimal("0.00"):
+            if line.amount == _ZERO:
                 continue
             invoice = Invoice(line.move_line.origin.id)
             for move_line in self.move_canceled.lines:
                 if move_line.description == 'advance':
                     continue
-                if move_line.description == invoice.number:
+                invoice_number = invoice.reference
+                if invoice.type == 'out':
+                    invoice_number = invoice.number
+                if move_line.description == invoice_number:
                     Invoice.write([invoice], {
                         'payment_lines': [('add', [move_line.id])],
                         })
@@ -650,7 +770,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         for cancel_line in canceled_move.lines:
             if cancel_line.account.reconcile:
                 lines_to_reconcile.append(cancel_line)
-        
+
         if lines_to_reconcile:
             MoveLine.reconcile(lines_to_reconcile)
 
@@ -699,7 +819,7 @@ class AccountVoucherLine(ModelSQL, ModelView):
         ('dr', 'Debit'),
         ], 'Type', select=True)
     move_line = fields.Many2One('account.move.line', 'Move Line')
-    amount_original = fields.Numeric('Original Amount', digits=(16, 2), 
+    amount_original = fields.Numeric('Original Amount', digits=(16, 2),
         states={'readonly': True})
     amount_unreconciled = fields.Numeric('Unreconciled amount', digits=(16, 2),
         states={'readonly': True})
@@ -725,36 +845,48 @@ class AccountVoucherLineCredits(ModelSQL, ModelView):
     'Account Voucher Line Credits'
     __name__ = 'account.voucher.line.credits'
 
-    voucher = fields.Many2One('account.voucher', 'Voucher')
+    voucher = fields.Many2One('account.voucher', 'Voucher',
+        required=True, ondelete='CASCADE', select=True)
     name = fields.Char('Name')
-    account = fields.Many2One('account.account', 'Account')
-    amount = fields.Numeric('Amount', digits=(16, 2))
+    account = fields.Many2One('account.account', 'Account',
+        states={'readonly': True})
+    amount = fields.Numeric('Amount', digits=(16, 2),
+        states={'readonly': True})
     line_type = fields.Selection([
         ('cr', 'Credit'),
         ('dr', 'Debit'),
-        ], 'Type', select=True)
-    move_line = fields.Many2One('account.move.line', 'Move Line')
-    amount_original = fields.Numeric('Original Amount', digits=(16, 2))
-    amount_unreconciled = fields.Numeric('Unreconciled amount', digits=(16, 2))
-    date = fields.Date('Date')
+        ], 'Type', select=True, states={'readonly': True})
+    move_line = fields.Many2One('account.move.line', 'Move Line',
+        states={'readonly': True})
+    amount_original = fields.Numeric('Original Amount',
+        digits=(16, 2), states={'readonly': True})
+    amount_unreconciled = fields.Numeric('Unreconciled amount',
+        digits=(16, 2), states={'readonly': True})
+    date = fields.Date('Date', states={'readonly': True})
 
 
 class AccountVoucherLineDebits(ModelSQL, ModelView):
     'Account Voucher Line Debits'
     __name__ = 'account.voucher.line.debits'
 
-    voucher = fields.Many2One('account.voucher', 'Voucher')
+    voucher = fields.Many2One('account.voucher', 'Voucher',
+        required=True, ondelete='CASCADE', select=True)
     name = fields.Char('Name')
-    account = fields.Many2One('account.account', 'Account')
-    amount = fields.Numeric('Amount', digits=(16, 2))
+    account = fields.Many2One('account.account', 'Account',
+        states={'readonly': True})
+    amount = fields.Numeric('Amount', digits=(16, 2),
+        states={'readonly': True})
     line_type = fields.Selection([
         ('cr', 'Credit'),
         ('dr', 'Debit'),
-        ], 'Type', select=True)
-    move_line = fields.Many2One('account.move.line', 'Move Line')
-    amount_original = fields.Numeric('Original Amount', digits=(16, 2))
-    amount_unreconciled = fields.Numeric('Unreconciled amount', digits=(16, 2))
-    date = fields.Date('Date')
+        ], 'Type', select=True, states={'readonly': True})
+    move_line = fields.Many2One('account.move.line', 'Move Line',
+        states={'readonly': True})
+    amount_original = fields.Numeric('Original Amount',
+        digits=(16, 2), states={'readonly': True})
+    amount_unreconciled = fields.Numeric('Unreconciled amount',
+        digits=(16, 2), states={'readonly': True})
+    date = fields.Date('Date', states={'readonly': True})
 
 
 class AccountVoucherLinePaymode(ModelSQL, ModelView):

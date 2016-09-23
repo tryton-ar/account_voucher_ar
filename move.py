@@ -27,7 +27,7 @@ class Line:
 
         res = Decimal('0.0')
         if self.reconciliation or \
-        not self.account.kind in ('payable', 'receivable'):
+                not self.account.kind in ('payable', 'receivable'):
             return res
 
         move_line_total = self.debit - self.credit

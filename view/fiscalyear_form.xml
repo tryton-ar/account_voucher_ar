@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<data>
+    <xpath
+        expr="/form/notebook/page[@id='sequences']/field[@name='in_credit_note_sequence']"
+        position="after">
+        <newline/>
+        <label name="payment_sequence"/>
+        <field name="payment_sequence"/>
+        <label name="receipt_sequence"/>
+        <field name="receipt_sequence"/>
+    </xpath>
+</data>
