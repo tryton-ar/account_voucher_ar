@@ -1,7 +1,6 @@
 #This file is part of the account_voucher_ar module for Tryton.
 #The COPYRIGHT file at the top level of this repository contains
 #the full copyright notices and license terms.
-from decimal import Decimal
 from trytond.wizard import Wizard, StateView, Button
 from trytond.transaction import Transaction
 from trytond.pool import Pool
@@ -32,27 +31,27 @@ class PayInvoice(Wizard):
         default['currency'] = invoice.currency.id
         default['pay_invoice'] = invoice.id
 
-        amount_to_pay = Decimal('0.0')
         if invoice.type in ['in_invoice', 'in_credit_note']:
             default['voucher_type'] = 'payment'
             line_type = 'cr'
         if invoice.type in ['out_invoice', 'out_credit_note']:
             default['voucher_type'] = 'receipt'
             line_type = 'dr'
-            amount_to_pay = invoice.amount_to_pay
 
-        line_to_pay, = invoice.lines_to_pay
+        for line in invoice.lines_to_pay:
+            amount = line.debit
+            amount_residual = abs(line.amount_residual)
 
-        lines = {
-            'name': invoice.number,
-            'account': invoice.account.id,
-            'amount': amount_to_pay,
-            'amount_original': invoice.total_amount,
-            'amount_unreconciled': invoice.amount_to_pay,
-            'line_type': line_type,
-            'move_line': line_to_pay.id,
-            'date': invoice.invoice_date,
-            }
-        default['lines'].append(lines)
+            lines = {
+                'name': invoice.number,
+                'account': invoice.account.id,
+                'amount': line.amount,
+                'amount_original': amount,
+                'amount_unreconciled': amount_residual,
+                'line_type': line_type,
+                'move_line': line.id,
+                'date': invoice.invoice_date,
+                }
+            default['lines'].append(lines)
 
         return default
