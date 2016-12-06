@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<tree string="Voucher">
+<tree>
     <field name="name"/>
     <field name="account"/>
 </tree>
