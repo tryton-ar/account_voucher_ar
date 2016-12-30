@@ -96,7 +96,7 @@ class FiscalYear:
                                         ('date', '>=', fiscalyear.start_date),
                                         ('date', '<=', fiscalyear.end_date),
                                         ('number', '!=', None),
-                                        ('type', '=', sequence[:-9]),
+                                        ('voucher_type', '=', sequence[:-9]),
                                         ]):
                                 cls.raise_user_error('change_voucher_sequence',
                                     (fiscalyear.rec_name,))
