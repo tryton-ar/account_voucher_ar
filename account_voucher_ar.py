@@ -179,6 +179,8 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
             'delete_voucher': 'You can not delete a voucher that is posted!',
             'post_already_reconciled': 'You can not post the voucher because '
                 'it already has reconciled lines!\n\nLines:\n%s',
+            'amount_invoices_greater_amount': ('You can not post the voucher '
+                'because Invoices amount is greater than Payment amount'),
         })
         cls._transitions |= set((
                 ('draft', 'posted'),
@@ -787,10 +789,17 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                                      ('\n'.join(reconciled_lines),))
 
     @classmethod
+    def check_amount_invoices(cls, vouchers):
+        for voucher in vouchers:
+            if voucher.amount_invoices > voucher.amount:
+                cls.raise_user_error('amount_invoices_greater_amount')
+
+    @classmethod
     @ModelView.button
     @Workflow.transition('posted')
     def post(cls, vouchers):
         cls.check_already_reconciled(vouchers)
+        cls.check_amount_invoices(vouchers)
         for voucher in vouchers:
             voucher.set_number()
             move_lines = voucher.prepare_move_lines()
