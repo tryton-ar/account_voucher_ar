@@ -719,12 +719,10 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         Period = pool.get('account.period')
         Reconciliation = pool.get('account.move.reconciliation')
         Invoice = pool.get('account.invoice')
-        Date = pool.get('ir.date')
 
-        canceled_date = Date.today()
         canceled_move, = Move.copy([self.move], {
-                'period': Period.find(self.company.id, date=canceled_date),
-                'date': canceled_date,
+                'period': Period.find(self.company.id, date=self.move.date),
+                'date': self.move.date,
                 })
         self.write([self], {
                 'move_canceled': canceled_move.id,
