@@ -314,6 +314,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                     ('account.kind', 'in', account_types),
                     ('state', '=', 'valid'),
                     ('reconciliation', '=', None),
+                    ('move.state', '=', 'posted'),
                     ])
 
         for line in move_lines:
