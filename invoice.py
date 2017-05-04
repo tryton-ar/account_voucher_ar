@@ -39,13 +39,16 @@ class PayInvoice(Wizard):
             line_type = 'dr'
 
         for line in invoice.lines_to_pay:
-            amount = line.debit
+            if line_type == 'cr':
+                amount = line.credit
+            else:
+                amount = line.debit
             amount_residual = abs(line.amount_residual)
 
             lines = {
                 'name': invoice.number,
                 'account': invoice.account.id,
-                'amount': line.amount,
+                'amount': abs(line.amount),
                 'amount_original': amount,
                 'amount_unreconciled': amount_residual,
                 'line_type': line_type,
