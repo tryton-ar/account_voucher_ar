@@ -757,7 +757,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                 if move_line.description == 'advance':
                     continue
                 invoice_number = invoice.reference
-                if invoice.type == 'out':
+                if invoice.type[0:3] == 'out':
                     invoice_number = invoice.number
                 if move_line.description == invoice_number:
                     Invoice.write([invoice], {
