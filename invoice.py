@@ -34,9 +34,11 @@ class PayInvoice(Wizard):
         if invoice.type == 'in':
             default['voucher_type'] = 'payment'
             line_type = 'cr'
+            name = invoice.reference
         elif invoice.type == 'out':
             default['voucher_type'] = 'receipt'
             line_type = 'dr'
+            name = invoice.number
 
         for line in invoice.lines_to_pay:
             if line_type == 'cr':
@@ -46,7 +48,7 @@ class PayInvoice(Wizard):
             amount_residual = abs(line.amount_residual)
 
             lines = {
-                'name': invoice.number,
+                'name': name,
                 'account': invoice.account.id,
                 'amount': abs(line.amount),
                 'amount_original': amount,
