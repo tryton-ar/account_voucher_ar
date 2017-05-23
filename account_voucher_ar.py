@@ -6,10 +6,12 @@ from trytond.model import Workflow, ModelView, ModelSQL, fields
 from trytond.transaction import Transaction
 from trytond.pyson import Eval, In
 from trytond.pool import Pool, PoolMeta
+from trytond.report import Report
 
 __all__ = ['FiscalYear', 'AccountVoucherPayMode', 'AccountVoucher',
     'AccountVoucherLine', 'AccountVoucherLineCredits',
-    'AccountVoucherLineDebits', 'AccountVoucherLinePaymode']
+    'AccountVoucherLineDebits', 'AccountVoucherLinePaymode',
+    'AccountVoucherReport']
 __metaclass__ = PoolMeta
 
 _STATES = {
@@ -906,3 +908,18 @@ class AccountVoucherLinePaymode(ModelSQL, ModelView):
         required=True, states=_STATES)
     pay_amount = fields.Numeric('Pay Amount', digits=(16, 2), required=True,
         states=_STATES)
+
+
+class AccountVoucherReport(Report):
+    __name__ = 'account.voucher'
+
+    @classmethod
+    def get_context(cls, records, data):
+        report_context = super(AccountVoucherReport, cls).get_context(records, data)
+        report_context['company'] = report_context['user'].company
+        report_context['compute_currency'] = cls.compute_currency
+        return report_context
+
+    @classmethod
+    def compute_currency(cls, voucher_currency, amount_original, company_currency):
+        return voucher_currency.compute(company_currency, amount_original, voucher_currency)
