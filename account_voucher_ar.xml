@@ -175,6 +175,21 @@ the full copyright notices and license terms. -->
             <field name="view" ref="account_voucher_paymode_form"/>
             <field name="act_window" ref="act_voucher_paymode_form"/>
         </record>
+
+        <!-- report -->
+        <record model="ir.action.report" id="report_account_voucher">
+            <field name="active" eval="True"/>
+            <field name="name">Voucher</field>
+            <field name="model">account.voucher</field>
+            <field name="report_name">account.voucher</field>
+            <field name="report">account_voucher_ar/account_voucher.odt</field>
+        </record>
+        <record model="ir.action.keyword" id="report_account_voucher_ar">
+            <field name="keyword">form_print</field>
+            <field name="model">account.voucher,-1</field>
+            <field name="action" ref="report_account_voucher"/>
+        </record>
+
         <menuitem parent="menu_paymode" action="act_voucher_paymode_form"
             id="menu_paymodes" sequence="5"/>
 
