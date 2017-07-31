@@ -1,7 +1,8 @@
-#This file is part of the account_voucher_ar module for Tryton.
-#The COPYRIGHT file at the top level of this repository contains
-#the full copyright notices and license terms.
+# This file is part of the account_voucher_ar module for Tryton.
+# The COPYRIGHT file at the top level of this repository contains
+# the full copyright notices and license terms.
 from decimal import Decimal
+
 from trytond.model import Workflow, ModelView, ModelSQL, fields
 from trytond.transaction import Transaction
 from trytond.pyson import Eval, In
@@ -12,11 +13,10 @@ __all__ = ['FiscalYear', 'AccountVoucherPayMode', 'AccountVoucher',
     'AccountVoucherLine', 'AccountVoucherLineCredits',
     'AccountVoucherLineDebits', 'AccountVoucherLinePaymode',
     'AccountVoucherReport']
-__metaclass__ = PoolMeta
 
 _STATES = {
     'readonly': In(Eval('state'), ['posted', 'canceled']),
-}
+    }
 _DEPENDS = ['state']
 
 _ZERO = Decimal('0.0')
@@ -24,6 +24,7 @@ _ZERO = Decimal('0.0')
 
 class FiscalYear:
     __name__ = 'account.fiscalyear'
+    __metaclass__ = PoolMeta
 
     payment_sequence = fields.Many2One('ir.sequence',
         'Payment Sequence', required=True,
@@ -282,9 +283,6 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         MoveLine = pool.get('account.move.line')
         InvoiceAccountMoveLine = pool.get('account.invoice-account.move.line')
         Currency = pool.get('currency.currency')
-        PaymentLine = pool.get('account.voucher.line')
-        PaymentLineCredits = pool.get('account.voucher.line.credits')
-        PaymentLineDebits = pool.get('account.voucher.line.debits')
 
         lines = []
         lines_credits = []
@@ -915,11 +913,14 @@ class AccountVoucherReport(Report):
 
     @classmethod
     def get_context(cls, records, data):
-        report_context = super(AccountVoucherReport, cls).get_context(records, data)
+        report_context = super(AccountVoucherReport, cls).get_context(records,
+            data)
         report_context['company'] = report_context['user'].company
         report_context['compute_currency'] = cls.compute_currency
         return report_context
 
     @classmethod
-    def compute_currency(cls, voucher_currency, amount_original, company_currency):
-        return voucher_currency.compute(company_currency, amount_original, voucher_currency)
+    def compute_currency(cls, voucher_currency, amount_original,
+            company_currency):
+        return voucher_currency.compute(company_currency, amount_original,
+            voucher_currency)

@@ -1,6 +1,7 @@
-#This file is part of the account_voucher_ar module for Tryton.
-#The COPYRIGHT file at the top level of this repository contains
-#the full copyright notices and license terms.
+# This file is part of the account_voucher_ar module for Tryton.
+# The COPYRIGHT file at the top level of this repository contains
+# the full copyright notices and license terms.
+
 from trytond.wizard import Wizard, StateView, Button
 from trytond.transaction import Transaction
 from trytond.pool import Pool
@@ -18,12 +19,13 @@ class PayInvoice(Wizard):
             ])
 
     def default_start(self, fields):
-        Date = Pool().get('ir.date')
+        pool = Pool()
+        Invoice = pool.get('account.invoice')
+        Date = pool.get('ir.date')
 
         default = {
             'lines': [],
-        }
-        Invoice = Pool().get('account.invoice')
+            }
 
         invoice = Invoice(Transaction().context.get('active_id'))
         default['date'] = Date.today()
