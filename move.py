@@ -1,16 +1,17 @@
-#This file is part of the account_voucher_ar module for Tryton.
-#The COPYRIGHT file at the top level of this repository contains
-#the full copyright notices and license terms.
+# This file is part of the account_voucher_ar module for Tryton.
+# The COPYRIGHT file at the top level of this repository contains
+# the full copyright notices and license terms.
 from decimal import Decimal
+
 from trytond.model import fields
 from trytond.pool import Pool, PoolMeta
 
 __all__ = ['Move', 'Line']
-__metaclass__ = PoolMeta
 
 
 class Move:
     __name__ = 'account.move'
+    __metaclass__ = PoolMeta
 
     @classmethod
     def _get_origin(cls):
@@ -19,6 +20,8 @@ class Move:
 
 class Line:
     __name__ = 'account.move.line'
+    __metaclass__ = PoolMeta
+
     amount_residual = fields.Function(fields.Numeric('Amount Residual',
         digits=(16, 2)), 'get_amount_residual')
 
