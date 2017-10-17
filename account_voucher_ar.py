@@ -472,6 +472,8 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                     'move': move.id,
                     'journal': self.journal.id,
                     'period': Period.find(self.company.id, date=self.date),
+                    'party': (line.pay_mode.account.party_required
+                        and self.party.id or None),
                     'amount_second_currency': amount_second_currency,
                     'second_currency': second_currency,
                 })
@@ -505,7 +507,8 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                     'period': Period.find(self.company.id, date=self.date),
                     'date': self.date,
                     'maturity_date': self.date,
-                    'party': self.party.id,
+                    'party': (line.account.party_required
+                        and self.party.id or None),
                     'amount_second_currency': amount_second_currency,
                     'second_currency': second_currency,
                 })
@@ -539,7 +542,8 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                     'period': Period.find(self.company.id, date=self.date),
                     'date': self.date,
                     'maturity_date': self.date,
-                    'party': self.party.id,
+                    'party': (line.account.party_required
+                        and self.party.id or None),
                     'amount_second_currency': amount_second_currency,
                     'second_currency': second_currency,
                 })
@@ -596,7 +600,8 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                     'period': Period.find(self.company.id, date=self.date),
                     'date': self.date,
                     'maturity_date': self.date,
-                    'party': self.party.id,
+                    'party': (line.account.party_required
+                        and self.party.id or None),
                     'amount_second_currency': amount_second_currency,
                     'second_currency': second_currency,
                 })
@@ -613,10 +618,12 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                 debit = _ZERO
                 credit = amount
                 account_id = self.party.account_receivable.id
+                party_required = self.party.account_receivable.party_required
             else:
                 debit = amount
                 credit = _ZERO
                 account_id = self.party.account_payable.id
+                party_required = self.party.account_payable.party_required
 
             if self.voucher_type == 'receipt' and second_currency:
                 amount_second_currency *= -1
@@ -631,7 +638,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                 'period': Period.find(self.company.id, date=self.date),
                 'date': self.date,
                 'maturity_date': self.date,
-                'party': self.party.id,
+                'party': party_required and self.party.id or None,
                 'amount_second_currency': amount_second_currency,
                 'second_currency': second_currency,
             })
