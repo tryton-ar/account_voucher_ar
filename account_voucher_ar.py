@@ -917,6 +917,7 @@ class AccountVoucherReport(Report):
             data)
         report_context['company'] = report_context['user'].company
         report_context['compute_currency'] = cls.compute_currency
+        report_context['format_vat_number'] = cls.format_vat_number
         return report_context
 
     @classmethod
@@ -924,3 +925,7 @@ class AccountVoucherReport(Report):
             company_currency):
         return voucher_currency.compute(company_currency, amount_original,
             voucher_currency)
+
+    @classmethod
+    def format_vat_number(cls, vat_number=''):
+        return '%s-%s-%s' % (vat_number[:2], vat_number[2:-1], vat_number[-1])
