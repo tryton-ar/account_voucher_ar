@@ -918,6 +918,7 @@ class AccountVoucherReport(Report):
         report_context['company'] = report_context['user'].company
         report_context['compute_currency'] = cls.compute_currency
         report_context['format_vat_number'] = cls.format_vat_number
+        report_context['get_iva_condition'] = cls.get_iva_condition
         return report_context
 
     @classmethod
@@ -929,3 +930,8 @@ class AccountVoucherReport(Report):
     @classmethod
     def format_vat_number(cls, vat_number=''):
         return '%s-%s-%s' % (vat_number[:2], vat_number[2:-1], vat_number[-1])
+
+    @classmethod
+    def get_iva_condition(cls, party):
+        return dict(party._fields['iva_condition'].selection)[
+            party.iva_condition]
