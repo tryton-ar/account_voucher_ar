@@ -2,6 +2,7 @@
 # The COPYRIGHT file at the top level of this repository contains
 # the full copyright notices and license terms.
 from decimal import Decimal
+from collections import defaultdict
 
 from trytond.model import Workflow, ModelView, ModelSQL, fields
 from trytond.transaction import Transaction
@@ -650,8 +651,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         created_lines = MoveLine.create(move_lines)
         Move.post([self.move])
 
-        lines_to_reconcile = []
-        total_remainder = _ZERO
+        lines_to_reconcile = defaultdict(list)
         # reconcile check
         for line in self.lines:
             origin = str(line.move_line.origin)
@@ -672,25 +672,30 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
             reconcile_lines, remainder = \
                 Invoice.get_reconcile_lines_for_amount(
                     invoice, amount)
-            lines_to_reconcile.extend(reconcile_lines)
-            total_remainder += remainder
+            if remainder == _ZERO:
+                for reconcile_line in reconcile_lines:
+                    lines_to_reconcile[line.account.id].append(reconcile_line)
             for move_line in created_lines:
                 if move_line.description == 'advance':
+                    continue
+                if (move_line.debit != line.amount
+                        and move_line.credit != line.amount):
                     continue
                 if invoice.type[:2] == 'in':
                     reference = invoice.reference
                 else:
                     reference = invoice.number
                 if move_line.description == reference:
-                    if move_line not in lines_to_reconcile:
-                        lines_to_reconcile.append(move_line)
+                    if (remainder == _ZERO
+                            and move_line not in lines_to_reconcile):
+                        lines_to_reconcile[move_line.account.id].append(
+                            move_line)
                     Invoice.write([invoice], {
                         'payment_lines': [('add', [move_line.id])],
                         })
-        if total_remainder == _ZERO:
-            lines_to_reconcile = list(set(lines_to_reconcile))
-            if lines_to_reconcile:
-                MoveLine.reconcile(lines_to_reconcile)
+        if lines_to_reconcile:
+            for lines in lines_to_reconcile.values():
+                MoveLine.reconcile(lines)
 
         reconcile_lines = []
         for line in self.lines_credits:
@@ -764,16 +769,16 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                         'payment_lines': [('add', [move_line.id])],
                         })
 
-        lines_to_reconcile = []
+        lines_to_reconcile = defaultdict(list)
         for line in self.move.lines:
             if line.account.reconcile:
-                lines_to_reconcile.append(line)
+                lines_to_reconcile[line.account.id].append(line)
         for cancel_line in canceled_move.lines:
             if cancel_line.account.reconcile:
-                lines_to_reconcile.append(cancel_line)
+                lines_to_reconcile[cancel_line.account.id].append(cancel_line)
 
-        if lines_to_reconcile:
-            MoveLine.reconcile(lines_to_reconcile)
+        for lines in lines_to_reconcile.values():
+            MoveLine.reconcile(lines)
 
         return True
 
