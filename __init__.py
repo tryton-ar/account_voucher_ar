@@ -22,6 +22,7 @@ def register():
         module='account_voucher_ar', type_='model')
     Pool.register(
         PayInvoice,
+        CreditInvoice,
         module='account_voucher_ar', type_='wizard')
     Pool.register(
         AccountVoucherReport,
