@@ -4,9 +4,9 @@
 
 from trytond.wizard import Wizard, StateView, Button
 from trytond.transaction import Transaction
-from trytond.pool import Pool
+from trytond.pool import Pool, PoolMeta
 
-__all__ = ['PayInvoice']
+__all__ = ['PayInvoice', 'CreditInvoice']
 
 
 class PayInvoice(Wizard):
@@ -60,3 +60,59 @@ class PayInvoice(Wizard):
             default['lines'].append(lines)
 
         return default
+
+
+class CreditInvoice:
+    __name__ = 'account.invoice.credit'
+    __metaclass__ = PoolMeta
+
+    @classmethod
+    def __setup__(cls):
+        super(CreditInvoice, cls).__setup__()
+        cls._error_messages.update({
+                'refund_with_amount_difference': ('You can not credit with refund '
+                    'invoice "%s" because total amount is different than '
+                    'amount to pay.'),
+                })
+
+    @classmethod
+    def _amount_difference(cls, invoice):
+        return invoice.amount_to_pay != invoice.total_amount
+
+    def default_start(self, fields):
+        Invoice = Pool().get('account.invoice')
+        default = {
+            'with_refund': True,
+            }
+        for invoice in Invoice.browse(Transaction().context['active_ids']):
+            if (invoice.state != 'posted'
+                    or self._amount_difference(invoice)
+                    or invoice.type in ('in_invoice', 'in_credit_note')):
+                default['with_refund'] = False
+                break
+        return default
+
+    def do_credit(self, action):
+        pool = Pool()
+        Invoice = pool.get('account.invoice')
+
+        refund = self.start.with_refund
+        invoices = Invoice.browse(Transaction().context['active_ids'])
+
+        if refund:
+            for invoice in invoices:
+                if invoice.state != 'posted':
+                    self.raise_user_error('refund_non_posted',
+                        (invoice.rec_name,))
+                if self._amount_difference(invoice):
+                    self.raise_user_error('refund_with_amount_difference',
+                        (invoice.rec_name,))
+                if invoice.type in ('in_invoice', 'in_credit_note'):
+                    self.raise_user_error('refund_supplier', invoice.rec_name)
+
+        credit_invoices = Invoice.credit(invoices, refund=refund)
+
+        data = {'res_id': [i.id for i in credit_invoices]}
+        if len(credit_invoices) == 1:
+            action['views'].reverse()
+        return action, data
