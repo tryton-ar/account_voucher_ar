@@ -85,12 +85,14 @@ class CreditInvoice:
         Invoice = Pool().get('account.invoice')
         default = {
             'with_refund': True,
+            'with_refund_allowed': True,
             }
         for invoice in Invoice.browse(Transaction().context['active_ids']):
             if (invoice.state != 'posted'
                     or self._amount_difference(invoice)
                     or invoice.type == 'in'):
                 default['with_refund'] = False
+                default['with_refund_allowed'] = False
                 break
         return default
 
