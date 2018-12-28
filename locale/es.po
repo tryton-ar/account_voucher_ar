@@ -16,6 +16,14 @@ msgstr ""
 "No puede cambiar la secuencia del comprobante en el año fiscal «%s» porque "
 "ya hay comprobantes confirmados en este año fiscal."
 
+msgctxt "error:account.invoice.credit:"
+msgid ""
+"You can not credit with refund invoice \"%s\" because total amount is "
+"different than amount to pay."
+msgstr ""
+"No puede abonar con devolución la factura \"%s\" porque el total es "
+"diferente al importe a pagar."
+
 msgctxt "error:account.voucher:"
 msgid "Amount greater than invoice amount"
 msgstr "Importe mayor al importe de factura"
@@ -142,7 +150,7 @@ msgid "Pay Mode Lines"
 msgstr "Formas de pago"
 
 msgctxt "field:account.voucher,rec_name:"
-msgid "Name"
+msgid "Record Name"
 msgstr "Nombre"
 
 msgctxt "field:account.voucher,state:"
@@ -210,7 +218,7 @@ msgid "Name"
 msgstr "Nombre"
 
 msgctxt "field:account.voucher.line,rec_name:"
-msgid "Name"
+msgid "Record Name"
 msgstr "Nombre"
 
 msgctxt "field:account.voucher.line,reference:"
@@ -274,7 +282,7 @@ msgid "Name"
 msgstr "Nombre"
 
 msgctxt "field:account.voucher.line.credits,rec_name:"
-msgid "Name"
+msgid "Record Name"
 msgstr "Nombre"
 
 msgctxt "field:account.voucher.line.credits,voucher:"
@@ -334,7 +342,7 @@ msgid "Name"
 msgstr "Nombre"
 
 msgctxt "field:account.voucher.line.debits,rec_name:"
-msgid "Name"
+msgid "Record Name"
 msgstr "Nombre"
 
 msgctxt "field:account.voucher.line.debits,voucher:"
@@ -370,7 +378,7 @@ msgid "Pay Mode"
 msgstr "Forma de pago"
 
 msgctxt "field:account.voucher.line.paymode,rec_name:"
-msgid "Name"
+msgid "Record Name"
 msgstr "Nombre"
 
 msgctxt "field:account.voucher.line.paymode,voucher:"
@@ -406,7 +414,7 @@ msgid "Name"
 msgstr "Nombre"
 
 msgctxt "field:account.voucher.paymode,rec_name:"
-msgid "Name"
+msgid "Record Name"
 msgstr "Nombre"
 
 msgctxt "field:account.voucher.paymode,write_date:"
@@ -461,6 +469,10 @@ msgctxt "model:ir.action,name:act_voucher_receipt_form"
 msgid "Receipts"
 msgstr "Recibos"
 
+msgctxt "model:ir.action,name:report_account_voucher"
+msgid "Voucher"
+msgstr "Comprobante"
+
 msgctxt "model:ir.action,name:wizard_select_invoices"
 msgid "Select Invoices to receive/pay"
 msgstr "Seleccione facturas a cobrar/pagar"
@@ -504,6 +516,158 @@ msgstr "Recibos"
 msgctxt "model:ir.ui.menu,name:menu_vouchers"
 msgid "Voucher"
 msgstr "Comprobantes"
+
+msgctxt "report:account.voucher:"
+msgid "(moneda local)"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "/"
+msgstr "/"
+
+msgctxt "report:account.voucher:"
+msgid ":"
+msgstr ":"
+
+msgctxt "report:account.voucher:"
+msgid "Anticipo"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "Autorizó:"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "Banco"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "C"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "COMPROBANTES"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "CUIT:"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "Cheque de tercero"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "Cheque emitido"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "Confeccionó"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "Domicilio:"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "Factura"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "Fecha"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "Fecha Vencimiento"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "Fecha de emisión"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "Fecha de vencimiento"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "Forma de pago"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "IVA:"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "Importe"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "Importe a pagar"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "Importe recibido"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "N"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "Nº"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "Número"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "Orden de Pago N°"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "Páguese a"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "Recibimos de"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "Recibo N°"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "Recibí conforme (firma y aclaración)"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "Retención efectuada"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "Retención soportada"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "Tipo de comprobante"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "VALORES"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "en concepto de cancelación de comprobantes según el siguiente detalle:"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "la suma de"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "–"
+msgstr ""
 
 msgctxt "selection:account.voucher,state:"
 msgid "Canceled"
@@ -584,10 +748,6 @@ msgstr "Información adicional"
 msgctxt "view:account.voucher:"
 msgid "Pay Mode Lines"
 msgstr "Formas de pago"
-
-msgctxt "view:account.voucher:"
-msgid "Voucher"
-msgstr "Comprobantes"
 
 msgctxt "view:account.voucher:"
 msgid "Voucher Lines"
