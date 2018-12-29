@@ -54,7 +54,7 @@ dependency_links = []
 
 setup(name=name,
     version=version,
-    description='Tryton module that integrates AFIP (Argentina) with party',
+    description='Tryton module to add payments and receipts for Argentina',
     long_description=read('README'),
     author='tryton-ar',
     url='https://github.com/tryton-ar/account_voucher_ar',
