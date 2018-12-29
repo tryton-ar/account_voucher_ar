@@ -27,17 +27,17 @@ the full copyright notices and license terms. -->
     <newline/>
     <notebook colspan="4">
         <page string="Pay Mode Lines" id="pay_lines">
-            <field name="pay_lines" mode="tree" colspan="4"
+            <field name="pay_lines" colspan="4"
                 view_ids="account_voucher_ar.pay_lines_view_tree"/>
         </page>
     </notebook>
     <notebook colspan="4">
         <page string="Voucher Lines" id="lines">
-            <field name="lines" mode="tree" colspan="4"
+            <field name="lines" colspan="4"
                 view_ids="account_voucher_ar.lines_view_tree"/>
-            <field name="lines_credits" mode="tree" colspan="4"
+            <field name="lines_credits" colspan="4"
                 view_ids="account_voucher_ar.lines_credits_view_tree"/>
-            <field name="lines_debits" mode="tree" colspan="4"
+            <field name="lines_debits" colspan="4"
                 view_ids="account_voucher_ar.lines_debits_view_tree"/>
         </page>
         <page string="Other Info" id="info">
