@@ -9,18 +9,16 @@ from trytond.pool import Pool, PoolMeta
 __all__ = ['Move', 'Line']
 
 
-class Move:
+class Move(metaclass=PoolMeta):
     __name__ = 'account.move'
-    __metaclass__ = PoolMeta
 
     @classmethod
     def _get_origin(cls):
         return super(Move, cls)._get_origin() + ['account.voucher']
 
 
-class Line:
+class Line(metaclass=PoolMeta):
     __name__ = 'account.move.line'
-    __metaclass__ = PoolMeta
 
     amount_residual = fields.Function(fields.Numeric('Amount Residual',
         digits=(16, 2)), 'get_amount_residual')

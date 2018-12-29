@@ -23,9 +23,8 @@ _DEPENDS = ['state']
 _ZERO = Decimal('0.0')
 
 
-class FiscalYear:
+class FiscalYear(metaclass=PoolMeta):
     __name__ = 'account.fiscalyear'
-    __metaclass__ = PoolMeta
 
     payment_sequence = fields.Many2One('ir.sequence',
         'Payment Sequence', required=True,
@@ -701,7 +700,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                         'payment_lines': [('add', [move_line.id])],
                         })
         if lines_to_reconcile:
-            for lines in lines_to_reconcile.values():
+            for lines in list(lines_to_reconcile.values()):
                 MoveLine.reconcile(lines)
 
         reconcile_lines = []
@@ -784,7 +783,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
             if cancel_line.account.reconcile:
                 lines_to_reconcile[cancel_line.account.id].append(cancel_line)
 
-        for lines in lines_to_reconcile.values():
+        for lines in list(lines_to_reconcile.values()):
             MoveLine.reconcile(lines)
 
         return True

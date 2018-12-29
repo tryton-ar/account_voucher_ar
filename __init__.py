@@ -3,27 +3,27 @@
 # the full copyright notices and license terms.
 
 from trytond.pool import Pool
-from .move import *
-from .account_voucher_ar import *
-from .invoice import *
+from . import move
+from . import account_voucher_ar
+from . import invoice
 
 
 def register():
     Pool.register(
-        Move,
-        Line,
-        FiscalYear,
-        AccountVoucherPayMode,
-        AccountVoucher,
-        AccountVoucherLine,
-        AccountVoucherLineCredits,
-        AccountVoucherLineDebits,
-        AccountVoucherLinePaymode,
+        move.Move,
+        move.Line,
+        account_voucher_ar.FiscalYear,
+        account_voucher_ar.AccountVoucherPayMode,
+        account_voucher_ar.AccountVoucher,
+        account_voucher_ar.AccountVoucherLine,
+        account_voucher_ar.AccountVoucherLineCredits,
+        account_voucher_ar.AccountVoucherLineDebits,
+        account_voucher_ar.AccountVoucherLinePaymode,
         module='account_voucher_ar', type_='model')
     Pool.register(
-        PayInvoice,
-        CreditInvoice,
+        invoice.PayInvoice,
+        invoice.CreditInvoice,
         module='account_voucher_ar', type_='wizard')
     Pool.register(
-        AccountVoucherReport,
+        account_voucher_ar.AccountVoucherReport,
         module='account_voucher_ar', type_='report')

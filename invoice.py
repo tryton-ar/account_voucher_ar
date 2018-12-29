@@ -64,9 +64,8 @@ class PayInvoice(Wizard):
         return default
 
 
-class CreditInvoice:
+class CreditInvoice(metaclass=PoolMeta):
     __name__ = 'account.invoice.credit'
-    __metaclass__ = PoolMeta
 
     @classmethod
     def __setup__(cls):
