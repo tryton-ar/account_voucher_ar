@@ -10,7 +10,7 @@ from trytond.pyson import Eval, In
 from trytond.pool import Pool, PoolMeta
 from trytond.report import Report
 
-__all__ = ['FiscalYear', 'AccountVoucherPayMode', 'AccountVoucher',
+__all__ = ['AccountVoucherPayMode', 'AccountVoucher',
     'AccountVoucherLine', 'AccountVoucherLineCredits',
     'AccountVoucherLineDebits', 'AccountVoucherLinePaymode',
     'AccountVoucherReport']
@@ -21,93 +21,6 @@ _STATES = {
 _DEPENDS = ['state']
 
 _ZERO = Decimal('0.0')
-
-
-class FiscalYear:
-    __name__ = 'account.fiscalyear'
-    __metaclass__ = PoolMeta
-
-    payment_sequence = fields.Many2One('ir.sequence',
-        'Payment Sequence', required=True,
-        domain=[
-            ('code', '=', 'account.voucher.payment'),
-                ['OR',
-                    ('company', '=', Eval('company')),
-                    ('company', '=', None)
-                ]],
-            context={
-                'code': 'account.voucher.payment',
-                'company': Eval('company'),
-            },
-            depends=['company'])
-    receipt_sequence = fields.Many2One('ir.sequence',
-        'Receipt Sequence', required=True,
-        domain=[
-            ('code', '=', 'account.voucher.receipt'),
-                ['OR',
-                    ('company', '=', Eval('company')),
-                    ('company', '=', None)
-                ]],
-            context={
-                'code': 'account.voucher.receipt',
-                'company': Eval('company'),
-            },
-            depends=['company'])
-
-    @classmethod
-    def __setup__(cls):
-        super(FiscalYear, cls).__setup__()
-        cls._error_messages.update({
-                'change_voucher_sequence': ('You can not change '
-                    'voucher sequence in fiscal year "%s" because there are '
-                    'already posted vouchers in this fiscal year.'),
-                'different_voucher_sequence': ('Fiscal year "%(first)s" and '
-                    '"%(second)s" have the same voucher sequence.'),
-                })
-
-    @classmethod
-    def validate(cls, years):
-        super(FiscalYear, cls).validate(years)
-        for year in years:
-            year.check_voucher_sequences()
-
-    def check_voucher_sequences(self):
-        for sequence in ('payment_sequence', 'receipt_sequence'):
-            fiscalyears = self.search([
-                    (sequence, '=', getattr(self, sequence).id),
-                    ('id', '!=', self.id),
-                    ])
-            if fiscalyears:
-                self.raise_user_error('different_voucher_sequence', {
-                        'first': self.rec_name,
-                        'second': fiscalyears[0].rec_name,
-                        })
-
-    @classmethod
-    def write(cls, *args):
-        Voucher = Pool().get('account.voucher')
-
-        actions = iter(args)
-        for fiscalyears, values in zip(actions, actions):
-            for sequence in ('payment_sequence', 'receipt_sequence'):
-                    if not values.get(sequence):
-                        continue
-                    for fiscalyear in fiscalyears:
-                        if (getattr(fiscalyear, sequence)
-                                and (getattr(fiscalyear, sequence).id !=
-                                    values[sequence])):
-                            if Voucher.search([
-                                        ('date', '>=', fiscalyear.start_date),
-                                        ('date', '<=', fiscalyear.end_date),
-                                        ('number', '!=', None),
-                                        ('voucher_type', '=', sequence[:-9]),
-                                        ]):
-                                cls.raise_user_error('change_voucher_sequence',
-                                    (fiscalyear.rec_name,))
-        super(FiscalYear, cls).write(*args)
-
-    def get_voucher_sequence(self, voucher_type):
-        return getattr(self, voucher_type + '_sequence')
 
 
 class AccountVoucherPayMode(ModelSQL, ModelView):
