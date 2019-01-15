@@ -618,13 +618,13 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
             if self.voucher_type == 'receipt':
                 debit = _ZERO
                 credit = amount
-                account_id = self.party.account_receivable.id
-                party_required = self.party.account_receivable.party_required
+                account = self.party.account_receivable_used
+                party_required = account.party_required
             else:
                 debit = amount
                 credit = _ZERO
-                account_id = self.party.account_payable.id
-                party_required = self.party.account_payable.party_required
+                account = self.party.account_payable_used
+                party_required = account.party_required
 
             if self.voucher_type == 'receipt' and second_currency:
                 amount_second_currency *= -1
@@ -633,7 +633,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                 'description': self.number,
                 'debit': debit,
                 'credit': credit,
-                'account': account_id,
+                'account': account.id,
                 'move': move.id,
                 'journal': self.journal.id,
                 'period': Period.find(self.company.id, date=self.date),
