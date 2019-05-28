@@ -832,10 +832,11 @@ class AccountVoucherLine(ModelSQL, ModelView):
     'Account Voucher Line'
     __name__ = 'account.voucher.line'
 
-    voucher = fields.Many2One('account.voucher', 'Voucher')
+    voucher = fields.Many2One('account.voucher', 'Voucher',
+        required=True, ondelete='CASCADE', select=True)
     reference = fields.Function(fields.Char('reference',),
         'get_reference')
-    name = fields.Char('Name')
+    name = fields.Char('Name', states={'readonly': True})
     account = fields.Many2One('account.account', 'Account')
     amount = fields.Numeric('Amount', digits=(16, 2))
     line_type = fields.Selection([
@@ -847,7 +848,7 @@ class AccountVoucherLine(ModelSQL, ModelView):
         states={'readonly': True})
     amount_unreconciled = fields.Numeric('Unreconciled amount', digits=(16, 2),
         states={'readonly': True})
-    date = fields.Date('Date')
+    date = fields.Date('Date', states={'readonly': True})
     date_expire = fields.Function(fields.Date('Expire date'),
             'get_expire_date')
 
