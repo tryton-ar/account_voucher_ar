@@ -348,8 +348,10 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
 
             name = ''
             model = str(line.origin)
+            invoice_date = None
             if model[:model.find(',')] == 'account.invoice':
                 invoice = Invoice(line.origin.id)
+                invoice_date = invoice.invoice_date
                 if invoice.type[0:3] == 'out':
                     name = invoice.number
                 else:
@@ -368,7 +370,8 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
             payment_line.amount_unreconciled = amount_residual
             payment_line.line_type = line_type
             payment_line.move_line = line.id
-            payment_line.date = line.date
+            payment_line.date = line.date if invoice_date is None \
+                else invoice_date
             payment_line.date_expire = line.maturity_date
 
             if line.credit and self.voucher_type == 'receipt':
