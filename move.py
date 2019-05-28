@@ -5,6 +5,7 @@ from decimal import Decimal
 
 from trytond.model import fields
 from trytond.pool import Pool, PoolMeta
+from trytond.pyson import Eval, If, Bool
 
 __all__ = ['Move', 'Line']
 
@@ -19,28 +20,29 @@ class Move(metaclass=PoolMeta):
 
 class Line(metaclass=PoolMeta):
     __name__ = 'account.move.line'
-
     amount_residual = fields.Function(fields.Numeric('Amount Residual',
-        digits=(16, 2)), 'get_amount_residual')
+            digits=(16,
+                If(Bool(Eval('second_currency_digits')),
+                    Eval('second_currency_digits', 2),
+                    Eval('currency_digits', 2))),
+            depends=['second_currency_digits', 'currency_digits']),
+        'get_amount_residual')
+    voucher_payments = fields.One2Many('account.voucher.line', 'move_line',
+        'Voucher Payments', readonly=True)
 
-    def get_amount_residual(self, name):
-        Invoice = Pool().get('account.invoice')
+    @classmethod
+    def get_amount_residual(cls, lines, name):
+        amounts = {}
+        for line in lines:
+            if (line.reconciliation or
+                    not line.account.kind in ['payable', 'receivable']):
+                amounts[line.id] = Decimal('0')
+                continue
+            amount = abs(line.credit - line.debit)
 
-        res = Decimal('0.0')
-        if self.reconciliation or \
-                not self.account.kind in ('payable', 'receivable'):
-            return res
+            for payment in line.voucher_payments:
+                if payment.voucher.state == 'posted':
+                    amount -= payment.amount
 
-        move_line_total = self.debit - self.credit
-
-        invoices = Invoice.search([
-            ('move', '=', self.move.id),
-        ])
-        if invoices:
-            invoice = invoices[0]
-            for payment_line in invoice.payment_lines:
-                if payment_line.id == self.id:
-                    continue
-                move_line_total += payment_line.debit - payment_line.credit
-            res = move_line_total
-        return res
+            amounts[line.id] = amount
+        return amounts
