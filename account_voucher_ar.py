@@ -148,7 +148,8 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         if self.currency:
             return self.currency.code
 
-    @fields.depends('party', 'pay_lines', 'lines_credits', 'lines_debits')
+    @fields.depends('party', 'pay_lines', 'lines_credits', 'lines_debits',
+        'currency')
     def on_change_with_amount(self, name=None):
         amount = _ZERO
         if self.pay_lines:
@@ -165,7 +166,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                     amount += line.amount_original
         return amount
 
-    @fields.depends('party', 'lines')
+    @fields.depends('party', 'lines', 'currency')
     def on_change_with_amount_to_pay(self, name=None):
         total = 0
         if self.lines:
@@ -173,9 +174,9 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                 total += line.amount_unreconciled or _ZERO
         return total
 
-    @fields.depends('lines')
+    @fields.depends('party', 'lines', 'currency')
     def on_change_with_amount_invoices(self, name=None):
-        total = 0
+        total = Decimal('0')
         if self.lines:
             for line in self.lines:
                 total += line.amount or _ZERO
