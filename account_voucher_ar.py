@@ -381,7 +381,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
             else:
                 lines.append(payment_line)
 
-        self.lines = lines
+        self.lines = sorted(lines, key=lambda x: x.date_expire)
         self.lines_credits = lines_credits
         self.lines_debits = lines_debits
 
