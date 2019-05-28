@@ -33,6 +33,10 @@ class PayInvoice(Wizard):
         default['currency'] = invoice.currency.id
         default['pay_invoice'] = invoice.id
 
+        second_currency = None
+        if invoice.currency != invoice.company.currency:
+            second_currency = invoice.currency
+
         if invoice.type == 'in':
             default['voucher_type'] = 'payment'
             line_type = 'cr'
@@ -42,22 +46,32 @@ class PayInvoice(Wizard):
             line_type = 'dr'
             name = invoice.number
 
-        for line in invoice.lines_to_pay:
+        for line in sorted(invoice.lines_to_pay, key=lambda x: x.maturity_date):
+            if line.reconciliation:
+                continue
+
             if line_type == 'cr':
                 amount = line.credit
             else:
                 amount = line.debit
-            amount_residual = abs(line.amount_residual)
 
+            amount_residual = abs(line.amount_residual)
+            if second_currency:
+                with Transaction().set_context(date=self.date):
+                    amount = Currency.compute(self.company.currency,
+                        amount, self.currency)
+                    amount_residual = Currency.compute(self.company.currency,
+                        amount_residual, self.currency)
             lines = {
                 'name': name,
                 'account': invoice.account.id,
-                'amount': abs(line.amount),
+                'amount': amount_residual,
                 'amount_original': amount,
                 'amount_unreconciled': amount_residual,
                 'line_type': line_type,
                 'move_line': line.id,
                 'date': invoice.invoice_date,
+                'date_expire': line.maturity_date,
                 }
             default['lines'].append(lines)
 
