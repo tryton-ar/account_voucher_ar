@@ -21,6 +21,7 @@ class PayInvoice(Wizard):
     def default_start(self, fields):
         pool = Pool()
         Invoice = pool.get('account.invoice')
+        Currency = pool.get('currency.currency')
         Date = pool.get('ir.date')
 
         default = {
@@ -57,11 +58,11 @@ class PayInvoice(Wizard):
 
             amount_residual = abs(line.amount_residual)
             if second_currency:
-                with Transaction().set_context(date=self.date):
-                    amount = Currency.compute(self.company.currency,
-                        amount, self.currency)
-                    amount_residual = Currency.compute(self.company.currency,
-                        amount_residual, self.currency)
+                with Transaction().set_context(date=default['date']):
+                    amount = Currency.compute(invoice.company.currency,
+                        amount, invoice.currency)
+                    amount_residual = Currency.compute(invoice.company.currency,
+                        amount_residual, invoice.currency)
             lines = {
                 'name': name,
                 'account': invoice.account.id,
