@@ -137,6 +137,31 @@ the full copyright notices and license terms. -->
             <field name="act_window" ref="act_voucher_paymode_form"/>
         </record>
 
+        <!-- buttons -->
+        <record model="ir.model.button" id="voucher_cancel_button">
+            <field name="name">cancel</field>
+            <field name="string">Cancel</field>
+            <field name="confirm">Are you sure you want to cancel the voucher?</field>
+            <field name="help">Cancel the voucher</field>
+            <field name="model" search="[('model', '=', 'account.voucher')]"/>
+        </record>
+        <record model="ir.model.button-res.group"
+            id="voucher_cancel_button_group_account">
+            <field name="button" ref="voucher_cancel_button"/>
+            <field name="group" ref="account.group_account"/>
+        </record>
+
+        <record model="ir.model.button" id="voucher_post_button">
+            <field name="name">post</field>
+            <field name="string">Pay</field>
+            <field name="model" search="[('model', '=', 'account.voucher')]"/>
+        </record>
+        <record model="ir.model.button-res.group"
+            id="voucher_post_button_group_account">
+            <field name="button" ref="voucher_post_button"/>
+            <field name="group" ref="account.group_account"/>
+        </record>
+
         <!-- report -->
         <record model="ir.action.report" id="report_account_voucher">
             <field name="active" eval="True"/>
