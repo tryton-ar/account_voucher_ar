@@ -107,6 +107,12 @@ Create party::
     >>> party = Party(name='Party')
     >>> party.save()
 
+Create party2::
+
+    >>> Party = Model.get('party.party')
+    >>> party2 = Party(name='Party')
+    >>> party2.save()
+
 Create account category::
 
     >>> ProductCategory = Model.get('product.category')
@@ -207,15 +213,26 @@ Pay invoice::
     >>> voucher.click('post')
     >>> voucher.state
     'posted'
+    >>> bool(voucher.move)
+    True
     >>> invoice.reload()
     >>> invoice.state
     'paid'
+    >>> len(invoice.payment_lines)
+    1
 
 Cancel voucher::
 
     >>> voucher.click('cancel')
     >>> voucher.state
     'canceled'
+    >>> bool(voucher.move_canceled)
+    True
+    >>> invoice.reload()
+    >>> invoice.state
+    'posted'
+    >>> len(invoice.payment_lines)
+    0
 
 Duplicate invoice with payment_term::
 
@@ -223,6 +240,7 @@ Duplicate invoice with payment_term::
     >>> invoice.state
     'draft'
     >>> invoice.payment_term = payment_term
+    >>> invoice.party = party2
     >>> invoice.click('post')
 
 Partial payment::
