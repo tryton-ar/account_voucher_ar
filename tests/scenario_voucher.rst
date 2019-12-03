@@ -211,6 +211,11 @@ Pay invoice::
     >>> invoice.state
     'paid'
 
+Cancel voucher::
+
+    >>> voucher.click('cancel')
+    >>> voucher.state
+    'canceled'
 
 Duplicate invoice with payment_term::
 
