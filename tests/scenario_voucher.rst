@@ -210,3 +210,40 @@ Pay invoice::
     >>> invoice.reload()
     >>> invoice.state
     'paid'
+
+
+Duplicate invoice with payment_term::
+
+    >>> invoice, = invoice.duplicate()
+    >>> invoice.state
+    'draft'
+    >>> invoice.payment_term = payment_term
+    >>> invoice.click('post')
+
+Partial payment::
+
+    >>> AccountVoucher = Model.get('account.voucher')
+    >>> LinePaymode = Model.get('account.voucher.line.paymode')
+    >>> voucher = AccountVoucher()
+    >>> voucher.party = invoice.party
+    >>> voucher.date = today
+    >>> voucher.voucher_type = 'receipt'
+    >>> voucher.journal = journal_cash
+    >>> voucher.currency = invoice.currency
+    >>> len(voucher.lines)
+    2
+    >>> payment_line = voucher.lines[0]
+    >>> payment_line.amount = payment_line.amount_unreconciled
+    >>> payment_line = voucher.lines[1]
+    >>> payment_line.amount = payment_line.amount_unreconciled
+    >>> pay_line = LinePaymode()
+    >>> voucher.pay_lines.append(pay_line)
+    >>> pay_line.pay_mode = paymode
+    >>> pay_line.pay_amount = invoice.total_amount
+    >>> voucher.save()
+    >>> voucher.click('post')
+    >>> voucher.state
+    'posted'
+    >>> invoice.reload()
+    >>> invoice.state
+    'posted'
