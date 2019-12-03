@@ -649,6 +649,14 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         Reconciliation = pool.get('account.move.reconciliation')
         Invoice = pool.get('account.invoice')
 
+        reconciliations = [x.reconciliation for x in self.move.lines
+                if x.reconciliation]
+        with Transaction().set_user(0, set_context=True):
+            if reconciliations:
+                Reconciliation.delete(reconciliations)
+
+        Invoice().remove_payment_lines(self.move.lines)
+
         canceled_move, = Move.copy([self.move], {
                 'period': Period.find(self.company.id, date=self.move.date),
                 'date': self.move.date,
@@ -666,32 +674,6 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
             line.save()
 
         Move.post([self.move_canceled])
-
-        reconciliations = [x.reconciliation for x in self.move.lines
-                if x.reconciliation]
-        with Transaction().set_user(0, set_context=True):
-            if reconciliations:
-                Reconciliation.delete(reconciliations)
-
-        for line in self.lines:
-            origin = str(line.move_line.origin)
-            origin = origin[:origin.find(',')]
-            if origin not in ['account.invoice',
-                    'account.voucher']:
-                continue
-            if line.amount == _ZERO:
-                continue
-            invoice = Invoice(line.move_line.origin.id)
-            for move_line in self.move_canceled.lines:
-                if move_line.description == 'advance':
-                    continue
-                invoice_number = invoice.reference
-                if invoice.type == 'out':
-                    invoice_number = invoice.number
-                if move_line.description == invoice_number:
-                    Invoice.write([invoice], {
-                        'payment_lines': [('add', [move_line.id])],
-                        })
 
         lines_to_reconcile = defaultdict(list)
         for line in self.move.lines:
