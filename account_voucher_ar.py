@@ -598,7 +598,8 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                     invoice, amount)
             if remainder == _ZERO:
                 for reconcile_line in reconcile_lines:
-                    lines_to_reconcile[line.account.id].append(reconcile_line)
+                    lines_to_reconcile[line.account.id].append(
+                        reconcile_line.id)
             for move_line in created_lines:
                 if move_line.description == 'advance':
                     continue
@@ -610,15 +611,15 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                 else:
                     reference = invoice.number
                 if move_line.description == reference:
-                    if (remainder == _ZERO
-                            and move_line not in lines_to_reconcile):
+                    if remainder == _ZERO:
                         lines_to_reconcile[move_line.account.id].append(
-                            move_line)
+                            move_line.id)
                     Invoice.write([invoice], {
                         'payment_lines': [('add', [move_line.id])],
                         })
         if lines_to_reconcile:
-            for lines in list(lines_to_reconcile.values()):
+            for lines_ids in lines_to_reconcile.values():
+                lines = MoveLine.browse(list(set(lines_ids)))
                 MoveLine.reconcile(lines)
 
         reconcile_lines = []
