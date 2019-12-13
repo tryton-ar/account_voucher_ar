@@ -105,6 +105,7 @@ Create party::
 
     >>> Party = Model.get('party.party')
     >>> party = Party(name='Party')
+    >>> party.iva_condition = 'consumidor_final'
     >>> party.save()
 
 Create party2::
@@ -234,6 +235,54 @@ Cancel voucher::
     >>> len(invoice.payment_lines)
     0
 
+Advance payment::
+
+    >>> AccountVoucher = Model.get('account.voucher')
+    >>> LinePaymode = Model.get('account.voucher.line.paymode')
+    >>> voucher = AccountVoucher()
+    >>> voucher.party = party
+    >>> voucher.date = today
+    >>> voucher.voucher_type = 'receipt'
+    >>> voucher.journal = journal_cash
+    >>> voucher.currency = invoice.currency
+    >>> del voucher.lines[:]
+    >>> pay_line = LinePaymode()
+    >>> voucher.pay_lines.append(pay_line)
+    >>> pay_line.pay_mode = paymode
+    >>> pay_line.pay_amount = Decimal('100')
+    >>> voucher.save()
+    >>> voucher.click('post')
+    >>> voucher.state
+    'posted'
+    >>> bool(voucher.move)
+    True
+
+Pay invoice with advance payment::
+
+    >>> AccountVoucher = Model.get('account.voucher')
+    >>> LinePaymode = Model.get('account.voucher.line.paymode')
+    >>> voucher = AccountVoucher()
+    >>> voucher.party = party
+    >>> voucher.date = today
+    >>> voucher.voucher_type = 'receipt'
+    >>> voucher.journal = journal_cash
+    >>> voucher.currency = invoice.currency
+    >>> payment_line, = voucher.lines
+    >>> payment_line.amount = payment_line.amount_unreconciled
+    >>> pay_line = LinePaymode()
+    >>> voucher.pay_lines.append(pay_line)
+    >>> pay_line.pay_mode = paymode
+    >>> pay_line.pay_amount = Decimal('140')
+    >>> voucher.save()
+    >>> voucher.click('post')
+    >>> voucher.state
+    'posted'
+    >>> bool(voucher.move)
+    True
+    >>> invoice.reload()
+    >>> invoice.state
+    'paid'
+
 Duplicate invoice with payment_term::
 
     >>> invoice, = invoice.duplicate()
@@ -269,4 +318,4 @@ Partial payment::
     'posted'
     >>> invoice.reload()
     >>> invoice.state
-    'posted'
+    'paid'
