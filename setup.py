@@ -68,7 +68,8 @@ setup(name=name,
         ],
     package_data={
         'trytond.modules.account_voucher_ar': (info.get('xml', [])
-            + ['tryton.cfg', 'view/*.xml', 'locale/*.po', '*.fodt']),
+            + ['tryton.cfg', 'view/*.xml', 'locale/*.po', '*.fodt',
+                'tests/*.rst']),
         },
     classifiers=[
         'Development Status :: 4 - Beta',
