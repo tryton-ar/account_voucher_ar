@@ -622,8 +622,9 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                 MoveLine.reconcile(lines)
 
         reconcile_lines = []
-        for line in self.lines_credits:
-            reconcile_lines.append(line.move_line)
+        if self.lines_credits:
+            for line in self.lines_credits:
+                reconcile_lines.append(line.move_line)
             for move_line in created_lines:
                 if move_line.description == 'advance':
                     reconcile_lines.append(move_line)
@@ -631,8 +632,9 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
             MoveLine.reconcile(reconcile_lines)
 
         reconcile_lines = []
-        for line in self.lines_debits:
-            reconcile_lines.append(line.move_line)
+        if self.lines_debits:
+            for line in self.lines_debits:
+                reconcile_lines.append(line.move_line)
             for move_line in created_lines:
                 if move_line.description == 'advance':
                     reconcile_lines.append(move_line)
