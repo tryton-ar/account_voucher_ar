@@ -97,10 +97,12 @@ class CreditInvoice(metaclass=PoolMeta):
 
     def default_start(self, fields):
         Invoice = Pool().get('account.invoice')
-        default = {
+
+        default = super(CreditInvoice, self).default_start(fields)
+        default.update({
             'with_refund': True,
             'with_refund_allowed': True,
-            }
+            })
         for invoice in Invoice.browse(Transaction().context['active_ids']):
             if (invoice.state != 'posted'
                     or self._amount_difference(invoice)
@@ -114,23 +116,26 @@ class CreditInvoice(metaclass=PoolMeta):
         pool = Pool()
         Invoice = pool.get('account.invoice')
 
-        refund = self.start.with_refund
-        invoices = Invoice.browse(Transaction().context['active_ids'])
+        try:
+            action, data = super(CreditInvoice, self).do_credit(action)
+        except UserError as e:
+            refund = self.start.with_refund
+            invoices = Invoice.browse(Transaction().context['active_ids'])
 
-        if refund:
-            for invoice in invoices:
-                if invoice.state != 'posted':
-                    self.raise_user_error('refund_non_posted',
-                        (invoice.rec_name,))
-                if self._amount_difference(invoice):
-                    self.raise_user_error('refund_with_amount_difference',
-                        (invoice.rec_name,))
-                if invoice.type == 'in':
-                    self.raise_user_error('refund_supplier', invoice.rec_name)
+            if refund:
+                for invoice in invoices:
+                    if invoice.state != 'posted':
+                        self.raise_user_error('refund_non_posted',
+                            (invoice.rec_name,))
+                    if invoice.payment_lines:
+                        self.raise_user_error('refund_with_payement',
+                            (invoice.rec_name,))
+                    if invoice.type == 'in':
+                        self.raise_user_error('refund_supplier', invoice.rec_name)
 
-        credit_invoices = Invoice.credit(invoices, refund=refund)
+            credit_invoices = Invoice.credit(invoices, refund=refund)
 
-        data = {'res_id': [i.id for i in credit_invoices]}
-        if len(credit_invoices) == 1:
-            action['views'].reverse()
+            data = {'res_id': [i.id for i in credit_invoices]}
+            if len(credit_invoices) == 1:
+                action['views'].reverse()
         return action, data
