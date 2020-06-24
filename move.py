@@ -41,7 +41,7 @@ class Line(metaclass=PoolMeta):
             amount = abs(line.credit - line.debit)
 
             for payment in line.voucher_payments:
-                if payment.voucher.state == 'posted':
+                if payment.voucher and payment.voucher.state == 'posted':
                     amount -= payment.amount
 
             amounts[line.id] = amount
