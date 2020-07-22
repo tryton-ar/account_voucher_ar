@@ -9,6 +9,8 @@ from trytond.transaction import Transaction
 from trytond.pyson import Eval, In
 from trytond.pool import Pool, PoolMeta
 from trytond.report import Report
+from trytond.exceptions import UserError
+from trytond.i18n import gettext
 
 __all__ = ['AccountVoucherPayMode', 'AccountVoucher',
     'AccountVoucherLine', 'AccountVoucherLineCredits',
@@ -89,16 +91,6 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
     @classmethod
     def __setup__(cls):
         super(AccountVoucher, cls).__setup__()
-        cls._error_messages.update({
-            'missing_pay_lines': 'You have to enter pay mode lines!',
-            'amount_greater_unreconciled': 'Amount greater than invoice '
-                'amount',
-            'delete_voucher': 'You can not delete a voucher that is posted!',
-            'post_already_reconciled': 'You can not post the voucher because '
-                'it already has reconciled lines!\n\nLines:\n%s',
-            'amount_invoices_greater_amount': ('You can not post the voucher '
-                'because Invoices amount is greater than Payment amount'),
-        })
         cls._transitions |= set((
                 ('draft', 'posted'),
                 ('posted', 'canceled'),
@@ -137,10 +129,9 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         fiscalyear = FiscalYear(fiscalyear_id)
         sequence = fiscalyear.get_voucher_sequence(self.voucher_type)
         if not sequence:
-            self.raise_user_error('no_voucher_sequence', {
-                    'voucher': self.rec_name,
-                    'fiscalyear': fiscalyear.rec_name,
-                    })
+            raise UserError(gettext(
+                'account_voucher_ar.msg_no_voucher_sequence',
+                voucher=self.rec_name, fiscalyear=fiscalyear.rec_name))
         self.write([self], {'number': Sequence.get_id(sequence.id)})
 
     @fields.depends('currency')
@@ -304,7 +295,8 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
             return True
         for voucher in vouchers:
             if voucher.state != 'draft':
-                cls.raise_user_error('delete_voucher')
+                raise UserError(gettext(
+                    'account_voucher_ar.msg_delete_voucher'))
         return super(AccountVoucher, cls).delete(vouchers)
 
     @classmethod
@@ -332,7 +324,8 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
 
         # Check amount
         if not self.amount > _ZERO:
-            self.raise_user_error('missing_pay_lines')
+            raise UserError(gettext(
+                'account_voucher_ar.msg_missing_pay_lines'))
 
         move_lines = []
         line_move_ids = []
@@ -476,7 +469,8 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         if self.lines:
             for line in self.lines:
                 if line.amount > line.amount_unreconciled:
-                    self.raise_user_error('amount_greater_unreconciled')
+                    raise UserError(gettext(
+                        'account_voucher_ar.msg_amount_greater_unreconciled'))
 
                 origin = str(line.move_line.move_origin)
                 origin = origin[:origin.find(',')]
@@ -699,14 +693,16 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
             reconciled_lines = [l.name for l in voucher.lines
                                 if l.move_line.reconciliation]
             if reconciled_lines:
-                cls.raise_user_error('post_already_reconciled',
-                                     ('\n'.join(reconciled_lines),))
+                raise UserError(gettext(
+                    'account_voucher_ar.msg_post_already_reconciled',
+                    lines='\n'.join(reconciled_lines)))
 
     @classmethod
     def check_amount_invoices(cls, vouchers):
         for voucher in vouchers:
             if voucher.amount_invoices > voucher.amount:
-                cls.raise_user_error('amount_invoices_greater_amount')
+                raise UserError(gettext(
+                    'account_voucher_ar.msg_amount_invoices_greater_amount'))
 
     @classmethod
     @ModelView.button

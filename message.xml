@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!-- This file is part of Tryton.  The COPYRIGHT file at the top level of
+this repository contains the full copyright notices and license terms. -->
+<tryton>
+    <data group="1">
+        <record model="ir.message" id="msg_no_journal_check_account">
+            <field name="text">You need to define a check account in the journal "%(journal)s"</field>
+        </record>
+        <record model="ir.message" id="msg_check_not_in_draft">
+            <field name="text">Check "%(check)s" is not in draft state</field>
+        </record>
+        <record model="ir.message" id="msg_issued_check_not_issued">
+            <field name="text">Issued check "%(check)s" is not in Issued state</field>
+        </record>
+        <record model="ir.message" id="msg_third_check_not_held">
+            <field name="text">Third check "%(check)s" is not in Held state</field>
+        </record>
+        <record model="ir.message" id="msg_third_pay_check_not_delivered">
+            <field name="text">Third check "%(check)s" is not in Delivered state</field>
+        </record>
+        <record model="ir.message" id="msg_change_voucher_sequence">
+            <field name="text">You can not change voucher sequence in fiscal year "%(fiscal_year)s" because there are already posted vouchers in this fiscal year.</field>
+        </record>
+        <record model="ir.message" id="msg_different_voucher_sequence">
+            <field name="text">Fiscal year "%(first)s" and "%(second)s" have the same voucher sequence.</field>
+        </record>
+        <record model="ir.message" id="msg_missing_pay_lines">
+            <field name="text">You have to enter pay mode lines!</field>
+        </record>
+        <record model="ir.message" id="msg_amount_greater_unreconciled">
+            <field name="text">Amount greater than invoice amount</field>
+        </record>
+        <record model="ir.message" id="msg_delete_voucher">
+            <field name="text">You can not delete a voucher that is posted!</field>
+        </record>
+        <record model="ir.message" id="msg_post_already_reconciled">
+            <field name="text">You can not post the voucher because it already has reconciled lines!\n\nLines:\n%(lines)s</field>
+        </record>
+        <record model="ir.message" id="msg_amount_invoices_greater_amount">
+            <field name="text">You can not post the voucher because Invoices amount is greater than Payment amount</field>
+        </record>
+        <record model="ir.message" id="msg_refund_with_amount_difference">
+            <field name="text">You can not credit with refund invoice "%(invoice)s" because total amount is different than amount to pay.</field>
+        </record>
+    </data>
+</tryton>

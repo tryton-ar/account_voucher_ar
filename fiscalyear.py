@@ -5,6 +5,8 @@
 from trytond.model import fields
 from trytond.pyson import Eval
 from trytond.pool import Pool, PoolMeta
+from trytond.exceptions import UserError
+from trytond.i18n import gettext
 
 __all__ = ['FiscalYear', 'RenewFiscalYear']
 
@@ -40,17 +42,6 @@ class FiscalYear(metaclass=PoolMeta):
             depends=['company'])
 
     @classmethod
-    def __setup__(cls):
-        super(FiscalYear, cls).__setup__()
-        cls._error_messages.update({
-                'change_voucher_sequence': ('You can not change '
-                    'voucher sequence in fiscal year "%s" because there are '
-                    'already posted vouchers in this fiscal year.'),
-                'different_voucher_sequence': ('Fiscal year "%(first)s" and '
-                    '"%(second)s" have the same voucher sequence.'),
-                })
-
-    @classmethod
     def validate(cls, years):
         super(FiscalYear, cls).validate(years)
         for year in years:
@@ -63,10 +54,9 @@ class FiscalYear(metaclass=PoolMeta):
                     ('id', '!=', self.id),
                     ])
             if fiscalyears:
-                self.raise_user_error('different_voucher_sequence', {
-                        'first': self.rec_name,
-                        'second': fiscalyears[0].rec_name,
-                        })
+                raise UserError(gettext(
+                    'account_voucher_ar.msg_different_voucher_sequence',
+                    first=self.rec_name, second=fiscalyears[0].rec_name))
 
     @classmethod
     def write(cls, *args):
@@ -87,8 +77,9 @@ class FiscalYear(metaclass=PoolMeta):
                                         ('number', '!=', None),
                                         ('voucher_type', '=', sequence[:-9]),
                                         ]):
-                                cls.raise_user_error('change_voucher_sequence',
-                                    (fiscalyear.rec_name,))
+                                raise UserError(gettext(
+                                    'account_voucher_ar.msg_change_voucher_sequence',
+                                    fiscal_year=fiscalyear.rec_name))
         super(FiscalYear, cls).write(*args)
 
     def get_voucher_sequence(self, voucher_type):

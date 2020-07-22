@@ -5,6 +5,8 @@
 from trytond.wizard import Wizard, StateView, Button
 from trytond.transaction import Transaction
 from trytond.pool import Pool, PoolMeta
+from trytond.exceptions import UserError
+from trytond.i18n import gettext
 
 __all__ = ['PayInvoice', 'CreditInvoice']
 
@@ -83,15 +85,6 @@ class CreditInvoice(metaclass=PoolMeta):
     __name__ = 'account.invoice.credit'
 
     @classmethod
-    def __setup__(cls):
-        super(CreditInvoice, cls).__setup__()
-        cls._error_messages.update({
-                'refund_with_amount_difference': ('You can not credit with refund '
-                    'invoice "%s" because total amount is different than '
-                    'amount to pay.'),
-                })
-
-    @classmethod
     def _amount_difference(cls, invoice):
         return invoice.amount_to_pay != invoice.total_amount
 
@@ -125,13 +118,17 @@ class CreditInvoice(metaclass=PoolMeta):
             if refund:
                 for invoice in invoices:
                     if invoice.state != 'posted':
-                        self.raise_user_error('refund_non_posted',
-                            (invoice.rec_name,))
+                        raise UserError(gettext(
+                            'account_voucher_ar.msg_refund_non_posted',
+                            invoice=invoice.rec_name))
                     if invoice.payment_lines:
-                        self.raise_user_error('refund_with_payement',
-                            (invoice.rec_name,))
+                        raise UserError(gettext(
+                            'account_voucher_ar.msg_refund_with_payement',
+                            invoice=invoice.rec_name))
                     if invoice.type == 'in':
-                        self.raise_user_error('refund_supplier', invoice.rec_name)
+                        raise UserError(gettext(
+                            'account_voucher_ar.msg_refund_supplier',
+                            invoice=invoice.rec_name))
 
             credit_invoices = Invoice.credit(invoices, refund=refund)
 
