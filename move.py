@@ -34,8 +34,8 @@ class Line(metaclass=PoolMeta):
     def get_amount_residual(cls, lines, name):
         amounts = {}
         for line in lines:
-            if (line.reconciliation or
-                    not line.account.kind in ['payable', 'receivable']):
+            if line.reconciliation or not (
+                    line.account.type.payable or line.account.type.receivable):
                 amounts[line.id] = Decimal('0')
                 continue
             amount = abs(line.credit - line.debit)

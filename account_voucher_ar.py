@@ -216,24 +216,24 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         if self.currency != self.company.currency:
             second_currency = self.currency
 
+        clause = [
+            ('party', '=', self.party),
+            ('state', '=', 'valid'),
+            ('reconciliation', '=', None),
+            ('move.state', '=', 'posted'),
+            ]
         if self.voucher_type == 'receipt':
-            account_types = ['receivable']
+            clause.append(('account.type.receivable', '=', True))
         else:
-            account_types = ['payable']
+            clause.append(('account.type.payable', '=', True))
 
         if self.pay_invoice:
             move_lines = self.pay_invoice.lines_to_pay
         else:
-            move_lines = MoveLine.search([
-                    ('party', '=', self.party),
-                    ('account.kind', 'in', account_types),
-                    ('state', '=', 'valid'),
-                    ('reconciliation', '=', None),
-                    ('move.state', '=', 'posted'),
-                    ])
+            move_lines = MoveLine.search(clause)
 
         for line in move_lines:
-            origin = str(line.origin)
+            origin = str(line.move_origin)
             origin = origin[:origin.find(',')]
             if origin not in ['account.invoice', 'account.voucher']:
                 continue
@@ -260,10 +260,10 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                         amount_residual, self.currency)
 
             name = ''
-            model = str(line.origin)
+            model = str(line.move_origin)
             invoice_date = None
             if model[:model.find(',')] == 'account.invoice':
-                invoice = Invoice(line.origin.id)
+                invoice = Invoice(line.move_origin.id)
                 invoice_date = invoice.invoice_date
                 if invoice.type[0:3] == 'out':
                     name = invoice.number
@@ -478,7 +478,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                 if line.amount > line.amount_unreconciled:
                     self.raise_user_error('amount_greater_unreconciled')
 
-                origin = str(line.move_line.origin)
+                origin = str(line.move_line.move_origin)
                 origin = origin[:origin.find(',')]
                 if origin not in ('account.invoice', 'account.voucher'):
                     continue
@@ -497,11 +497,12 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                 if self.voucher_type == 'receipt':
                     debit = _ZERO
                     credit = amount
-                    description = Invoice(line.move_line.origin.id).number
+                    description = Invoice(line.move_line.move_origin.id).number
                 else:
                     debit = amount
                     credit = _ZERO
-                    description = Invoice(line.move_line.origin.id).reference
+                    description = Invoice(
+                        line.move_line.move_origin.id).reference
 
                 if self.voucher_type == 'receipt' and second_currency:
                     amount_second_currency *= -1
@@ -578,14 +579,14 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         lines_to_reconcile = defaultdict(list)
         # reconcile check
         for line in self.lines:
-            origin = str(line.move_line.origin)
+            origin = str(line.move_line.move_origin)
             origin = origin[:origin.find(',')]
             if origin not in ['account.invoice',
                     'account.voucher']:
                 continue
             if line.amount == _ZERO:
                 continue
-            invoice = Invoice(line.move_line.origin.id)
+            invoice = Invoice(line.move_line.move_origin.id)
 
             with Transaction().set_context(date=self.date):
                 amount = Currency.compute(self.currency,
