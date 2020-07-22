@@ -2,13 +2,11 @@
 # full copyright notices and license terms.
 import unittest
 import doctest
-import datetime
-from decimal import Decimal
-import trytond.tests.test_tryton
-from trytond.tests.test_tryton import ModuleTestCase, with_transaction
+
+from trytond.tests.test_tryton import suite as test_suite
+from trytond.tests.test_tryton import ModuleTestCase
 from trytond.tests.test_tryton import doctest_teardown
 from trytond.tests.test_tryton import doctest_checker
-from trytond.pool import Pool
 
 
 class VoucherTestCase(ModuleTestCase):
@@ -17,7 +15,7 @@ class VoucherTestCase(ModuleTestCase):
 
 
 def suite():
-    suite = trytond.tests.test_tryton.suite()
+    suite = test_suite()
     suite.addTests(unittest.TestLoader().loadTestsFromTestCase(
             VoucherTestCase))
     suite.addTests(doctest.DocFileSuite('scenario_voucher.rst',

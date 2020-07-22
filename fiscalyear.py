@@ -18,28 +18,28 @@ class FiscalYear(metaclass=PoolMeta):
         'Payment Sequence', required=True,
         domain=[
             ('code', '=', 'account.voucher.payment'),
-                ['OR',
-                    ('company', '=', Eval('company')),
-                    ('company', '=', None)
-                ]],
-            context={
-                'code': 'account.voucher.payment',
-                'company': Eval('company'),
+            ['OR',
+                ('company', '=', Eval('company')),
+                ('company', '=', None)],
+            ],
+        context={
+            'code': 'account.voucher.payment',
+            'company': Eval('company'),
             },
-            depends=['company'])
+        depends=['company'])
     receipt_sequence = fields.Many2One('ir.sequence',
         'Receipt Sequence', required=True,
         domain=[
             ('code', '=', 'account.voucher.receipt'),
-                ['OR',
-                    ('company', '=', Eval('company')),
-                    ('company', '=', None)
-                ]],
-            context={
-                'code': 'account.voucher.receipt',
-                'company': Eval('company'),
+            ['OR',
+                ('company', '=', Eval('company')),
+                ('company', '=', None)],
+            ],
+        context={
+            'code': 'account.voucher.receipt',
+            'company': Eval('company'),
             },
-            depends=['company'])
+        depends=['company'])
 
     @classmethod
     def validate(cls, years):
@@ -65,21 +65,21 @@ class FiscalYear(metaclass=PoolMeta):
         actions = iter(args)
         for fiscalyears, values in zip(actions, actions):
             for sequence in ('payment_sequence', 'receipt_sequence'):
-                    if not values.get(sequence):
-                        continue
-                    for fiscalyear in fiscalyears:
-                        if (getattr(fiscalyear, sequence)
-                                and (getattr(fiscalyear, sequence).id !=
-                                    values[sequence])):
-                            if Voucher.search([
-                                        ('date', '>=', fiscalyear.start_date),
-                                        ('date', '<=', fiscalyear.end_date),
-                                        ('number', '!=', None),
-                                        ('voucher_type', '=', sequence[:-9]),
-                                        ]):
-                                raise UserError(gettext(
-                                    'account_voucher_ar.msg_change_voucher_sequence',
-                                    fiscal_year=fiscalyear.rec_name))
+                if not values.get(sequence):
+                    continue
+                for fiscalyear in fiscalyears:
+                    if (getattr(fiscalyear, sequence) and
+                            (getattr(fiscalyear, sequence).id !=
+                             values[sequence])):
+                        if Voucher.search([
+                                ('date', '>=', fiscalyear.start_date),
+                                ('date', '<=', fiscalyear.end_date),
+                                ('number', '!=', None),
+                                ('voucher_type', '=', sequence[:-9]),
+                                ]):
+                            raise UserError(gettext('account_voucher_ar.'
+                                'msg_change_voucher_sequence',
+                                fiscal_year=fiscalyear.rec_name))
         super(FiscalYear, cls).write(*args)
 
     def get_voucher_sequence(self, voucher_type):

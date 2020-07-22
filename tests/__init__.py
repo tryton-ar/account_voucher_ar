@@ -2,7 +2,8 @@
 # full copyright notices and license terms.
 
 try:
-    from trytond.modules.account_voucher_ar.tests.test_account_voucher_ar import suite
+    from trytond.modules.account_voucher_ar.tests.test_account_voucher_ar \
+        import suite
 except ImportError:
     from .test_account_voucher_ar import suite
 

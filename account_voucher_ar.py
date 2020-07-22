@@ -7,7 +7,7 @@ from collections import defaultdict
 from trytond.model import Workflow, ModelView, ModelSQL, fields
 from trytond.transaction import Transaction
 from trytond.pyson import Eval, In
-from trytond.pool import Pool, PoolMeta
+from trytond.pool import Pool
 from trytond.report import Report
 from trytond.exceptions import UserError
 from trytond.i18n import gettext
@@ -383,8 +383,8 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                     'move': move.id,
                     'journal': self.journal.id,
                     'period': Period.find(self.company.id, date=self.date),
-                    'party': (line.pay_mode.account.party_required
-                        and self.party.id or None),
+                    'party': (line.pay_mode.account.party_required and
+                        self.party.id or None),
                     'amount_second_currency': amount_second_currency,
                     'second_currency': second_currency,
                 })
@@ -418,8 +418,8 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                     'period': Period.find(self.company.id, date=self.date),
                     'date': self.date,
                     'maturity_date': self.date,
-                    'party': (line.account.party_required
-                        and self.party.id or None),
+                    'party': (line.account.party_required and
+                        self.party.id or None),
                     'amount_second_currency': amount_second_currency,
                     'second_currency': second_currency,
                 })
@@ -453,8 +453,8 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                     'period': Period.find(self.company.id, date=self.date),
                     'date': self.date,
                     'maturity_date': self.date,
-                    'party': (line.account.party_required
-                        and self.party.id or None),
+                    'party': (line.account.party_required and
+                        self.party.id or None),
                     'amount_second_currency': amount_second_currency,
                     'second_currency': second_currency,
                 })
@@ -513,8 +513,8 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                     'period': Period.find(self.company.id, date=self.date),
                     'date': self.date,
                     'maturity_date': self.date,
-                    'party': (line.account.party_required
-                        and self.party.id or None),
+                    'party': (line.account.party_required and
+                        self.party.id or None),
                     'amount_second_currency': amount_second_currency,
                     'second_currency': second_currency,
                 })
@@ -598,14 +598,13 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
             for move_line in created_lines:
                 if move_line.description == 'advance':
                     continue
-                if (move_line.debit != line.amount
-                        and move_line.credit != line.amount):
+                if (move_line.debit != abs(amount) and
+                        move_line.credit != abs(amount)):
                     continue
-                if invoice.type[:2] == 'in':
-                    reference = invoice.reference
-                else:
-                    reference = invoice.number
-                if move_line.description == reference:
+                invoice_number = invoice.reference
+                if invoice.type == 'out':
+                    invoice_number = invoice.number
+                if move_line.description == invoice_number:
                     if remainder == _ZERO:
                         lines_to_reconcile[move_line.account.id].append(
                             move_line.id)

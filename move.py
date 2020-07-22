@@ -4,7 +4,7 @@
 from decimal import Decimal
 
 from trytond.model import fields
-from trytond.pool import Pool, PoolMeta
+from trytond.pool import PoolMeta
 from trytond.pyson import Eval, If, Bool
 
 __all__ = ['Move', 'Line']

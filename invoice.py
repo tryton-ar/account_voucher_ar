@@ -49,7 +49,8 @@ class PayInvoice(Wizard):
             line_type = 'dr'
             name = invoice.number
 
-        for line in sorted(invoice.lines_to_pay, key=lambda x: x.maturity_date):
+        for line in sorted(invoice.lines_to_pay,
+                key=lambda x: x.maturity_date):
             if line.reconciliation:
                 continue
 
@@ -63,8 +64,9 @@ class PayInvoice(Wizard):
                 with Transaction().set_context(date=default['date']):
                     amount = Currency.compute(invoice.company.currency,
                         amount, invoice.currency)
-                    amount_residual = Currency.compute(invoice.company.currency,
-                        amount_residual, invoice.currency)
+                    amount_residual = Currency.compute(
+                        invoice.company.currency, amount_residual,
+                        invoice.currency)
             lines = {
                 'name': name,
                 'account': invoice.account.id,
@@ -97,9 +99,8 @@ class CreditInvoice(metaclass=PoolMeta):
             'with_refund_allowed': True,
             })
         for invoice in Invoice.browse(Transaction().context['active_ids']):
-            if (invoice.state != 'posted'
-                    or self._amount_difference(invoice)
-                    or invoice.type == 'in'):
+            if (invoice.state != 'posted' or
+                    self._amount_difference(invoice) or invoice.type == 'in'):
                 default['with_refund'] = False
                 default['with_refund_allowed'] = False
                 break
