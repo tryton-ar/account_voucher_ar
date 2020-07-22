@@ -14,6 +14,10 @@ msgctxt "field:account.move.line,amount_residual:"
 msgid "Amount Residual"
 msgstr "Importe pendiente"
 
+msgctxt "field:account.move.line,voucher_payments:"
+msgid "Voucher Payments"
+msgstr "Pagos"
+
 msgctxt "field:account.voucher,amount:"
 msgid "Payment"
 msgstr "Saldando"
@@ -76,7 +80,7 @@ msgstr "Débitos"
 
 msgctxt "field:account.voucher,move:"
 msgid "Move"
-msgstr "Movimiento"
+msgstr "Asiento"
 
 msgctxt "field:account.voucher,move_canceled:"
 msgid "Move Canceled"
@@ -172,7 +176,7 @@ msgstr "Nombre"
 
 msgctxt "field:account.voucher.line,reference:"
 msgid "reference"
-msgstr ""
+msgstr "Referencia"
 
 msgctxt "field:account.voucher.line,voucher:"
 msgid "Voucher"
@@ -388,15 +392,15 @@ msgstr "Línea del comprobante"
 
 msgctxt "model:account.voucher.line.credits,name:"
 msgid "Account Voucher Line Credits"
-msgstr ""
+msgstr "Créditos del comprobante"
 
 msgctxt "model:account.voucher.line.debits,name:"
 msgid "Account Voucher Line Debits"
-msgstr ""
+msgstr "Débitos del comprobante"
 
 msgctxt "model:account.voucher.line.paymode,name:"
 msgid "Account Voucher Line Pay Mode"
-msgstr "Línea de comprobante de forma de pago "
+msgstr "Línea de comprobante de forma de pago"
 
 msgctxt "model:account.voucher.paymode,name:"
 msgid "Account Voucher Pay Mode"
@@ -495,13 +499,21 @@ msgctxt "model:ir.message,text:msg_third_pay_check_not_delivered"
 msgid "Third check \"%(check)s\" is not in Delivered state"
 msgstr "El cheque de tercero número \"%(check)s\" no figura como \"Entregado\""
 
-msgctxt "model:ir.sequence,name:"
-msgid "Account Voucher"
-msgstr "Comprobante contable"
+msgctxt "model:ir.model.button,confirm:voucher_cancel_button"
+msgid "Are you sure you want to cancel the voucher?"
+msgstr "¿Está seguro de querer cancelar el comprobante?"
 
-msgctxt "model:ir.sequence.type,name:"
-msgid "Account Voucher"
-msgstr "Comprobante contable"
+msgctxt "model:ir.model.button,help:voucher_cancel_button"
+msgid "Cancel the voucher"
+msgstr "Cancelar el comprobante"
+
+msgctxt "model:ir.model.button,string:voucher_cancel_button"
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgctxt "model:ir.model.button,string:voucher_post_button"
+msgid "Pay"
+msgstr "Pagar"
 
 msgctxt "model:ir.sequence.type,name:seq_type_account_voucher_payment"
 msgid "Account Voucher Payment"
@@ -731,34 +743,6 @@ msgctxt "selection:account.voucher.line.debits,line_type:"
 msgid "Debit"
 msgstr "Débito"
 
-msgctxt "view:account.move.line:"
-msgid "Lines"
-msgstr "Líneas"
-
-msgctxt "view:account.voucher.line.credits:"
-msgid "Credits"
-msgstr "Créditos"
-
-msgctxt "view:account.voucher.line.debits:"
-msgid "Debits"
-msgstr "Débitos"
-
-msgctxt "view:account.voucher.line.paymode:"
-msgid "Pay Mode Lines"
-msgstr "Formas de pago"
-
-msgctxt "view:account.voucher.line:"
-msgid "Lines"
-msgstr "Líneas"
-
-msgctxt "view:account.voucher.paymode:"
-msgid "Paymode"
-msgstr "Forma de pago/cobro"
-
-msgctxt "view:account.voucher.paymode:"
-msgid "Voucher"
-msgstr "Comprobante"
-
 msgctxt "view:account.voucher:"
 msgid "Other Info"
 msgstr "Información adicional"
@@ -770,11 +754,3 @@ msgstr "Formas de pago"
 msgctxt "view:account.voucher:"
 msgid "Voucher Lines"
 msgstr "Facturas pendientes"
-
-msgctxt "view:account.voucher:"
-msgid "_Cancel"
-msgstr "Cancelar"
-
-msgctxt "view:account.voucher:"
-msgid "_Pay"
-msgstr "Pagar"
