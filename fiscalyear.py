@@ -43,7 +43,7 @@ class FiscalYear(metaclass=PoolMeta):
 
     @classmethod
     def validate(cls, years):
-        super(FiscalYear, cls).validate(years)
+        super().validate(years)
         for year in years:
             year.check_voucher_sequences()
 
@@ -80,7 +80,7 @@ class FiscalYear(metaclass=PoolMeta):
                             raise UserError(gettext('account_voucher_ar.'
                                 'msg_change_voucher_sequence',
                                 fiscal_year=fiscalyear.rec_name))
-        super(FiscalYear, cls).write(*args)
+        super().write(*args)
 
     def get_voucher_sequence(self, voucher_type):
         return getattr(self, voucher_type + '_sequence')
@@ -93,7 +93,7 @@ class RenewFiscalYear(metaclass=PoolMeta):
         pool = Pool()
         Sequence = pool.get('ir.sequence')
 
-        defaults = super(RenewFiscalYear, self).fiscalyear_defaults()
+        defaults = super().fiscalyear_defaults()
 
         prev_payment_sequence = Sequence(
             self.start.previous_fiscalyear.payment_sequence.id)

@@ -90,7 +90,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
 
     @classmethod
     def __setup__(cls):
-        super(AccountVoucher, cls).__setup__()
+        super().__setup__()
         cls._transitions |= set((
                 ('draft', 'posted'),
                 ('posted', 'canceled'),
@@ -297,7 +297,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
             if voucher.state != 'draft':
                 raise UserError(gettext(
                     'account_voucher_ar.msg_delete_voucher'))
-        return super(AccountVoucher, cls).delete(vouchers)
+        return super().delete(vouchers)
 
     @classmethod
     def copy(cls, vouchers, default=None):
@@ -312,8 +312,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         default['lines_debits'] = None
         default['move'] = None
         default['move_canceled'] = None
-
-        return super(AccountVoucher, cls).copy(vouchers, default=default)
+        return super().copy(vouchers, default=default)
 
     def prepare_move_lines(self):
         pool = Pool()
@@ -824,8 +823,7 @@ class AccountVoucherReport(Report):
 
     @classmethod
     def get_context(cls, records, data):
-        report_context = super(AccountVoucherReport, cls).get_context(records,
-            data)
+        report_context = super().get_context(records, data)
         report_context['company'] = report_context['user'].company
         report_context['compute_currency'] = cls.compute_currency
         report_context['format_vat_number'] = cls.format_vat_number

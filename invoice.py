@@ -93,7 +93,7 @@ class CreditInvoice(metaclass=PoolMeta):
     def default_start(self, fields):
         Invoice = Pool().get('account.invoice')
 
-        default = super(CreditInvoice, self).default_start(fields)
+        default = super().default_start(fields)
         default.update({
             'with_refund': True,
             'with_refund_allowed': True,

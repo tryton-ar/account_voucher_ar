@@ -15,7 +15,7 @@ class Move(metaclass=PoolMeta):
 
     @classmethod
     def _get_origin(cls):
-        return super(Move, cls)._get_origin() + ['account.voucher']
+        return super()._get_origin() + ['account.voucher']
 
 
 class Line(metaclass=PoolMeta):
