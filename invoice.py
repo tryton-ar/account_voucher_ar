@@ -89,7 +89,8 @@ class CreditInvoice(metaclass=PoolMeta):
         return invoice.amount_to_pay != invoice.total_amount
 
     def default_start(self, fields):
-        Invoice = Pool().get('account.invoice')
+        pool = Pool()
+        Invoice = pool.get('account.invoice')
 
         default = super().default_start(fields)
         default.update({
@@ -97,41 +98,32 @@ class CreditInvoice(metaclass=PoolMeta):
             'with_refund_allowed': True,
             })
         for invoice in Invoice.browse(Transaction().context['active_ids']):
-            if (invoice.state != 'posted' or
-                    self._amount_difference(invoice) or invoice.type == 'in'):
+            if (invoice.state != 'posted' or invoice.type == 'in' or
+                    self._amount_difference(invoice)):
                 default['with_refund'] = False
                 default['with_refund_allowed'] = False
                 break
+            if invoice.payment_lines:
+                default['with_refund'] = False
         return default
 
     def do_credit(self, action):
         pool = Pool()
         Invoice = pool.get('account.invoice')
 
-        try:
-            action, data = super(CreditInvoice, self).do_credit(action)
-        except UserError as e:
-            refund = self.start.with_refund
+        if self.start.with_refund:
             invoices = Invoice.browse(Transaction().context['active_ids'])
-
-            if refund:
-                for invoice in invoices:
-                    if invoice.state != 'posted':
-                        raise UserError(gettext(
-                            'account_voucher_ar.msg_refund_non_posted',
-                            invoice=invoice.rec_name))
-                    if invoice.payment_lines:
-                        raise UserError(gettext(
-                            'account_voucher_ar.msg_refund_with_payement',
-                            invoice=invoice.rec_name))
-                    if invoice.type == 'in':
-                        raise UserError(gettext(
-                            'account_voucher_ar.msg_refund_supplier',
-                            invoice=invoice.rec_name))
-
-            credit_invoices = Invoice.credit(invoices, refund=refund)
-
-            data = {'res_id': [i.id for i in credit_invoices]}
-            if len(credit_invoices) == 1:
-                action['views'].reverse()
-        return action, data
+            for invoice in invoices:
+                if invoice.state != 'posted':
+                    raise UserError(gettext(
+                        'account_voucher_ar.msg_refund_non_posted',
+                        invoice=invoice.rec_name))
+                if invoice.payment_lines:
+                    raise UserError(gettext(
+                        'account_voucher_ar.msg_refund_with_payement',
+                        invoice=invoice.rec_name))
+                if invoice.type == 'in':
+                    raise UserError(gettext(
+                        'account_voucher_ar.msg_refund_supplier',
+                        invoice=invoice.rec_name))
+        return super().do_credit(action)
