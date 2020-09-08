@@ -12,11 +12,6 @@ from trytond.report import Report
 from trytond.exceptions import UserError
 from trytond.i18n import gettext
 
-_STATES = {
-    'readonly': In(Eval('state'), ['posted', 'canceled']),
-    }
-_DEPENDS = ['state']
-
 _ZERO = Decimal('0.0')
 
 
@@ -25,7 +20,11 @@ class AccountVoucherPayMode(ModelSQL, ModelView):
     __name__ = 'account.voucher.paymode'
 
     name = fields.Char('Name')
-    account = fields.Many2One('account.account', 'Account')
+    account = fields.Many2One('account.account', 'Account',
+        domain=[
+            ('type', '!=', None),
+            ('closed', '!=', True),
+            ])
 
 
 class AccountVoucher(Workflow, ModelSQL, ModelView):
@@ -33,38 +32,44 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
     __name__ = 'account.voucher'
     _rec_name = 'number'
 
+    _states = {'readonly': In(Eval('state'), ['posted', 'canceled'])}
+    _depends = ['state']
+
     number = fields.Char('Number', readonly=True, help="Voucher Number")
     party = fields.Many2One('party.party', 'Party', required=True,
-        states=_STATES, depends=_DEPENDS)
+        states=_states, depends=_depends)
     voucher_type = fields.Selection([
         ('payment', 'Payment'),
         ('receipt', 'Receipt'),
-        ], 'Type', select=True, required=True, states=_STATES,
-        depends=_DEPENDS)
+        ], 'Type', select=True, required=True,
+        states=_states, depends=_depends)
     pay_lines = fields.One2Many('account.voucher.line.paymode', 'voucher',
-        'Pay Mode Lines', states=_STATES, depends=_DEPENDS)
-    date = fields.Date('Date', required=True, states=_STATES, depends=_DEPENDS)
+        'Pay Mode Lines', states=_states, depends=_depends)
+    date = fields.Date('Date', required=True,
+        states=_states, depends=_depends)
     journal = fields.Many2One('account.journal', 'Journal', required=True,
-        states=_STATES, depends=_DEPENDS)
+        states=_states, depends=_depends)
     currency = fields.Many2One('currency.currency', 'Currency', required=True,
-        states=_STATES, depends=_DEPENDS)
+        states=_states, depends=_depends)
     currency_code = fields.Function(fields.Char('Currency Code'),
         'on_change_with_currency_code')
     company = fields.Many2One('company.company', 'Company',
-        states=_STATES, depends=_DEPENDS)
+        states=_states, depends=_depends)
     lines = fields.One2Many('account.voucher.line', 'voucher', 'Lines',
-        states=_STATES, depends=_DEPENDS)
+        states=_states, depends=_depends)
     lines_credits = fields.One2Many('account.voucher.line.credits', 'voucher',
         'Credits', states={
             'invisible': ~Eval('lines_credits'),
             'readonly': In(Eval('state'), ['posted', 'canceled']),
-            }, depends=['state'])
+            },
+        depends=['lines_credits', 'state'])
     lines_debits = fields.One2Many('account.voucher.line.debits', 'voucher',
         'Debits', states={
             'invisible': ~Eval('lines_debits'),
             'readonly': In(Eval('state'), ['posted', 'canceled']),
-            }, depends=['state'])
-    comment = fields.Text('Comment', states=_STATES, depends=_DEPENDS)
+            },
+        depends=['lines_debits', 'state'])
+    comment = fields.Text('Comment', states=_states, depends=_depends)
     state = fields.Selection([
         ('draft', 'Draft'),
         ('posted', 'Posted'),
@@ -78,10 +83,11 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         digits=(16, 2)), 'on_change_with_amount_invoices')
     move = fields.Many2One('account.move', 'Move', readonly=True)
     move_canceled = fields.Many2One('account.move', 'Move Canceled',
-        readonly=True, states={
-            'invisible': ~Eval('move_canceled'),
-            })
+        readonly=True, states={'invisible': ~Eval('move_canceled')},
+        depends=['move_canceled'])
     pay_invoice = fields.Many2One('account.invoice', 'Pay Invoice')
+
+    del _states, _depends
 
     @classmethod
     def __setup__(cls):
@@ -720,25 +726,33 @@ class AccountVoucherLine(ModelSQL, ModelView):
     'Account Voucher Line'
     __name__ = 'account.voucher.line'
 
+    _states = {'readonly': True}
+
     voucher = fields.Many2One('account.voucher', 'Voucher',
         required=True, ondelete='CASCADE', select=True)
-    reference = fields.Function(fields.Char('reference',),
+    reference = fields.Function(fields.Char('reference'),
         'get_reference')
-    name = fields.Char('Name', states={'readonly': True})
-    account = fields.Many2One('account.account', 'Account')
+    name = fields.Char('Name', states=_states)
+    account = fields.Many2One('account.account', 'Account',
+        domain=[
+            ('type', '!=', None),
+            ('closed', '!=', True),
+            ])
     amount = fields.Numeric('Amount', digits=(16, 2))
     line_type = fields.Selection([
         ('cr', 'Credit'),
         ('dr', 'Debit'),
         ], 'Type', select=True)
     move_line = fields.Many2One('account.move.line', 'Move Line')
-    amount_original = fields.Numeric('Original Amount', digits=(16, 2),
-        states={'readonly': True})
-    amount_unreconciled = fields.Numeric('Unreconciled amount', digits=(16, 2),
-        states={'readonly': True})
-    date = fields.Date('Date', states={'readonly': True})
+    amount_original = fields.Numeric('Original Amount',
+        digits=(16, 2), states=_states)
+    amount_unreconciled = fields.Numeric('Unreconciled amount',
+        digits=(16, 2), states=_states)
+    date = fields.Date('Date', states=_states)
     date_expire = fields.Function(fields.Date('Expire date'),
-            'get_expire_date')
+        'get_expire_date')
+
+    del _states
 
     def get_reference(self, name):
         Invoice = Pool().get('account.invoice')
@@ -758,48 +772,64 @@ class AccountVoucherLineCredits(ModelSQL, ModelView):
     'Account Voucher Line Credits'
     __name__ = 'account.voucher.line.credits'
 
+    _states = {'readonly': True}
+
     voucher = fields.Many2One('account.voucher', 'Voucher',
         required=True, ondelete='CASCADE', select=True)
     name = fields.Char('Name')
     account = fields.Many2One('account.account', 'Account',
-        states={'readonly': True})
+        domain=[
+            ('type', '!=', None),
+            ('closed', '!=', True),
+            ],
+        states=_states)
     amount = fields.Numeric('Amount', digits=(16, 2),
-        states={'readonly': True})
+        states=_states)
     line_type = fields.Selection([
         ('cr', 'Credit'),
         ('dr', 'Debit'),
-        ], 'Type', select=True, states={'readonly': True})
+        ], 'Type', select=True, states=_states)
     move_line = fields.Many2One('account.move.line', 'Move Line',
-        states={'readonly': True})
+        states=_states)
     amount_original = fields.Numeric('Original Amount',
-        digits=(16, 2), states={'readonly': True})
+        digits=(16, 2), states=_states)
     amount_unreconciled = fields.Numeric('Unreconciled amount',
-        digits=(16, 2), states={'readonly': True})
-    date = fields.Date('Date', states={'readonly': True})
+        digits=(16, 2), states=_states)
+    date = fields.Date('Date', states=_states)
+
+    del _states
 
 
 class AccountVoucherLineDebits(ModelSQL, ModelView):
     'Account Voucher Line Debits'
     __name__ = 'account.voucher.line.debits'
 
+    _states = {'readonly': True}
+
     voucher = fields.Many2One('account.voucher', 'Voucher',
         required=True, ondelete='CASCADE', select=True)
     name = fields.Char('Name')
     account = fields.Many2One('account.account', 'Account',
-        states={'readonly': True})
+        domain=[
+            ('type', '!=', None),
+            ('closed', '!=', True),
+            ],
+        states=_states)
     amount = fields.Numeric('Amount', digits=(16, 2),
-        states={'readonly': True})
+        states=_states)
     line_type = fields.Selection([
         ('cr', 'Credit'),
         ('dr', 'Debit'),
-        ], 'Type', select=True, states={'readonly': True})
+        ], 'Type', select=True, states=_states)
     move_line = fields.Many2One('account.move.line', 'Move Line',
-        states={'readonly': True})
+        states=_states)
     amount_original = fields.Numeric('Original Amount',
-        digits=(16, 2), states={'readonly': True})
+        digits=(16, 2), states=_states)
     amount_unreconciled = fields.Numeric('Unreconciled amount',
-        digits=(16, 2), states={'readonly': True})
-    date = fields.Date('Date', states={'readonly': True})
+        digits=(16, 2), states=_states)
+    date = fields.Date('Date', states=_states)
+
+    del _states
 
 
 class AccountVoucherLinePaymode(ModelSQL, ModelView):
@@ -808,9 +838,8 @@ class AccountVoucherLinePaymode(ModelSQL, ModelView):
 
     voucher = fields.Many2One('account.voucher', 'Voucher')
     pay_mode = fields.Many2One('account.voucher.paymode', 'Pay Mode',
-        required=True, states=_STATES)
-    pay_amount = fields.Numeric('Pay Amount', digits=(16, 2), required=True,
-        states=_STATES)
+        required=True)
+    pay_amount = fields.Numeric('Pay Amount', digits=(16, 2), required=True)
 
 
 class AccountVoucherReport(Report):
