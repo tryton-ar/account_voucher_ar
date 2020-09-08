@@ -155,7 +155,6 @@ Create invoice::
     >>> InvoiceLine = Model.get('account.invoice.line')
     >>> invoice = Invoice()
     >>> invoice.party = party
-    >>> # invoice.payment_term = payment_term
     >>> invoice.payment_term = None
     >>> line = InvoiceLine()
     >>> invoice.lines.append(line)
@@ -200,10 +199,6 @@ Pay invoice::
     >>> voucher.voucher_type = 'receipt'
     >>> voucher.journal = journal_cash
     >>> voucher.currency = invoice.currency
-    >>> #payment_line = voucher.lines[0]
-    >>> #payment_line.amount = payment_line.amount_unreconciled
-    >>> #payment_line = voucher.lines[1]
-    >>> #payment_line.amount = payment_line.amount_unreconciled
     >>> payment_line, = voucher.lines
     >>> payment_line.amount = payment_line.amount_unreconciled
     >>> pay_line = LinePaymode()
@@ -297,16 +292,12 @@ Partial payment::
     >>> AccountVoucher = Model.get('account.voucher')
     >>> LinePaymode = Model.get('account.voucher.line.paymode')
     >>> voucher = AccountVoucher()
-    >>> voucher.party = invoice.party
+    >>> voucher.party = party2
     >>> voucher.date = today
     >>> voucher.voucher_type = 'receipt'
     >>> voucher.journal = journal_cash
     >>> voucher.currency = invoice.currency
-    >>> len(voucher.lines)
-    2
-    >>> payment_line = voucher.lines[0]
-    >>> payment_line.amount = payment_line.amount_unreconciled
-    >>> payment_line = voucher.lines[1]
+    >>> payment_line, = voucher.lines
     >>> payment_line.amount = payment_line.amount_unreconciled
     >>> pay_line = LinePaymode()
     >>> voucher.pay_lines.append(pay_line)
