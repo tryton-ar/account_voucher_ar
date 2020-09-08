@@ -3,8 +3,8 @@
 # the full copyright notices and license terms.
 
 from trytond.model import fields
-from trytond.pyson import Eval
 from trytond.pool import Pool, PoolMeta
+from trytond.pyson import Eval
 from trytond.exceptions import UserError
 from trytond.i18n import gettext
 
@@ -48,9 +48,9 @@ class FiscalYear(metaclass=PoolMeta):
     def check_voucher_sequences(self):
         for sequence in ('payment_sequence', 'receipt_sequence'):
             fiscalyears = self.search([
-                    (sequence, '=', getattr(self, sequence).id),
-                    ('id', '!=', self.id),
-                    ])
+                (sequence, '=', getattr(self, sequence).id),
+                ('id', '!=', self.id),
+                ])
             if fiscalyears:
                 raise UserError(gettext(
                     'account_voucher_ar.msg_different_voucher_sequence',

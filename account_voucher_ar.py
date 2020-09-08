@@ -5,10 +5,10 @@ from decimal import Decimal
 from collections import defaultdict
 
 from trytond.model import Workflow, ModelView, ModelSQL, fields
-from trytond.transaction import Transaction
-from trytond.pyson import Eval, In
-from trytond.pool import Pool
 from trytond.report import Report
+from trytond.pool import Pool
+from trytond.pyson import Eval, In
+from trytond.transaction import Transaction
 from trytond.exceptions import UserError
 from trytond.i18n import gettext
 
@@ -93,17 +93,17 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
     def __setup__(cls):
         super().__setup__()
         cls._transitions |= set((
-                ('draft', 'posted'),
-                ('posted', 'canceled'),
-                ))
+            ('draft', 'posted'),
+            ('posted', 'canceled'),
+            ))
         cls._buttons.update({
-                'post': {
-                    'invisible': Eval('state') != 'draft',
-                    },
-                'cancel': {
-                    'invisible': Eval('state') != 'posted',
-                    },
-                })
+            'post': {
+                'invisible': Eval('state') != 'draft',
+                },
+            'cancel': {
+                'invisible': Eval('state') != 'posted',
+                },
+            })
         cls._order.insert(0, ('date', 'DESC'))
         cls._order.insert(1, ('number', 'DESC'))
 
@@ -190,6 +190,9 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         MoveLine = pool.get('account.move.line')
         InvoiceAccountMoveLine = pool.get('account.invoice-account.move.line')
         Currency = pool.get('currency.currency')
+        AccountVoucherLineCredits = pool.get('account.voucher.line.credits')
+        AccountVoucherLineDebits = pool.get('account.voucher.line.debits')
+        AccountVoucherLine = pool.get('account.voucher.line')
 
         lines = []
         lines_credits = []
@@ -232,7 +235,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
 
             invoice = InvoiceAccountMoveLine.search([
                 ('line', '=', line.id),
-            ])
+                ])
             if invoice:
                 continue
 
@@ -275,9 +278,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
             payment_line.amount_unreconciled = amount_residual
             payment_line.line_type = line_type
             payment_line.move_line = line.id
-            payment_line.date = line.date if invoice_date is None \
-                else invoice_date
-            payment_line.date_expire = line.maturity_date
+            payment_line.date = invoice_date or line.date
 
             if line.credit and self.voucher_type == 'receipt':
                 lines_credits.append(payment_line)
@@ -286,7 +287,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
             else:
                 lines.append(payment_line)
 
-        self.lines = sorted(lines, key=lambda x: x.date_expire)
+        self.lines = sorted(lines, key=lambda x: x.date)
         self.lines_credits = lines_credits
         self.lines_debits = lines_debits
 
@@ -334,10 +335,8 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
             'journal': self.journal.id,
             'date': self.date,
             'origin': str(self),
-        }])
-        self.write([self], {
-                'move': move.id,
-                })
+            }])
+        self.write([self], {'move': move.id})
 
         second_currency = None
         if self.currency != self.company.currency:
@@ -387,7 +386,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                         self.party.id or None),
                     'amount_second_currency': amount_second_currency,
                     'second_currency': second_currency,
-                })
+                    })
 
         #
         # Credits
@@ -422,7 +421,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                         self.party.id or None),
                     'amount_second_currency': amount_second_currency,
                     'second_currency': second_currency,
-                })
+                    })
 
         #
         # Debits
@@ -457,7 +456,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                         self.party.id or None),
                     'amount_second_currency': amount_second_currency,
                     'second_currency': second_currency,
-                })
+                    })
 
         #
         # Voucher Lines
@@ -517,7 +516,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                         self.party.id or None),
                     'amount_second_currency': amount_second_currency,
                     'second_currency': second_currency,
-                })
+                    })
 
         if total != _ZERO:
             amount = total
@@ -554,7 +553,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                 'party': party_required and self.party.id or None,
                 'amount_second_currency': amount_second_currency,
                 'second_currency': second_currency,
-            })
+                })
 
         Move.write([move], {'description': invoices[:-2]})
 
@@ -655,12 +654,12 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         Invoice().remove_payment_lines(self.move.lines)
 
         canceled_move, = Move.copy([self.move], {
-                'period': Period.find(self.company.id, date=self.move.date),
-                'date': self.move.date,
-                })
+            'period': Period.find(self.company.id, date=self.move.date),
+            'date': self.move.date,
+            })
         self.write([self], {
-                'move_canceled': canceled_move.id,
-                })
+            'move_canceled': canceled_move.id,
+            })
 
         for line in canceled_move.lines:
             aux = line.debit
@@ -690,7 +689,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         reconciled_lines = []
         for voucher in vouchers:
             reconciled_lines = [l.name for l in voucher.lines
-                                if l.move_line.reconciliation]
+                if l.move_line.reconciliation]
             if reconciled_lines:
                 raise UserError(gettext(
                     'account_voucher_ar.msg_post_already_reconciled',
@@ -758,8 +757,8 @@ class AccountVoucherLine(ModelSQL, ModelView):
         Invoice = Pool().get('account.invoice')
 
         if self.move_line.move:
-            invoices = Invoice.search(
-                [('move', '=', self.move_line.move.id)])
+            invoices = Invoice.search([
+                ('move', '=', self.move_line.move.id)])
             if invoices:
                 return invoices[0].reference
 

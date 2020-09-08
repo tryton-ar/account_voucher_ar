@@ -3,8 +3,8 @@
 # the full copyright notices and license terms.
 
 from trytond.wizard import Wizard, StateView, Button
-from trytond.transaction import Transaction
 from trytond.pool import Pool, PoolMeta
+from trytond.transaction import Transaction
 from trytond.exceptions import UserError
 from trytond.i18n import gettext
 

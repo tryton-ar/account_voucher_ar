@@ -18,12 +18,12 @@ class Move(metaclass=PoolMeta):
 
 class Line(metaclass=PoolMeta):
     __name__ = 'account.move.line'
+
     amount_residual = fields.Function(fields.Numeric('Amount Residual',
-            digits=(16,
-                If(Bool(Eval('second_currency_digits')),
-                    Eval('second_currency_digits', 2),
-                    Eval('currency_digits', 2))),
-            depends=['second_currency_digits', 'currency_digits']),
+        digits=(16, If(Bool(Eval('second_currency_digits')),
+            Eval('second_currency_digits', 2),
+            Eval('currency_digits', 2))),
+        depends=['second_currency_digits', 'currency_digits']),
         'get_amount_residual')
     voucher_payments = fields.One2Many('account.voucher.line', 'move_line',
         'Voucher Payments', readonly=True)
