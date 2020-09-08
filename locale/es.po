@@ -38,14 +38,6 @@ msgctxt "field:account.voucher,company:"
 msgid "Company"
 msgstr "Empresa"
 
-msgctxt "field:account.voucher,create_date:"
-msgid "Create Date"
-msgstr "Fecha creación"
-
-msgctxt "field:account.voucher,create_uid:"
-msgid "Create User"
-msgstr "Usuario creación"
-
 msgctxt "field:account.voucher,currency:"
 msgid "Currency"
 msgstr "Moneda"
@@ -57,10 +49,6 @@ msgstr "Código de Moneda"
 msgctxt "field:account.voucher,date:"
 msgid "Date"
 msgstr "Fecha"
-
-msgctxt "field:account.voucher,id:"
-msgid "ID"
-msgstr "ID"
 
 msgctxt "field:account.voucher,journal:"
 msgid "Journal"
@@ -102,10 +90,6 @@ msgctxt "field:account.voucher,pay_lines:"
 msgid "Pay Mode Lines"
 msgstr "Formas de pago"
 
-msgctxt "field:account.voucher,rec_name:"
-msgid "Record Name"
-msgstr "Nombre"
-
 msgctxt "field:account.voucher,state:"
 msgid "State"
 msgstr "Estado"
@@ -113,14 +97,6 @@ msgstr "Estado"
 msgctxt "field:account.voucher,voucher_type:"
 msgid "Type"
 msgstr "Tipo"
-
-msgctxt "field:account.voucher,write_date:"
-msgid "Write Date"
-msgstr "Fecha modificación"
-
-msgctxt "field:account.voucher,write_uid:"
-msgid "Write User"
-msgstr "Usuario modificación"
 
 msgctxt "field:account.voucher.line,account:"
 msgid "Account"
@@ -138,14 +114,6 @@ msgctxt "field:account.voucher.line,amount_unreconciled:"
 msgid "Unreconciled amount"
 msgstr "Pendiente"
 
-msgctxt "field:account.voucher.line,create_date:"
-msgid "Create Date"
-msgstr "Fecha creación"
-
-msgctxt "field:account.voucher.line,create_uid:"
-msgid "Create User"
-msgstr "Usuario creación"
-
 msgctxt "field:account.voucher.line,date:"
 msgid "Date"
 msgstr "Fecha"
@@ -153,10 +121,6 @@ msgstr "Fecha"
 msgctxt "field:account.voucher.line,date_expire:"
 msgid "Expire date"
 msgstr "Fecha de vencimiento"
-
-msgctxt "field:account.voucher.line,id:"
-msgid "ID"
-msgstr "ID"
 
 msgctxt "field:account.voucher.line,line_type:"
 msgid "Type"
@@ -170,10 +134,6 @@ msgctxt "field:account.voucher.line,name:"
 msgid "Name"
 msgstr "Nombre"
 
-msgctxt "field:account.voucher.line,rec_name:"
-msgid "Record Name"
-msgstr "Nombre"
-
 msgctxt "field:account.voucher.line,reference:"
 msgid "reference"
 msgstr "Referencia"
@@ -181,14 +141,6 @@ msgstr "Referencia"
 msgctxt "field:account.voucher.line,voucher:"
 msgid "Voucher"
 msgstr "Comprobantes"
-
-msgctxt "field:account.voucher.line,write_date:"
-msgid "Write Date"
-msgstr "Fecha modificación"
-
-msgctxt "field:account.voucher.line,write_uid:"
-msgid "Write User"
-msgstr "Usuario modificación"
 
 msgctxt "field:account.voucher.line.credits,account:"
 msgid "Account"
@@ -206,21 +158,9 @@ msgctxt "field:account.voucher.line.credits,amount_unreconciled:"
 msgid "Unreconciled amount"
 msgstr "Pendiente"
 
-msgctxt "field:account.voucher.line.credits,create_date:"
-msgid "Create Date"
-msgstr "Fecha creación"
-
-msgctxt "field:account.voucher.line.credits,create_uid:"
-msgid "Create User"
-msgstr "Usuario creación"
-
 msgctxt "field:account.voucher.line.credits,date:"
 msgid "Date"
 msgstr "Fecha"
-
-msgctxt "field:account.voucher.line.credits,id:"
-msgid "ID"
-msgstr "ID"
 
 msgctxt "field:account.voucher.line.credits,line_type:"
 msgid "Type"
@@ -234,21 +174,9 @@ msgctxt "field:account.voucher.line.credits,name:"
 msgid "Name"
 msgstr "Nombre"
 
-msgctxt "field:account.voucher.line.credits,rec_name:"
-msgid "Record Name"
-msgstr "Nombre"
-
 msgctxt "field:account.voucher.line.credits,voucher:"
 msgid "Voucher"
 msgstr "Comprobantes"
-
-msgctxt "field:account.voucher.line.credits,write_date:"
-msgid "Write Date"
-msgstr "Fecha modificación"
-
-msgctxt "field:account.voucher.line.credits,write_uid:"
-msgid "Write User"
-msgstr "Usuario modificación"
 
 msgctxt "field:account.voucher.line.debits,account:"
 msgid "Account"
@@ -266,21 +194,9 @@ msgctxt "field:account.voucher.line.debits,amount_unreconciled:"
 msgid "Unreconciled amount"
 msgstr "Pendiente"
 
-msgctxt "field:account.voucher.line.debits,create_date:"
-msgid "Create Date"
-msgstr "Fecha creación"
-
-msgctxt "field:account.voucher.line.debits,create_uid:"
-msgid "Create User"
-msgstr "Usuario creación"
-
 msgctxt "field:account.voucher.line.debits,date:"
 msgid "Date"
 msgstr "Fecha"
-
-msgctxt "field:account.voucher.line.debits,id:"
-msgid "ID"
-msgstr "ID"
 
 msgctxt "field:account.voucher.line.debits,line_type:"
 msgid "Type"
@@ -294,33 +210,9 @@ msgctxt "field:account.voucher.line.debits,name:"
 msgid "Name"
 msgstr "Nombre"
 
-msgctxt "field:account.voucher.line.debits,rec_name:"
-msgid "Record Name"
-msgstr "Nombre"
-
 msgctxt "field:account.voucher.line.debits,voucher:"
 msgid "Voucher"
 msgstr "Comprobantes"
-
-msgctxt "field:account.voucher.line.debits,write_date:"
-msgid "Write Date"
-msgstr "Fecha modificación"
-
-msgctxt "field:account.voucher.line.debits,write_uid:"
-msgid "Write User"
-msgstr "Usuario modificación"
-
-msgctxt "field:account.voucher.line.paymode,create_date:"
-msgid "Create Date"
-msgstr "Fecha creación"
-
-msgctxt "field:account.voucher.line.paymode,create_uid:"
-msgid "Create User"
-msgstr "Usuario creación"
-
-msgctxt "field:account.voucher.line.paymode,id:"
-msgid "ID"
-msgstr "ID"
 
 msgctxt "field:account.voucher.line.paymode,pay_amount:"
 msgid "Pay Amount"
@@ -330,53 +222,17 @@ msgctxt "field:account.voucher.line.paymode,pay_mode:"
 msgid "Pay Mode"
 msgstr "Forma de pago"
 
-msgctxt "field:account.voucher.line.paymode,rec_name:"
-msgid "Record Name"
-msgstr "Nombre"
-
 msgctxt "field:account.voucher.line.paymode,voucher:"
 msgid "Voucher"
 msgstr "Comprobantes"
-
-msgctxt "field:account.voucher.line.paymode,write_date:"
-msgid "Write Date"
-msgstr "Fecha modificación"
-
-msgctxt "field:account.voucher.line.paymode,write_uid:"
-msgid "Write User"
-msgstr "Usuario modificación"
 
 msgctxt "field:account.voucher.paymode,account:"
 msgid "Account"
 msgstr "Cuenta contable"
 
-msgctxt "field:account.voucher.paymode,create_date:"
-msgid "Create Date"
-msgstr "Fecha creación"
-
-msgctxt "field:account.voucher.paymode,create_uid:"
-msgid "Create User"
-msgstr "Usuario creación"
-
-msgctxt "field:account.voucher.paymode,id:"
-msgid "ID"
-msgstr "ID"
-
 msgctxt "field:account.voucher.paymode,name:"
 msgid "Name"
 msgstr "Nombre"
-
-msgctxt "field:account.voucher.paymode,rec_name:"
-msgid "Record Name"
-msgstr "Nombre"
-
-msgctxt "field:account.voucher.paymode,write_date:"
-msgid "Write Date"
-msgstr "Fecha modificación"
-
-msgctxt "field:account.voucher.paymode,write_uid:"
-msgid "Write User"
-msgstr "Usuario modificación"
 
 msgctxt "help:account.voucher,number:"
 msgid "Voucher Number"
@@ -448,8 +304,7 @@ msgid ""
 "because there are already posted vouchers in this fiscal year."
 msgstr ""
 "No puede cambiar la secuencia del comprobante en el año fiscal "
-"«%(fiscal_year)s» porque ya hay comprobantes confirmados en este año "
-"fiscal."
+"«%(fiscal_year)s» porque ya hay comprobantes confirmados en este año fiscal."
 
 msgctxt "model:ir.message,text:msg_check_not_in_draft"
 msgid "Check \"%(check)s\" is not in draft state"
