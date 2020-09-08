@@ -8,8 +8,6 @@ from trytond.pool import Pool, PoolMeta
 from trytond.exceptions import UserError
 from trytond.i18n import gettext
 
-__all__ = ['PayInvoice', 'CreditInvoice']
-
 
 class PayInvoice(Wizard):
     'Pay Invoice'
