@@ -1,17 +1,9 @@
 <?xml version="1.0"?>
 <form col="8">
     <label name="party"/>
-    <field name="party"/>
+    <field name="party" colspan="3"/>
     <label name="number"/>
     <field name="number"/>
-    <group col="4" colspan="4" id="amounts">
-        <label name="amount_to_pay"/>
-        <field name="amount_to_pay"/>
-        <label name="amount"/>
-        <field name="amount"/>
-        <label name="amount_invoices"/>
-        <field name="amount_invoices"/>
-    </group>
     <label name="date"/>
     <field name="date"/>
     <label name="journal"/>
@@ -21,20 +13,27 @@
     <field name="currency_code" invisible="1"/>
     <field name="voucher_type" invisible="1"/>
     <field name="pay_invoice" invisible="1"/>
-    <newline/>
     <notebook colspan="4">
         <page string="Pay Mode Lines" id="pay_lines">
             <field name="pay_lines" colspan="4"
                 view_ids="account_voucher_ar.pay_lines_view_tree"/>
         </page>
     </notebook>
-    <notebook colspan="4">
+    <group col="4" colspan="4" id="amounts">
+        <label name="amount_to_pay"/>
+        <field name="amount_to_pay"/>
+        <label name="amount"/>
+        <field name="amount"/>
+        <label name="amount_invoices"/>
+        <field name="amount_invoices"/>
+    </group>
+    <notebook colspan="8">
         <page string="Voucher Lines" id="lines">
-            <field name="lines" colspan="4"
+            <field name="lines" colspan="8"
                 view_ids="account_voucher_ar.lines_view_tree"/>
-            <field name="lines_credits" colspan="4"
+            <field name="lines_credits" colspan="8"
                 view_ids="account_voucher_ar.lines_credits_view_tree"/>
-            <field name="lines_debits" colspan="4"
+            <field name="lines_debits" colspan="8"
                 view_ids="account_voucher_ar.lines_debits_view_tree"/>
         </page>
         <page string="Other Info" id="info">
@@ -44,8 +43,8 @@
             <field name="move"/>
             <label name="move_canceled"/>
             <field name="move_canceled"/>
-            <separator name="comment" colspan="4"/>
-            <field name="comment" colspan="4"/>
+            <separator name="comment" colspan="8"/>
+            <field name="comment" colspan="8"/>
         </page>
     </notebook>
     <label name="state"/>
