@@ -44,3 +44,12 @@ class Line(metaclass=PoolMeta):
 
             amounts[line.id] = amount
         return amounts
+
+    @classmethod
+    def copy(cls, lines, default=None):
+        if default is None:
+            default = {}
+        else:
+            default = default.copy()
+        default.setdefault('voucher_payments', [])
+        return super().copy(lines, default=default)
