@@ -8,6 +8,7 @@ from trytond.model import Workflow, ModelView, ModelSQL, fields
 from trytond.report import Report
 from trytond.pool import Pool
 from trytond.pyson import Eval, In
+from trytond.tools import grouped_slice
 from trytond.transaction import Transaction
 from trytond.exceptions import UserError
 from trytond.i18n import gettext
@@ -657,6 +658,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         Period = pool.get('account.period')
         Reconciliation = pool.get('account.move.reconciliation')
         Invoice = pool.get('account.invoice')
+        PaymentLine = pool.get('account.invoice-account.move.line')
 
         reconciliations = [x.reconciliation for x in self.move.lines
                 if x.reconciliation]
@@ -664,7 +666,21 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
             if reconciliations:
                 Reconciliation.delete(reconciliations)
 
-        Invoice().remove_payment_lines(self.move.lines)
+        # Remove payment lines from their invoices.
+        payments = defaultdict(list)
+        ids = list(map(int, self.move.lines))
+        for sub_ids in grouped_slice(ids):
+            payment_lines = PaymentLine.search([
+                ('line', 'in', list(sub_ids)),
+                ])
+            for payment_line in payment_lines:
+                payments[payment_line.invoice].append(payment_line.line)
+        to_write = []
+        for invoice, lines in payments.items():
+            to_write.append([invoice])
+            to_write.append({'payment_lines': [('remove', lines)]})
+        if to_write:
+            Invoice.write(*to_write)
 
         cancelled_move, = Move.copy([self.move], {
             'period': Period.find(self.company.id, date=self.move.date),
