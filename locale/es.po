@@ -70,8 +70,8 @@ msgctxt "field:account.voucher,move:"
 msgid "Move"
 msgstr "Asiento"
 
-msgctxt "field:account.voucher,move_canceled:"
-msgid "Move Canceled"
+msgctxt "field:account.voucher,move_cancelled:"
+msgid "Move Cancelled"
 msgstr "Asiento de Cancelación"
 
 msgctxt "field:account.voucher,number:"
@@ -555,7 +555,7 @@ msgid "–"
 msgstr ""
 
 msgctxt "selection:account.voucher,state:"
-msgid "Canceled"
+msgid "Cancelled"
 msgstr "Cancelado"
 
 msgctxt "selection:account.voucher,state:"

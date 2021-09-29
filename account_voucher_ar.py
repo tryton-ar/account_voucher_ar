@@ -32,7 +32,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
     __name__ = 'account.voucher'
     _rec_name = 'number'
 
-    _states = {'readonly': In(Eval('state'), ['posted', 'canceled'])}
+    _states = {'readonly': In(Eval('state'), ['posted', 'cancelled'])}
     _depends = ['state']
 
     number = fields.Char('Number', readonly=True, help="Voucher Number")
@@ -60,20 +60,20 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
     lines_credits = fields.One2Many('account.voucher.line.credits', 'voucher',
         'Credits', states={
             'invisible': ~Eval('lines_credits'),
-            'readonly': In(Eval('state'), ['posted', 'canceled']),
+            'readonly': In(Eval('state'), ['posted', 'cancelled']),
             },
         depends=['lines_credits', 'state'])
     lines_debits = fields.One2Many('account.voucher.line.debits', 'voucher',
         'Debits', states={
             'invisible': ~Eval('lines_debits'),
-            'readonly': In(Eval('state'), ['posted', 'canceled']),
+            'readonly': In(Eval('state'), ['posted', 'cancelled']),
             },
         depends=['lines_debits', 'state'])
     comment = fields.Text('Comment', states=_states, depends=_depends)
     state = fields.Selection([
         ('draft', 'Draft'),
         ('posted', 'Posted'),
-        ('canceled', 'Canceled'),
+        ('cancelled', 'Cancelled'),
         ], 'State', select=True, readonly=True)
     amount = fields.Function(fields.Numeric('Payment', digits=(16, 2)),
         'on_change_with_amount')
@@ -82,9 +82,9 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
     amount_invoices = fields.Function(fields.Numeric('Invoices',
         digits=(16, 2)), 'on_change_with_amount_invoices')
     move = fields.Many2One('account.move', 'Move', readonly=True)
-    move_canceled = fields.Many2One('account.move', 'Move Canceled',
-        readonly=True, states={'invisible': ~Eval('move_canceled')},
-        depends=['move_canceled'])
+    move_cancelled = fields.Many2One('account.move', 'Move Cancelled',
+        readonly=True, states={'invisible': ~Eval('move_cancelled')},
+        depends=['move_cancelled'])
     pay_invoice = fields.Many2One('account.invoice', 'Pay Invoice')
 
     del _states, _depends
@@ -94,7 +94,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         super().__setup__()
         cls._transitions |= set((
             ('draft', 'posted'),
-            ('posted', 'canceled'),
+            ('posted', 'cancelled'),
             ))
         cls._buttons.update({
             'post': {
@@ -106,6 +106,20 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
             })
         cls._order.insert(0, ('date', 'DESC'))
         cls._order.insert(1, ('number', 'DESC'))
+
+    @classmethod
+    def __register__(cls, module_name):
+        cursor = Transaction().connection.cursor()
+        table_h = cls.__table_handler__(module_name)
+        sql_table = cls.__table__()
+        super().__register__(module_name)
+        cursor.execute(*sql_table.update(
+            [sql_table.state], ['cancelled'],
+            where=sql_table.state == 'canceled'))
+        if table_h.column_exist('move_canceled'):
+            cursor.execute(*sql_table.update(
+                [sql_table.move_cancelled], [sql_table.move_canceled]))
+            table_h.drop_column('move_canceled')
 
     @staticmethod
     def default_state():
@@ -312,7 +326,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         default['lines_credits'] = None
         default['lines_debits'] = None
         default['move'] = None
-        default['move_canceled'] = None
+        default['move_cancelled'] = None
         return super().copy(vouchers, default=default)
 
     def prepare_move_lines(self):
@@ -652,15 +666,15 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
 
         Invoice().remove_payment_lines(self.move.lines)
 
-        canceled_move, = Move.copy([self.move], {
+        cancelled_move, = Move.copy([self.move], {
             'period': Period.find(self.company.id, date=self.move.date),
             'date': self.move.date,
             })
         self.write([self], {
-            'move_canceled': canceled_move.id,
+            'move_cancelled': cancelled_move.id,
             })
 
-        for line in canceled_move.lines:
+        for line in cancelled_move.lines:
             aux = line.debit
             line.debit = line.credit
             line.credit = aux
@@ -668,13 +682,13 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                 line.amount_second_currency else _ZERO)
             line.save()
 
-        Move.post([self.move_canceled])
+        Move.post([self.move_cancelled])
 
         lines_to_reconcile = defaultdict(list)
         for line in self.move.lines:
             if line.account.reconcile:
                 lines_to_reconcile[line.account.id].append(line)
-        for cancel_line in canceled_move.lines:
+        for cancel_line in cancelled_move.lines:
             if cancel_line.account.reconcile:
                 lines_to_reconcile[cancel_line.account.id].append(cancel_line)
 
@@ -714,7 +728,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
 
     @classmethod
     @ModelView.button
-    @Workflow.transition('canceled')
+    @Workflow.transition('cancelled')
     def cancel(cls, vouchers):
         for voucher in vouchers:
             voucher.create_cancel_move()

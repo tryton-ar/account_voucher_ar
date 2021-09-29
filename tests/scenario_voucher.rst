@@ -222,8 +222,8 @@ Cancel voucher::
 
     >>> voucher.click('cancel')
     >>> voucher.state
-    'canceled'
-    >>> bool(voucher.move_canceled)
+    'cancelled'
+    >>> bool(voucher.move_cancelled)
     True
     >>> invoice.reload()
     >>> invoice.state
