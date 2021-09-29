@@ -22,13 +22,13 @@
     <field name="voucher_type" invisible="1"/>
     <field name="pay_invoice" invisible="1"/>
     <newline/>
-    <notebook colspan="4">
+    <notebook colspan="4" yfill="1">
         <page string="Pay Mode Lines" id="pay_lines">
             <field name="pay_lines" colspan="4"
                 view_ids="account_voucher_ar.pay_lines_view_tree"/>
         </page>
     </notebook>
-    <notebook colspan="4">
+    <notebook colspan="4" yfill="1">
         <page string="Voucher Lines" id="lines">
             <field name="lines" colspan="4"
                 view_ids="account_voucher_ar.lines_view_tree"/>
@@ -45,7 +45,7 @@
             <label name="move_cancelled"/>
             <field name="move_cancelled"/>
             <separator name="comment" colspan="4"/>
-            <field name="comment" colspan="4"/>
+            <field name="comment" colspan="4" height="200"/>
         </page>
     </notebook>
     <label name="state"/>
