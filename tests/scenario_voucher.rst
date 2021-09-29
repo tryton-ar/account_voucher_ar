@@ -11,6 +11,7 @@ Imports::
     >>> from trytond.tests.tools import activate_modules
     >>> from trytond.modules.company.tests.tools import create_company, \
     ...     get_company
+    >>> from trytond.modules.currency.tests.tools import get_currency
     >>> from trytond.modules.account.tests.tools import create_fiscalyear, \
     ...     create_chart, get_accounts, create_tax, create_tax_code
     >>> from trytond.modules.account_invoice.tests.tools import \
@@ -25,11 +26,13 @@ Install account_invoice::
 
 Create company::
 
-    >>> _ = create_company()
+    >>> currency = get_currency('ARS')
+    >>> _ = create_company(currency=currency)
     >>> company = get_company()
     >>> tax_identifier = company.party.identifiers.new()
-    >>> tax_identifier.type = 'eu_vat'
-    >>> tax_identifier.code = 'BE0897290877'
+    >>> tax_identifier.type = 'ar_cuit'
+    >>> tax_identifier.code = '30710158254' # gcoop CUIT
+    >>> company.party.iva_condition = 'responsable_inscripto'
     >>> company.party.save()
 
 Create fiscal year::
@@ -182,7 +185,7 @@ Post invoice::
     >>> invoice.state
     'posted'
     >>> invoice.tax_identifier.code
-    'BE0897290877'
+    '30710158254'
     >>> invoice.untaxed_amount
     Decimal('220.00')
     >>> invoice.tax_amount
