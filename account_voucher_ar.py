@@ -858,8 +858,8 @@ class AccountVoucherReport(Report):
     __name__ = 'account.voucher'
 
     @classmethod
-    def get_context(cls, records, data):
-        report_context = super().get_context(records, data)
+    def get_context(cls, records, header, data):
+        report_context = super().get_context(records, header, data)
         report_context['company'] = report_context['user'].company
         report_context['compute_currency'] = cls.compute_currency
         report_context['format_vat_number'] = cls.format_vat_number

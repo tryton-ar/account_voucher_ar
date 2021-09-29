@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:draw="urn:oasis:names:tc:opendocument:xmlns:drawing:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:meta="urn:oasis:names:tc:opendocument:xmlns:meta:1.0" xmlns:number="urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0" xmlns:svg="urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0" xmlns:chart="urn:oasis:names:tc:opendocument:xmlns:chart:1.0" xmlns:dr3d="urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0" xmlns:math="http://www.w3.org/1998/Math/MathML" xmlns:form="urn:oasis:names:tc:opendocument:xmlns:form:1.0" xmlns:script="urn:oasis:names:tc:opendocument:xmlns:script:1.0" xmlns:config="urn:oasis:names:tc:opendocument:xmlns:config:1.0" xmlns:ooo="http://openoffice.org/2004/office" xmlns:ooow="http://openoffice.org/2004/writer" xmlns:oooc="http://openoffice.org/2004/calc" xmlns:dom="http://www.w3.org/2001/xml-events" xmlns:xforms="http://www.w3.org/2002/xforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rpt="http://openoffice.org/2005/report" xmlns:of="urn:oasis:names:tc:opendocument:xmlns:of:1.2" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:grddl="http://www.w3.org/2003/g/data-view#" xmlns:officeooo="http://openoffice.org/2009/office" xmlns:tableooo="http://openoffice.org/2009/table" xmlns:drawooo="http://openoffice.org/2010/draw" xmlns:calcext="urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0" xmlns:loext="urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0" xmlns:field="urn:openoffice:names:experimental:ooo-ms-interop:xmlns:field:1.0" xmlns:formx="urn:openoffice:names:experimental:ooxml-odf-interop:xmlns:form:1.0" xmlns:css3t="http://www.w3.org/TR/css3-text/" office:version="1.2" office:mimetype="application/vnd.oasis.opendocument.text">
- <office:meta><meta:generator>LibreOffice/6.0.7.3$Linux_X86_64 LibreOffice_project/00m0$Build-3</meta:generator><meta:creation-date>2008-06-07T15:28:22</meta:creation-date><dc:date>2009-01-10T16:03:33</dc:date><meta:editing-cycles>1</meta:editing-cycles><meta:editing-duration>P0D</meta:editing-duration><meta:document-statistic meta:table-count="14" meta:image-count="0" meta:object-count="0" meta:page-count="5" meta:paragraph-count="131" meta:word-count="395" meta:character-count="5498" meta:non-whitespace-character-count="5098"/><meta:user-defined meta:name="Info 1"/><meta:user-defined meta:name="Info 2"/><meta:user-defined meta:name="Info 3"/><meta:user-defined meta:name="Info 4"/></office:meta>
+ <office:meta><meta:generator>LibreOffice/6.0.7.3$Linux_X86_64 LibreOffice_project/00m0$Build-3</meta:generator><meta:creation-date>2008-06-07T15:28:22</meta:creation-date><dc:date>2009-01-10T16:03:33</dc:date><meta:editing-cycles>1</meta:editing-cycles><meta:editing-duration>P0D</meta:editing-duration><meta:document-statistic meta:table-count="14" meta:image-count="0" meta:object-count="0" meta:page-count="5" meta:paragraph-count="131" meta:word-count="387" meta:character-count="5484" meta:non-whitespace-character-count="5092"/><meta:user-defined meta:name="Info 1"/><meta:user-defined meta:name="Info 2"/><meta:user-defined meta:name="Info 3"/><meta:user-defined meta:name="Info 4"/></office:meta>
  <office:settings>
   <config:config-item-set config:name="ooo:view-settings">
-   <config:config-item config:name="ViewAreaTop" config:type="long">118181</config:config-item>
+   <config:config-item config:name="ViewAreaTop" config:type="long">42333</config:config-item>
    <config:config-item config:name="ViewAreaLeft" config:type="long">0</config:config-item>
-   <config:config-item config:name="ViewAreaWidth" config:type="long">28709</config:config-item>
-   <config:config-item config:name="ViewAreaHeight" config:type="long">12437</config:config-item>
+   <config:config-item config:name="ViewAreaWidth" config:type="long">34503</config:config-item>
+   <config:config-item config:name="ViewAreaHeight" config:type="long">13760</config:config-item>
    <config:config-item config:name="ShowRedlineChanges" config:type="boolean">true</config:config-item>
    <config:config-item config:name="InBrowseMode" config:type="boolean">false</config:config-item>
    <config:config-item-map-indexed config:name="Views">
     <config:config-item-map-entry>
      <config:config-item config:name="ViewId" config:type="string">view2</config:config-item>
-     <config:config-item config:name="ViewLeft" config:type="long">5498</config:config-item>
-     <config:config-item config:name="ViewTop" config:type="long">125569</config:config-item>
+     <config:config-item config:name="ViewLeft" config:type="long">10866</config:config-item>
+     <config:config-item config:name="ViewTop" config:type="long">54928</config:config-item>
      <config:config-item config:name="VisibleLeft" config:type="long">0</config:config-item>
-     <config:config-item config:name="VisibleTop" config:type="long">118181</config:config-item>
-     <config:config-item config:name="VisibleRight" config:type="long">28707</config:config-item>
-     <config:config-item config:name="VisibleBottom" config:type="long">130616</config:config-item>
+     <config:config-item config:name="VisibleTop" config:type="long">42333</config:config-item>
+     <config:config-item config:name="VisibleRight" config:type="long">34502</config:config-item>
+     <config:config-item config:name="VisibleBottom" config:type="long">56092</config:config-item>
      <config:config-item config:name="ZoomType" config:type="short">0</config:config-item>
      <config:config-item config:name="ViewLayoutColumns" config:type="short">0</config:config-item>
      <config:config-item config:name="ViewLayoutBookMode" config:type="boolean">false</config:config-item>
-     <config:config-item config:name="ZoomFactor" config:type="short">120</config:config-item>
+     <config:config-item config:name="ZoomFactor" config:type="short">100</config:config-item>
      <config:config-item config:name="IsSelectedFrame" config:type="boolean">false</config:config-item>
      <config:config-item config:name="AnchoredTextOverflowLegacy" config:type="boolean">false</config:config-item>
     </config:config-item-map-entry>
@@ -92,7 +92,7 @@
    <config:config-item config:name="UnxForceZeroExtLeading" config:type="boolean">false</config:config-item>
    <config:config-item config:name="TabAtLeftIndentForParagraphsInList" config:type="boolean">false</config:config-item>
    <config:config-item config:name="PrintRightPages" config:type="boolean">true</config:config-item>
-   <config:config-item config:name="Rsid" config:type="int">3454643</config:config-item>
+   <config:config-item config:name="Rsid" config:type="int">3746314</config:config-item>
    <config:config-item config:name="MathBaselineAlignment" config:type="boolean">false</config:config-item>
    <config:config-item config:name="MsWordCompTrailingBlanks" config:type="boolean">false</config:config-item>
    <config:config-item config:name="InvertBorderSpacing" config:type="boolean">false</config:config-item>
@@ -711,173 +711,173 @@
    <style:paragraph-properties fo:text-align="center" style:justify-single-word="false"/>
    <style:text-properties style:font-name="Arial" fo:font-size="8pt" fo:font-weight="bold" officeooo:paragraph-rsid="00313553" style:font-size-asian="8pt" style:font-weight-asian="bold" style:font-size-complex="8pt" style:font-weight-complex="bold"/>
   </style:style>
-  <style:style style:name="P15" style:family="paragraph" style:parent-style-name="Text_20_body">
-   <style:paragraph-properties fo:margin-left="0.199cm" fo:margin-right="0cm" fo:margin-top="0cm" fo:margin-bottom="0cm" loext:contextual-spacing="false" fo:text-align="center" style:justify-single-word="false" fo:text-indent="0cm" style:auto-text-indent="false"/>
-   <style:text-properties style:font-name="Liberation Sans1" fo:font-size="10pt" fo:font-weight="bold" officeooo:paragraph-rsid="00230e84" style:font-size-asian="10pt" style:font-weight-asian="bold" style:font-size-complex="10pt" style:font-weight-complex="bold"/>
+  <style:style style:name="P15" style:family="paragraph" style:parent-style-name="Table_20_Contents">
+   <style:text-properties officeooo:paragraph-rsid="0034b6b3"/>
   </style:style>
   <style:style style:name="P16" style:family="paragraph" style:parent-style-name="Text_20_body">
    <style:paragraph-properties fo:margin-left="0.199cm" fo:margin-right="0cm" fo:margin-top="0cm" fo:margin-bottom="0cm" loext:contextual-spacing="false" fo:text-align="center" style:justify-single-word="false" fo:text-indent="0cm" style:auto-text-indent="false"/>
-   <style:text-properties style:font-name="Liberation Sans1" fo:font-size="10pt" fo:font-weight="bold" officeooo:paragraph-rsid="002afaf8" style:font-size-asian="10pt" style:font-weight-asian="bold" style:font-size-complex="10pt" style:font-weight-complex="bold"/>
+   <style:text-properties style:font-name="Liberation Sans1" fo:font-size="10pt" fo:font-weight="bold" officeooo:paragraph-rsid="00230e84" style:font-size-asian="10pt" style:font-weight-asian="bold" style:font-size-complex="10pt" style:font-weight-complex="bold"/>
   </style:style>
   <style:style style:name="P17" style:family="paragraph" style:parent-style-name="Text_20_body">
+   <style:paragraph-properties fo:margin-left="0.199cm" fo:margin-right="0cm" fo:margin-top="0cm" fo:margin-bottom="0cm" loext:contextual-spacing="false" fo:text-align="center" style:justify-single-word="false" fo:text-indent="0cm" style:auto-text-indent="false"/>
+   <style:text-properties style:font-name="Liberation Sans1" fo:font-size="10pt" fo:font-weight="bold" officeooo:paragraph-rsid="002afaf8" style:font-size-asian="10pt" style:font-weight-asian="bold" style:font-size-complex="10pt" style:font-weight-complex="bold"/>
+  </style:style>
+  <style:style style:name="P18" style:family="paragraph" style:parent-style-name="Text_20_body">
    <style:paragraph-properties fo:margin-left="0.199cm" fo:margin-right="0cm" fo:margin-top="0cm" fo:margin-bottom="0cm" loext:contextual-spacing="false" fo:text-indent="0cm" style:auto-text-indent="false"/>
    <style:text-properties fo:font-size="10pt" fo:font-weight="bold" style:font-size-asian="10pt" style:font-weight-asian="bold" style:font-size-complex="10pt" style:font-weight-complex="bold"/>
   </style:style>
-  <style:style style:name="P18" style:family="paragraph" style:parent-style-name="Text_20_body">
+  <style:style style:name="P19" style:family="paragraph" style:parent-style-name="Text_20_body">
    <style:paragraph-properties fo:margin-left="0.199cm" fo:margin-right="0cm" fo:margin-top="0cm" fo:margin-bottom="0cm" loext:contextual-spacing="false" fo:text-indent="0cm" style:auto-text-indent="false" text:number-lines="false" text:line-number="0"/>
    <style:text-properties fo:font-size="10pt" fo:font-weight="bold" style:font-size-asian="10pt" style:font-weight-asian="bold" style:font-size-complex="10pt" style:font-weight-complex="bold"/>
   </style:style>
-  <style:style style:name="P19" style:family="paragraph" style:parent-style-name="Table_20_Contents">
+  <style:style style:name="P20" style:family="paragraph" style:parent-style-name="Table_20_Contents">
    <style:paragraph-properties fo:margin-left="0.199cm" fo:margin-right="0cm" fo:margin-top="0cm" fo:margin-bottom="0cm" loext:contextual-spacing="false" fo:text-align="end" style:justify-single-word="false" fo:text-indent="0cm" style:auto-text-indent="false" text:number-lines="false" text:line-number="0"/>
    <style:text-properties fo:font-size="9pt" fo:font-weight="normal" style:font-size-asian="9pt" style:font-weight-asian="normal" style:font-size-complex="9pt" style:font-weight-complex="normal"/>
   </style:style>
-  <style:style style:name="P20" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P21" style:family="paragraph" style:parent-style-name="Standard">
    <style:paragraph-properties fo:margin-left="0.199cm" fo:margin-right="0cm" fo:text-indent="0cm" style:auto-text-indent="false" text:number-lines="false" text:line-number="0"/>
    <style:text-properties fo:font-size="9pt" fo:font-weight="bold" style:font-size-asian="9pt" style:font-weight-asian="bold" style:font-size-complex="9pt" style:font-weight-complex="bold"/>
   </style:style>
-  <style:style style:name="P21" style:family="paragraph" style:parent-style-name="Standard" style:master-page-name="">
+  <style:style style:name="P22" style:family="paragraph" style:parent-style-name="Standard" style:master-page-name="">
    <style:paragraph-properties style:page-number="auto" fo:break-before="auto" fo:break-after="auto"/>
   </style:style>
-  <style:style style:name="P22" style:family="paragraph" style:parent-style-name="Standard">
-   <style:paragraph-properties fo:margin-left="0cm" fo:margin-right="0cm" fo:text-indent="0cm" style:auto-text-indent="false"/>
-   <style:text-properties style:font-name="Liberation Serif2" fo:font-size="10pt" style:font-size-asian="10pt" style:font-size-complex="10pt"/>
-  </style:style>
   <style:style style:name="P23" style:family="paragraph" style:parent-style-name="Standard">
-   <style:paragraph-properties fo:margin-left="0cm" fo:margin-right="0cm" fo:text-align="center" style:justify-single-word="false" fo:text-indent="0cm" style:auto-text-indent="false"/>
+   <style:paragraph-properties fo:margin-left="0cm" fo:margin-right="0cm" fo:text-indent="0cm" style:auto-text-indent="false"/>
    <style:text-properties style:font-name="Liberation Serif2" fo:font-size="10pt" style:font-size-asian="10pt" style:font-size-complex="10pt"/>
   </style:style>
   <style:style style:name="P24" style:family="paragraph" style:parent-style-name="Standard">
    <style:paragraph-properties fo:margin-left="0cm" fo:margin-right="0cm" fo:text-align="center" style:justify-single-word="false" fo:text-indent="0cm" style:auto-text-indent="false"/>
-   <style:text-properties style:font-name="Liberation Serif2" fo:font-size="10pt" style:text-underline-style="none" fo:font-weight="normal" style:font-size-asian="10pt" style:font-weight-asian="normal" style:font-size-complex="10pt" style:font-weight-complex="normal"/>
+   <style:text-properties style:font-name="Liberation Serif2" fo:font-size="10pt" style:font-size-asian="10pt" style:font-size-complex="10pt"/>
   </style:style>
   <style:style style:name="P25" style:family="paragraph" style:parent-style-name="Standard">
-   <style:paragraph-properties fo:margin-left="0cm" fo:margin-right="0cm" fo:text-indent="0cm" style:auto-text-indent="false"/>
-   <style:text-properties style:font-name="Liberation Serif2" fo:font-size="10pt" fo:font-weight="normal" style:font-size-asian="10pt" style:font-weight-asian="normal" style:font-size-complex="10pt" style:font-weight-complex="normal"/>
+   <style:paragraph-properties fo:margin-left="0cm" fo:margin-right="0cm" fo:text-align="center" style:justify-single-word="false" fo:text-indent="0cm" style:auto-text-indent="false"/>
+   <style:text-properties style:font-name="Liberation Serif2" fo:font-size="10pt" style:text-underline-style="none" fo:font-weight="normal" style:font-size-asian="10pt" style:font-weight-asian="normal" style:font-size-complex="10pt" style:font-weight-complex="normal"/>
   </style:style>
   <style:style style:name="P26" style:family="paragraph" style:parent-style-name="Standard">
    <style:paragraph-properties fo:margin-left="0cm" fo:margin-right="0cm" fo:text-indent="0cm" style:auto-text-indent="false"/>
-   <style:text-properties style:font-name="Liberation Sans1" fo:font-size="10pt" style:font-size-asian="10pt" style:font-size-complex="10pt"/>
+   <style:text-properties style:font-name="Liberation Serif2" fo:font-size="10pt" fo:font-weight="normal" style:font-size-asian="10pt" style:font-weight-asian="normal" style:font-size-complex="10pt" style:font-weight-complex="normal"/>
   </style:style>
   <style:style style:name="P27" style:family="paragraph" style:parent-style-name="Standard">
-   <style:paragraph-properties fo:margin-left="0cm" fo:margin-right="0cm" fo:text-align="center" style:justify-single-word="false" fo:text-indent="0cm" style:auto-text-indent="false"/>
+   <style:paragraph-properties fo:margin-left="0cm" fo:margin-right="0cm" fo:text-indent="0cm" style:auto-text-indent="false"/>
    <style:text-properties style:font-name="Liberation Sans1" fo:font-size="10pt" style:font-size-asian="10pt" style:font-size-complex="10pt"/>
   </style:style>
   <style:style style:name="P28" style:family="paragraph" style:parent-style-name="Standard">
    <style:paragraph-properties fo:margin-left="0cm" fo:margin-right="0cm" fo:text-align="center" style:justify-single-word="false" fo:text-indent="0cm" style:auto-text-indent="false"/>
-   <style:text-properties style:font-name="Liberation Sans1" fo:font-size="10pt" officeooo:paragraph-rsid="000f6561" style:font-size-asian="10pt" style:font-size-complex="10pt"/>
+   <style:text-properties style:font-name="Liberation Sans1" fo:font-size="10pt" style:font-size-asian="10pt" style:font-size-complex="10pt"/>
   </style:style>
   <style:style style:name="P29" style:family="paragraph" style:parent-style-name="Standard">
+   <style:paragraph-properties fo:margin-left="0cm" fo:margin-right="0cm" fo:text-align="center" style:justify-single-word="false" fo:text-indent="0cm" style:auto-text-indent="false"/>
+   <style:text-properties style:font-name="Liberation Sans1" fo:font-size="10pt" officeooo:paragraph-rsid="000f6561" style:font-size-asian="10pt" style:font-size-complex="10pt"/>
+  </style:style>
+  <style:style style:name="P30" style:family="paragraph" style:parent-style-name="Standard">
    <style:paragraph-properties fo:margin-left="0cm" fo:margin-right="0cm" fo:text-align="start" style:justify-single-word="false" fo:text-indent="0cm" style:auto-text-indent="false"/>
    <style:text-properties style:font-name="Liberation Sans1" fo:font-size="10pt" style:font-size-asian="10pt" style:font-size-complex="10pt"/>
   </style:style>
-  <style:style style:name="P30" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P31" style:family="paragraph" style:parent-style-name="Standard">
    <style:paragraph-properties fo:margin-left="0cm" fo:margin-right="0cm" fo:text-indent="0cm" style:auto-text-indent="false"/>
    <style:text-properties style:font-name="Liberation Sans1" fo:font-size="10pt" officeooo:rsid="0014a04e" style:font-size-asian="10pt" style:font-size-complex="10pt"/>
   </style:style>
-  <style:style style:name="P31" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P32" style:family="paragraph" style:parent-style-name="Standard">
    <style:paragraph-properties fo:margin-left="0cm" fo:margin-right="0cm" fo:text-align="center" style:justify-single-word="false" fo:text-indent="0cm" style:auto-text-indent="false"/>
    <style:text-properties style:font-name="Liberation Sans1" fo:font-size="10pt" style:text-underline-style="none" fo:font-weight="normal" style:font-size-asian="10pt" style:font-weight-asian="normal" style:font-size-complex="10pt" style:font-weight-complex="normal"/>
   </style:style>
-  <style:style style:name="P32" style:family="paragraph" style:parent-style-name="Text_20_body">
+  <style:style style:name="P33" style:family="paragraph" style:parent-style-name="Text_20_body">
    <style:paragraph-properties fo:margin-left="0cm" fo:margin-right="0cm" fo:margin-top="0.3cm" fo:margin-bottom="0.101cm" loext:contextual-spacing="false" fo:text-align="center" style:justify-single-word="false" fo:text-indent="0cm" style:auto-text-indent="false"/>
    <style:text-properties fo:font-size="12pt" fo:font-weight="bold" style:font-size-asian="10.5pt" style:font-weight-asian="bold" style:font-size-complex="12pt" style:font-weight-complex="bold"/>
   </style:style>
-  <style:style style:name="P33" style:family="paragraph" style:parent-style-name="Text_20_body">
+  <style:style style:name="P34" style:family="paragraph" style:parent-style-name="Text_20_body">
    <style:paragraph-properties fo:margin-left="0cm" fo:margin-right="0cm" fo:margin-top="0.101cm" fo:margin-bottom="0.101cm" loext:contextual-spacing="false" fo:text-align="center" style:justify-single-word="false" fo:text-indent="0cm" style:auto-text-indent="false"/>
    <style:text-properties fo:font-size="12pt" fo:font-weight="bold" style:font-size-asian="10.5pt" style:font-weight-asian="bold" style:font-size-complex="12pt" style:font-weight-complex="bold"/>
   </style:style>
-  <style:style style:name="P34" style:family="paragraph" style:parent-style-name="Table_20_Contents">
+  <style:style style:name="P35" style:family="paragraph" style:parent-style-name="Table_20_Contents">
    <style:paragraph-properties fo:margin-left="0cm" fo:margin-right="0cm" fo:text-align="end" style:justify-single-word="false" fo:text-indent="0cm" style:auto-text-indent="false"/>
    <style:text-properties style:font-name="Liberation Serif2" fo:font-size="11pt" style:font-size-asian="11pt" style:font-size-complex="11pt"/>
   </style:style>
-  <style:style style:name="P35" style:family="paragraph" style:parent-style-name="Table_20_Contents">
-   <style:paragraph-properties fo:margin-left="0cm" fo:margin-right="0cm" fo:text-indent="0cm" style:auto-text-indent="false"/>
-   <style:text-properties style:font-name="Liberation Sans1" fo:font-size="10pt" style:font-size-asian="10pt" style:font-size-complex="10pt"/>
-  </style:style>
   <style:style style:name="P36" style:family="paragraph" style:parent-style-name="Table_20_Contents">
-   <style:paragraph-properties fo:margin-left="0cm" fo:margin-right="0cm" fo:text-align="end" style:justify-single-word="false" fo:text-indent="0cm" style:auto-text-indent="false"/>
+   <style:paragraph-properties fo:margin-left="0cm" fo:margin-right="0cm" fo:text-indent="0cm" style:auto-text-indent="false"/>
    <style:text-properties style:font-name="Liberation Sans1" fo:font-size="10pt" style:font-size-asian="10pt" style:font-size-complex="10pt"/>
   </style:style>
   <style:style style:name="P37" style:family="paragraph" style:parent-style-name="Table_20_Contents">
+   <style:paragraph-properties fo:margin-left="0cm" fo:margin-right="0cm" fo:text-align="end" style:justify-single-word="false" fo:text-indent="0cm" style:auto-text-indent="false"/>
+   <style:text-properties style:font-name="Liberation Sans1" fo:font-size="10pt" style:font-size-asian="10pt" style:font-size-complex="10pt"/>
+  </style:style>
+  <style:style style:name="P38" style:family="paragraph" style:parent-style-name="Table_20_Contents">
    <style:paragraph-properties fo:margin-left="0cm" fo:margin-right="0cm" fo:text-indent="0cm" style:auto-text-indent="false"/>
    <style:text-properties style:font-name="Liberation Sans" fo:font-size="10pt" style:font-size-asian="10.5pt" style:font-size-complex="10pt"/>
   </style:style>
-  <style:style style:name="P38" style:family="paragraph" style:parent-style-name="Table_20_Contents">
+  <style:style style:name="P39" style:family="paragraph" style:parent-style-name="Table_20_Contents">
    <style:paragraph-properties fo:margin-left="0cm" fo:margin-right="0cm" fo:margin-top="0cm" fo:margin-bottom="0cm" loext:contextual-spacing="false" fo:text-align="end" style:justify-single-word="false" fo:text-indent="0cm" style:auto-text-indent="false" text:number-lines="false" text:line-number="0"/>
    <style:text-properties fo:font-size="9pt" fo:font-weight="normal" style:font-size-asian="9pt" style:font-weight-asian="normal" style:font-size-complex="9pt" style:font-weight-complex="normal"/>
   </style:style>
-  <style:style style:name="P39" style:family="paragraph" style:parent-style-name="Text_20_body">
-   <style:paragraph-properties fo:text-align="start" style:justify-single-word="false"/>
-   <style:text-properties style:text-underline-style="none"/>
-  </style:style>
   <style:style style:name="P40" style:family="paragraph" style:parent-style-name="Text_20_body">
    <style:paragraph-properties fo:text-align="start" style:justify-single-word="false"/>
+   <style:text-properties style:text-underline-style="none"/>
   </style:style>
   <style:style style:name="P41" style:family="paragraph" style:parent-style-name="Text_20_body">
    <style:paragraph-properties fo:text-align="start" style:justify-single-word="false"/>
-   <style:text-properties style:font-name="Liberation Sans1" fo:font-size="16pt" style:text-underline-style="none" style:font-size-asian="16pt" style:font-size-complex="16pt"/>
   </style:style>
   <style:style style:name="P42" style:family="paragraph" style:parent-style-name="Text_20_body">
+   <style:paragraph-properties fo:text-align="start" style:justify-single-word="false"/>
+   <style:text-properties style:font-name="Liberation Sans1" fo:font-size="16pt" style:text-underline-style="none" style:font-size-asian="16pt" style:font-size-complex="16pt"/>
+  </style:style>
+  <style:style style:name="P43" style:family="paragraph" style:parent-style-name="Text_20_body">
    <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm" loext:contextual-spacing="false"/>
    <style:text-properties fo:font-size="10pt" fo:font-weight="bold" style:font-size-asian="10pt" style:font-weight-asian="bold" style:font-size-complex="10pt" style:font-weight-complex="bold"/>
   </style:style>
-  <style:style style:name="P43" style:family="paragraph" style:parent-style-name="Text_20_body">
+  <style:style style:name="P44" style:family="paragraph" style:parent-style-name="Text_20_body">
    <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0.101cm" loext:contextual-spacing="false"/>
    <style:text-properties fo:font-size="6pt" style:font-size-asian="5.25pt" style:font-size-complex="6pt"/>
   </style:style>
-  <style:style style:name="P44" style:family="paragraph" style:parent-style-name="Text_20_body">
+  <style:style style:name="P45" style:family="paragraph" style:parent-style-name="Text_20_body">
    <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0.101cm" loext:contextual-spacing="false" fo:text-align="start" style:justify-single-word="false"/>
    <style:text-properties fo:font-size="11pt" style:font-size-asian="11pt" style:font-size-complex="11pt"/>
   </style:style>
-  <style:style style:name="P45" style:family="paragraph" style:parent-style-name="Text_20_body">
+  <style:style style:name="P46" style:family="paragraph" style:parent-style-name="Text_20_body">
    <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0.101cm" loext:contextual-spacing="false" fo:text-align="start" style:justify-single-word="false"/>
    <style:text-properties fo:font-size="11pt" style:text-underline-style="none" style:font-size-asian="11pt" style:font-size-complex="11pt"/>
   </style:style>
-  <style:style style:name="P46" style:family="paragraph" style:parent-style-name="Text_20_body">
+  <style:style style:name="P47" style:family="paragraph" style:parent-style-name="Text_20_body">
    <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0.101cm" loext:contextual-spacing="false" fo:text-align="end" style:justify-single-word="false"/>
    <style:text-properties fo:font-size="11pt" style:text-underline-style="none" fo:font-weight="bold" style:font-size-asian="11pt" style:font-weight-asian="bold" style:font-size-complex="11pt" style:font-weight-complex="bold"/>
   </style:style>
-  <style:style style:name="P47" style:family="paragraph" style:parent-style-name="Text_20_body">
+  <style:style style:name="P48" style:family="paragraph" style:parent-style-name="Text_20_body">
    <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0.101cm" loext:contextual-spacing="false" fo:text-align="start" style:justify-single-word="false"/>
    <style:text-properties style:font-name="Liberation Sans1" fo:font-size="16pt" style:text-underline-style="none" style:font-size-asian="16pt" style:font-size-complex="16pt"/>
   </style:style>
-  <style:style style:name="P48" style:family="paragraph" style:parent-style-name="Text_20_body">
+  <style:style style:name="P49" style:family="paragraph" style:parent-style-name="Text_20_body">
    <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0.101cm" loext:contextual-spacing="false" fo:text-align="center" style:justify-single-word="false"/>
    <style:text-properties style:font-name="Liberation Sans1" fo:font-size="9pt" style:font-size-asian="9pt" style:font-size-complex="9pt"/>
   </style:style>
-  <style:style style:name="P49" style:family="paragraph" style:parent-style-name="Text_20_body">
+  <style:style style:name="P50" style:family="paragraph" style:parent-style-name="Text_20_body">
    <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0.101cm" loext:contextual-spacing="false" fo:text-align="start" style:justify-single-word="false"/>
    <style:text-properties style:text-underline-style="none"/>
   </style:style>
-  <style:style style:name="P50" style:family="paragraph" style:parent-style-name="Table_20_Contents">
+  <style:style style:name="P51" style:family="paragraph" style:parent-style-name="Table_20_Contents">
    <style:paragraph-properties fo:margin-top="0.199cm" fo:margin-bottom="0.199cm" loext:contextual-spacing="false" fo:text-align="end" style:justify-single-word="false"/>
    <style:text-properties fo:font-size="10pt" style:font-size-complex="10pt"/>
   </style:style>
-  <style:style style:name="P51" style:family="paragraph" style:parent-style-name="Table_20_Heading">
-   <style:text-properties style:font-name="Liberation Sans1" fo:font-size="9pt" style:font-size-asian="9pt" style:font-size-complex="9pt"/>
-  </style:style>
   <style:style style:name="P52" style:family="paragraph" style:parent-style-name="Table_20_Heading">
-   <style:paragraph-properties fo:text-align="start" style:justify-single-word="false"/>
    <style:text-properties style:font-name="Liberation Sans1" fo:font-size="9pt" style:font-size-asian="9pt" style:font-size-complex="9pt"/>
   </style:style>
   <style:style style:name="P53" style:family="paragraph" style:parent-style-name="Table_20_Heading">
-   <style:paragraph-properties fo:text-align="end" style:justify-single-word="false"/>
+   <style:paragraph-properties fo:text-align="start" style:justify-single-word="false"/>
    <style:text-properties style:font-name="Liberation Sans1" fo:font-size="9pt" style:font-size-asian="9pt" style:font-size-complex="9pt"/>
   </style:style>
   <style:style style:name="P54" style:family="paragraph" style:parent-style-name="Table_20_Heading">
+   <style:paragraph-properties fo:text-align="end" style:justify-single-word="false"/>
+   <style:text-properties style:font-name="Liberation Sans1" fo:font-size="9pt" style:font-size-asian="9pt" style:font-size-complex="9pt"/>
+  </style:style>
+  <style:style style:name="P55" style:family="paragraph" style:parent-style-name="Table_20_Heading">
    <style:paragraph-properties fo:text-align="center" style:justify-single-word="false"/>
    <style:text-properties style:font-name="Liberation Sans1" fo:font-size="9pt" style:font-size-asian="9pt" style:font-size-complex="9pt"/>
   </style:style>
-  <style:style style:name="P55" style:family="paragraph" style:parent-style-name="Subtitle">
+  <style:style style:name="P56" style:family="paragraph" style:parent-style-name="Subtitle">
    <style:paragraph-properties fo:margin-top="0.109cm" fo:margin-bottom="0.101cm" loext:contextual-spacing="false" fo:text-align="end" style:justify-single-word="false"/>
    <style:text-properties style:font-name="Liberation Sans1" fo:font-size="14pt" fo:font-weight="bold" style:font-size-asian="14pt" style:font-weight-asian="bold" style:font-size-complex="14pt" style:font-weight-complex="bold"/>
   </style:style>
-  <style:style style:name="P56" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P57" style:family="paragraph" style:parent-style-name="Standard">
    <style:paragraph-properties fo:margin-left="0.15cm" fo:margin-right="0cm" fo:text-align="start" style:justify-single-word="false" fo:text-indent="0cm" style:auto-text-indent="false"/>
    <style:text-properties style:font-name="Liberation Sans1" fo:font-size="10pt" style:font-size-asian="10pt" style:font-size-complex="10pt"/>
-  </style:style>
-  <style:style style:name="P57" style:family="paragraph" style:parent-style-name="Table_20_Contents">
-   <style:text-properties officeooo:paragraph-rsid="0034b6b3"/>
   </style:style>
   <style:style style:name="T1" style:family="text">
    <style:text-properties style:font-name="Liberation Sans1" fo:font-size="10pt" fo:font-weight="bold" style:font-size-asian="10pt" style:font-weight-asian="bold" style:font-size-complex="10pt" style:font-weight-complex="bold"/>
@@ -936,11 +936,11 @@
      <table:table-row>
       <table:table-cell table:style-name="Tabla8.A1" office:value-type="string">
        <text:p text:style-name="P4"><text:span text:style-name="T1"><text:placeholder text:placeholder-type="text">&lt;company.party.full_name&gt;</text:placeholder></text:span><text:span text:style-name="T1"><text:s/>– </text:span><text:span text:style-name="T2">CUIT: </text:span><text:span text:style-name="T1"><text:placeholder text:placeholder-type="text">&lt;format_vat_number(company.party.vat_number)&gt;</text:placeholder></text:span></text:p>
-       <text:p text:style-name="P15"><text:placeholder text:placeholder-type="text">&lt;company.party.address_get().full_address&gt;</text:placeholder></text:p>
+       <text:p text:style-name="P16"><text:placeholder text:placeholder-type="text">&lt;company.party.address_get().full_address&gt;</text:placeholder></text:p>
       </table:table-cell>
      </table:table-row>
     </table:table>
-    <text:p text:style-name="P1"><text:page-number text:select-page="current">3</text:page-number>/<text:page-count>5</text:page-count></text:p>
+    <text:p text:style-name="P1"><text:page-number text:select-page="current">5</text:page-number>/<text:page-count>5</text:page-count></text:p>
    </style:footer>
   </style:master-page>
  </office:master-styles>
@@ -953,7 +953,7 @@
     <text:sequence-decl text:display-outline-level="0" text:name="Text"/>
     <text:sequence-decl text:display-outline-level="0" text:name="Drawing"/>
    </text:sequence-decls>
-   <text:p text:style-name="P21"><text:placeholder text:placeholder-type="text">&lt;for each=&quot;voucher in records&quot;&gt;</text:placeholder></text:p>
+   <text:p text:style-name="P22"><text:placeholder text:placeholder-type="text">&lt;for each=&quot;voucher in records&quot;&gt;</text:placeholder></text:p>
    <table:table table:name="TablaCabecera1" table:style-name="TablaCabecera1">
     <table:table-column table:style-name="TablaCabecera1.A"/>
     <table:table-column table:style-name="TablaCabecera1.B"/>
@@ -963,78 +963,78 @@
       <text:p text:style-name="P5"><text:span text:style-name="T2">CUIT: </text:span><text:span text:style-name="T1"><text:placeholder text:placeholder-type="text">&lt;format_vat_number(company.party.vat_number)&gt;</text:placeholder></text:span></text:p>
       <text:p text:style-name="P5"><text:span text:style-name="T13">IVA: </text:span><text:span text:style-name="T13"><text:placeholder text:placeholder-type="text">&lt;get_iva_condition(company.party)&gt;</text:placeholder></text:span></text:p>
       <text:p text:style-name="P14"/>
-      <text:p text:style-name="P16"><text:placeholder text:placeholder-type="text">&lt;company.party.address_get().full_address&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P17"><text:placeholder text:placeholder-type="text">&lt;company.party.address_get().full_address&gt;</text:placeholder></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="TablaCabecera1.A1" office:value-type="string">
-      <text:p text:style-name="P40"><text:placeholder text:placeholder-type="text">&lt;choose test=&quot;&quot;&gt;</text:placeholder></text:p>
-      <text:p text:style-name="P39"><text:placeholder text:placeholder-type="text">&lt;when test=&quot;voucher.voucher_type == &apos;receipt&apos;&quot;&gt;</text:placeholder></text:p>
-      <text:p text:style-name="P55">Recibo N° <text:placeholder text:placeholder-type="text">&lt;voucher.number&gt;</text:placeholder></text:p>
-      <text:p text:style-name="P41"><text:placeholder text:placeholder-type="text">&lt;/when&gt;</text:placeholder></text:p>
-      <text:p text:style-name="P39"><text:placeholder text:placeholder-type="text">&lt;when test=&quot;voucher.voucher_type == &apos;payment&apos;&quot;&gt;</text:placeholder></text:p>
-      <text:p text:style-name="P55">Orden de Pago N° <text:placeholder text:placeholder-type="text">&lt;voucher.number&gt;</text:placeholder></text:p>
-      <text:p text:style-name="P41"><text:placeholder text:placeholder-type="text">&lt;/when&gt;</text:placeholder></text:p>
-      <text:p text:style-name="P39"><text:placeholder text:placeholder-type="text">&lt;/choose&gt;</text:placeholder></text:p>
-      <text:p text:style-name="P46"><text:placeholder text:placeholder-type="text">&lt;format_date(voucher.date, voucher.party.lang) if voucher.date else &apos;&apos;&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P41"><text:placeholder text:placeholder-type="text">&lt;choose test=&quot;&quot;&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P40"><text:placeholder text:placeholder-type="text">&lt;when test=&quot;voucher.voucher_type == &apos;receipt&apos;&quot;&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P56">Recibo N° <text:placeholder text:placeholder-type="text">&lt;voucher.number&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P42"><text:placeholder text:placeholder-type="text">&lt;/when&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P40"><text:placeholder text:placeholder-type="text">&lt;when test=&quot;voucher.voucher_type == &apos;payment&apos;&quot;&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P56">Orden de Pago N° <text:placeholder text:placeholder-type="text">&lt;voucher.number&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P42"><text:placeholder text:placeholder-type="text">&lt;/when&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P40"><text:placeholder text:placeholder-type="text">&lt;/choose&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P47"><text:placeholder text:placeholder-type="text">&lt;format_date(voucher.date, voucher.party.lang) if voucher.date else &apos;&apos;&gt;</text:placeholder></text:p>
      </table:table-cell>
     </table:table-row>
    </table:table>
-   <text:p text:style-name="P43"/>
-   <text:p text:style-name="P44"><text:placeholder text:placeholder-type="text">&lt;choose test=&quot;&quot;&gt;</text:placeholder></text:p>
-   <text:p text:style-name="P45"><text:placeholder text:placeholder-type="text">&lt;when test=&quot;voucher.voucher_type == &apos;receipt&apos;&quot;&gt;</text:placeholder></text:p>
+   <text:p text:style-name="P44"/>
+   <text:p text:style-name="P45"><text:placeholder text:placeholder-type="text">&lt;choose test=&quot;&quot;&gt;</text:placeholder></text:p>
+   <text:p text:style-name="P46"><text:placeholder text:placeholder-type="text">&lt;when test=&quot;voucher.voucher_type == &apos;receipt&apos;&quot;&gt;</text:placeholder></text:p>
    <table:table table:name="TablaCliente1" table:style-name="TablaCliente1">
     <table:table-column table:style-name="TablaCliente1.A"/>
     <table:table-column table:style-name="TablaCliente1.B"/>
     <table:table-row>
      <table:table-cell table:style-name="TablaCliente1.A1" office:value-type="string">
-      <text:p text:style-name="P19">Recibimos de</text:p>
+      <text:p text:style-name="P20">Recibimos de</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="TablaCliente1.A1" office:value-type="string">
-      <text:p text:style-name="P20"><text:span text:style-name="T4"><text:placeholder text:placeholder-type="text">&lt;set_lang(voucher.party.lang and voucher.party.lang.code or &apos;en_US&apos;)&gt;</text:placeholder></text:span><text:span text:style-name="T4"><text:placeholder text:placeholder-type="text">&lt;voucher.set_lang(voucher.party.lang and voucher.party.lang.code or &apos;en_US&apos;)&gt;</text:placeholder></text:span><text:span text:style-name="T4"><text:placeholder text:placeholder-type="text">&lt;voucher.party.full_name&gt;</text:placeholder></text:span></text:p>
-      <text:p text:style-name="P17"><text:placeholder text:placeholder-type="text">&lt;voucher.party.address_get().full_address&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P21"><text:span text:style-name="T4"><text:placeholder text:placeholder-type="text">&lt;set_lang(voucher.party.lang and voucher.party.lang.code or &apos;en_US&apos;)&gt;</text:placeholder></text:span><text:span text:style-name="T4"><text:placeholder text:placeholder-type="text">&lt;voucher.set_lang(voucher.party.lang and voucher.party.lang.code or &apos;en_US&apos;)&gt;</text:placeholder></text:span><text:span text:style-name="T4"><text:placeholder text:placeholder-type="text">&lt;voucher.party.full_name&gt;</text:placeholder></text:span></text:p>
+      <text:p text:style-name="P18"><text:placeholder text:placeholder-type="text">&lt;voucher.party.address_get().full_address&gt;</text:placeholder></text:p>
      </table:table-cell>
     </table:table-row>
     <table:table-row>
      <table:table-cell table:style-name="TablaCliente1.A1" office:value-type="string">
-      <text:p text:style-name="P19">la suma de</text:p>
+      <text:p text:style-name="P20">la suma de</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="TablaCliente1.A1" office:value-type="string">
-      <text:p text:style-name="P18"><text:placeholder text:placeholder-type="text">&lt;format_currency(voucher.amount, voucher.party.lang, voucher.currency)&gt;</text:placeholder><text:span text:style-name="T7"><text:s/>en concepto de cancelación de comprobantes según el siguiente detalle:</text:span></text:p>
+      <text:p text:style-name="P19"><text:placeholder text:placeholder-type="text">&lt;format_currency(voucher.amount, voucher.party.lang, voucher.currency)&gt;</text:placeholder><text:span text:style-name="T7"><text:s/>en concepto de cancelación de comprobantes según el siguiente detalle:</text:span></text:p>
      </table:table-cell>
     </table:table-row>
    </table:table>
-   <text:p text:style-name="P47"><text:placeholder text:placeholder-type="text">&lt;/when&gt;</text:placeholder></text:p>
-   <text:p text:style-name="P49"><text:placeholder text:placeholder-type="text">&lt;when test=&quot;voucher.voucher_type == &apos;payment&apos;&quot;&gt;</text:placeholder></text:p>
+   <text:p text:style-name="P48"><text:placeholder text:placeholder-type="text">&lt;/when&gt;</text:placeholder></text:p>
+   <text:p text:style-name="P50"><text:placeholder text:placeholder-type="text">&lt;when test=&quot;voucher.voucher_type == &apos;payment&apos;&quot;&gt;</text:placeholder></text:p>
    <table:table table:name="Tabla1" table:style-name="Tabla1">
     <table:table-column table:style-name="Tabla1.A"/>
     <table:table-column table:style-name="Tabla1.B"/>
     <table:table-row>
      <table:table-cell table:style-name="Tabla1.A1" office:value-type="string">
-      <text:p text:style-name="P38">Páguese a</text:p>
+      <text:p text:style-name="P39">Páguese a</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla1.A1" office:value-type="string">
-      <text:p text:style-name="P20"><text:span text:style-name="T4"><text:placeholder text:placeholder-type="text">&lt;set_lang(voucher.party.lang and voucher.party.lang.code or &apos;en_US&apos;)&gt;</text:placeholder></text:span><text:span text:style-name="T4"><text:placeholder text:placeholder-type="text">&lt;voucher.set_lang(voucher.party.lang and voucher.party.lang.code or &apos;en_US&apos;)&gt;</text:placeholder></text:span><text:span text:style-name="T4"><text:placeholder text:placeholder-type="text">&lt;voucher.party.full_name&gt;</text:placeholder></text:span></text:p>
-     </table:table-cell>
-    </table:table-row>
-    <table:table-row>
-     <table:table-cell table:style-name="Tabla1.A1" office:value-type="string">
-      <text:p text:style-name="P19">Domicilio:</text:p>
-     </table:table-cell>
-     <table:table-cell table:style-name="Tabla1.A1" office:value-type="string">
-      <text:p text:style-name="P18"><text:placeholder text:placeholder-type="text">&lt;voucher.party.address_get().full_address&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P21"><text:span text:style-name="T4"><text:placeholder text:placeholder-type="text">&lt;set_lang(voucher.party.lang and voucher.party.lang.code or &apos;en_US&apos;)&gt;</text:placeholder></text:span><text:span text:style-name="T4"><text:placeholder text:placeholder-type="text">&lt;voucher.set_lang(voucher.party.lang and voucher.party.lang.code or &apos;en_US&apos;)&gt;</text:placeholder></text:span><text:span text:style-name="T4"><text:placeholder text:placeholder-type="text">&lt;voucher.party.full_name&gt;</text:placeholder></text:span></text:p>
      </table:table-cell>
     </table:table-row>
     <table:table-row>
      <table:table-cell table:style-name="Tabla1.A1" office:value-type="string">
-      <text:p text:style-name="P19">la suma de</text:p>
+      <text:p text:style-name="P20">Domicilio:</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla1.A1" office:value-type="string">
-      <text:p text:style-name="P18"><text:placeholder text:placeholder-type="text">&lt;format_currency(voucher.amount, voucher.party.lang, voucher.currency)&gt;</text:placeholder><text:span text:style-name="T7"><text:s/>en concepto de cancelación de comprobantes según el siguiente detalle:</text:span></text:p>
+      <text:p text:style-name="P19"><text:placeholder text:placeholder-type="text">&lt;voucher.party.address_get().full_address&gt;</text:placeholder></text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row>
+     <table:table-cell table:style-name="Tabla1.A1" office:value-type="string">
+      <text:p text:style-name="P20">la suma de</text:p>
+     </table:table-cell>
+     <table:table-cell table:style-name="Tabla1.A1" office:value-type="string">
+      <text:p text:style-name="P19"><text:placeholder text:placeholder-type="text">&lt;format_currency(voucher.amount, voucher.party.lang, voucher.currency)&gt;</text:placeholder><text:span text:style-name="T7"><text:s/>en concepto de cancelación de comprobantes según el siguiente detalle:</text:span></text:p>
      </table:table-cell>
     </table:table-row>
    </table:table>
-   <text:p text:style-name="P47"><text:placeholder text:placeholder-type="text">&lt;/when&gt;</text:placeholder></text:p>
-   <text:p text:style-name="P45"><text:placeholder text:placeholder-type="text">&lt;/choose&gt;</text:placeholder></text:p>
-   <text:p text:style-name="P32">COMPROBANTES</text:p>
+   <text:p text:style-name="P48"><text:placeholder text:placeholder-type="text">&lt;/when&gt;</text:placeholder></text:p>
+   <text:p text:style-name="P46"><text:placeholder text:placeholder-type="text">&lt;/choose&gt;</text:placeholder></text:p>
+   <text:p text:style-name="P33">COMPROBANTES</text:p>
    <table:table table:name="Tabla2" table:style-name="Tabla2">
     <table:table-column table:style-name="Tabla2.A"/>
     <table:table-column table:style-name="Tabla2.B"/>
@@ -1045,26 +1045,26 @@
     <table:table-header-rows>
      <table:table-row>
       <table:table-cell table:style-name="Tabla2.A1" office:value-type="string">
-       <text:p text:style-name="P52">Tipo de comprobante</text:p>
+       <text:p text:style-name="P53">Tipo de comprobante</text:p>
       </table:table-cell>
       <table:table-cell table:style-name="Tabla2.A1" office:value-type="string">
-       <text:p text:style-name="P54">Número</text:p>
+       <text:p text:style-name="P55">Número</text:p>
       </table:table-cell>
       <table:table-cell table:style-name="Tabla2.A1" office:value-type="string">
-       <text:p text:style-name="P51">Fecha</text:p>
+       <text:p text:style-name="P52">Fecha</text:p>
       </table:table-cell>
       <table:table-cell table:style-name="Tabla2.A1" office:value-type="string">
-       <text:p text:style-name="P51">Fecha Vencimiento</text:p>
+       <text:p text:style-name="P52">Fecha Vencimiento</text:p>
       </table:table-cell>
       <table:table-cell table:style-name="Tabla2.A1" office:value-type="string">
-       <text:p text:style-name="P54">Importe</text:p>
+       <text:p text:style-name="P55">Importe</text:p>
       </table:table-cell>
       <table:table-cell table:style-name="Tabla2.A1" office:value-type="string">
-       <text:p text:style-name="P54">Importe</text:p>
-       <text:p text:style-name="P54">(moneda local)</text:p>
+       <text:p text:style-name="P55">Importe</text:p>
+       <text:p text:style-name="P55">(moneda local)</text:p>
       </table:table-cell>
       <table:table-cell table:style-name="Tabla2.A1" office:value-type="string">
-       <text:p text:style-name="P48"><text:placeholder text:placeholder-type="text">&lt;choose test=&quot;&quot;&gt;</text:placeholder><text:span text:style-name="T10"><text:placeholder text:placeholder-type="text">&lt;when test=&quot;voucher.voucher_type == &apos;receipt&apos;&quot;&gt;</text:placeholder></text:span><text:span text:style-name="T3">Importe recibido</text:span><text:span text:style-name="T10"><text:placeholder text:placeholder-type="text">&lt;/when&gt;</text:placeholder></text:span><text:span text:style-name="T10"><text:placeholder text:placeholder-type="text">&lt;when test=&quot;voucher.voucher_type == &apos;payment&apos;&quot;&gt;</text:placeholder></text:span><text:span text:style-name="T12">Importe a pagar</text:span><text:span text:style-name="T10"><text:placeholder text:placeholder-type="text">&lt;/when&gt;</text:placeholder></text:span><text:span text:style-name="T10"><text:placeholder text:placeholder-type="text">&lt;/choose&gt;</text:placeholder></text:span></text:p>
+       <text:p text:style-name="P49"><text:placeholder text:placeholder-type="text">&lt;choose test=&quot;&quot;&gt;</text:placeholder><text:span text:style-name="T10"><text:placeholder text:placeholder-type="text">&lt;when test=&quot;voucher.voucher_type == &apos;receipt&apos;&quot;&gt;</text:placeholder></text:span><text:span text:style-name="T3">Importe recibido</text:span><text:span text:style-name="T10"><text:placeholder text:placeholder-type="text">&lt;/when&gt;</text:placeholder></text:span><text:span text:style-name="T10"><text:placeholder text:placeholder-type="text">&lt;when test=&quot;voucher.voucher_type == &apos;payment&apos;&quot;&gt;</text:placeholder></text:span><text:span text:style-name="T12">Importe a pagar</text:span><text:span text:style-name="T10"><text:placeholder text:placeholder-type="text">&lt;/when&gt;</text:placeholder></text:span><text:span text:style-name="T10"><text:placeholder text:placeholder-type="text">&lt;/choose&gt;</text:placeholder></text:span></text:p>
       </table:table-cell>
      </table:table-row>
     </table:table-header-rows>
@@ -1081,7 +1081,7 @@
     </table:table-row>
     <table:table-row>
      <table:table-cell table:style-name="Tabla2.A3" table:number-columns-spanned="7" office:value-type="string">
-      <text:p text:style-name="P35"><text:placeholder text:placeholder-type="text">&lt;if test=&quot;line.amount != 0&quot;&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P36"><text:placeholder text:placeholder-type="text">&lt;if test=&quot;line.amount != 0&quot;&gt;</text:placeholder></text:p>
      </table:table-cell>
      <table:covered-table-cell/>
      <table:covered-table-cell/>
@@ -1092,19 +1092,19 @@
     </table:table-row>
     <table:table-row>
      <table:table-cell table:style-name="Tabla2.A3" office:value-type="string">
-      <text:p text:style-name="P26"><text:span text:style-name="T7"><text:placeholder text:placeholder-type="text">&lt;choose test=&quot;&quot;&gt;</text:placeholder></text:span><text:span text:style-name="T7"><text:placeholder text:placeholder-type="text">&lt;when test=&quot;hasattr(line.move_line.origin, &apos;invoice_type&apos;) and line.move_line.origin.invoice_type&quot;&gt;</text:placeholder></text:span><text:soft-page-break/><text:placeholder text:placeholder-type="text">&lt;line.move_line.origin.invoice_type.rec_name&gt;</text:placeholder><text:span text:style-name="T7"><text:placeholder text:placeholder-type="text">&lt;/when&gt;</text:placeholder></text:span><text:span text:style-name="T7"><text:placeholder text:placeholder-type="text">&lt;otherwise test=&quot;&quot;&gt;</text:placeholder></text:span><text:span text:style-name="T7"><text:placeholder text:placeholder-type="text">&lt;if test=&quot;line.move_line.origin.total_amount &gt; 0&quot;&gt;</text:placeholder></text:span><text:span text:style-name="T7">Factura <text:s/></text:span><text:span text:style-name="T7"><text:placeholder text:placeholder-type="text">&lt;/if&gt;</text:placeholder></text:span><text:span text:style-name="T7"><text:placeholder text:placeholder-type="text">&lt;if test=&quot;line.move_line.origin.total_amount &lt; 0&quot;&gt;</text:placeholder></text:span><text:span text:style-name="T7">N</text:span><text:span text:style-name="T8">C</text:span><text:span text:style-name="T7"><text:placeholder text:placeholder-type="text">&lt;/if&gt;</text:placeholder></text:span><text:span text:style-name="T7"><text:placeholder text:placeholder-type="text">&lt;/otherwise&gt;</text:placeholder></text:span><text:span text:style-name="T7"><text:placeholder text:placeholder-type="text">&lt;/choose&gt;</text:placeholder></text:span></text:p>
+      <text:p text:style-name="P27"><text:span text:style-name="T7"><text:placeholder text:placeholder-type="text">&lt;choose test=&quot;&quot;&gt;</text:placeholder></text:span><text:span text:style-name="T7"><text:placeholder text:placeholder-type="text">&lt;when test=&quot;line.move_line.move_origin.invoice_type&quot;&gt;</text:placeholder></text:span><text:soft-page-break/><text:placeholder text:placeholder-type="text">&lt;line.move_line.move_origin.invoice_type.rec_name&gt;</text:placeholder><text:span text:style-name="T7"><text:placeholder text:placeholder-type="text">&lt;/when&gt;</text:placeholder></text:span><text:span text:style-name="T7"><text:placeholder text:placeholder-type="text">&lt;otherwise test=&quot;&quot;&gt;</text:placeholder></text:span><text:span text:style-name="T7"><text:placeholder text:placeholder-type="text">&lt;if test=&quot;line.move_line.move_origin.total_amount &gt; 0&quot;&gt;</text:placeholder></text:span><text:span text:style-name="T7">Factura <text:s/></text:span><text:span text:style-name="T7"><text:placeholder text:placeholder-type="text">&lt;/if&gt;</text:placeholder></text:span><text:span text:style-name="T7"><text:placeholder text:placeholder-type="text">&lt;if test=&quot;line.move_line.move_origin.total_amount &lt; 0&quot;&gt;</text:placeholder></text:span><text:span text:style-name="T7">N</text:span><text:span text:style-name="T8">C</text:span><text:span text:style-name="T7"><text:placeholder text:placeholder-type="text">&lt;/if&gt;</text:placeholder></text:span><text:span text:style-name="T7"><text:placeholder text:placeholder-type="text">&lt;/otherwise&gt;</text:placeholder></text:span><text:span text:style-name="T7"><text:placeholder text:placeholder-type="text">&lt;/choose&gt;</text:placeholder></text:span></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla2.A3" office:value-type="string">
-      <text:p text:style-name="P28"><text:placeholder text:placeholder-type="text">&lt;if test=&quot;voucher.voucher_type == &apos;receipt&apos;&quot;&gt;</text:placeholder><text:soft-page-break/><text:placeholder text:placeholder-type="text">&lt;line.move_line.origin.number&gt;</text:placeholder><text:placeholder text:placeholder-type="text">&lt;/if&gt;</text:placeholder><text:placeholder text:placeholder-type="text">&lt;if test=&quot;voucher.voucher_type == &apos;payment&apos;&quot;&gt;</text:placeholder><text:placeholder text:placeholder-type="text">&lt;line.move_line.origin.reference&gt;</text:placeholder><text:placeholder text:placeholder-type="text">&lt;/if&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P29"><text:placeholder text:placeholder-type="text">&lt;if test=&quot;voucher.voucher_type == &apos;receipt&apos;&quot;&gt;</text:placeholder><text:soft-page-break/><text:placeholder text:placeholder-type="text">&lt;line.move_line.move_origin.number&gt;</text:placeholder><text:placeholder text:placeholder-type="text">&lt;/if&gt;</text:placeholder><text:placeholder text:placeholder-type="text">&lt;if test=&quot;voucher.voucher_type == &apos;payment&apos;&quot;&gt;</text:placeholder><text:placeholder text:placeholder-type="text">&lt;line.move_line.move_origin.reference&gt;</text:placeholder><text:placeholder text:placeholder-type="text">&lt;/if&gt;</text:placeholder></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla2.A3" office:value-type="string">
-      <text:p text:style-name="P31"><text:placeholder text:placeholder-type="text">&lt;format_date(line.move_line.origin.invoice_date, voucher.party.lang) if voucher.date else &apos;&apos;&gt;</text:placeholder><text:soft-page-break/></text:p>
+      <text:p text:style-name="P32"><text:placeholder text:placeholder-type="text">&lt;format_date(line.move_line.move_origin.invoice_date, voucher.party.lang) if voucher.date else &apos;&apos;&gt;</text:placeholder><text:soft-page-break/></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla2.A3" office:value-type="string">
-      <text:p text:style-name="P31"><text:placeholder text:placeholder-type="text">&lt;format_date(line.date_expire, voucher.party.lang) if line.date_expire else &apos;&apos;&gt;</text:placeholder><text:soft-page-break/></text:p>
+      <text:p text:style-name="P32"><text:placeholder text:placeholder-type="text">&lt;format_date(line.date_expire, voucher.party.lang) if line.date_expire else &apos;&apos;&gt;</text:placeholder><text:soft-page-break/></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla2.A3" office:value-type="string">
-      <text:p text:style-name="P7"><text:placeholder text:placeholder-type="text">&lt;format_currency(line.amount_original, line.move_line.origin.party.lang, voucher.currency)&gt;</text:placeholder><text:soft-page-break/></text:p>
+      <text:p text:style-name="P7"><text:placeholder text:placeholder-type="text">&lt;format_currency(line.amount_original, line.move_line.move_origin.party.lang, voucher.currency)&gt;</text:placeholder><text:soft-page-break/></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla2.A3" office:value-type="string">
       <text:p text:style-name="P7"><text:placeholder text:placeholder-type="text">&lt;format_currency(compute_currency(voucher.currency, line.amount_original, voucher.company.currency), voucher.party.lang, voucher.company.currency)&gt;</text:placeholder><text:soft-page-break/></text:p>
@@ -1115,7 +1115,7 @@
     </table:table-row>
     <table:table-row>
      <table:table-cell table:style-name="Tabla2.A3" table:number-columns-spanned="7" office:value-type="string">
-      <text:p text:style-name="P35"><text:placeholder text:placeholder-type="text">&lt;/if&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P36"><text:placeholder text:placeholder-type="text">&lt;/if&gt;</text:placeholder></text:p>
      </table:table-cell>
      <table:covered-table-cell/>
      <table:covered-table-cell/>
@@ -1146,32 +1146,32 @@
     <table:table-header-rows>
      <table:table-row>
       <table:table-cell table:style-name="Tabla7.A1" office:value-type="string">
-       <text:p text:style-name="P25"/>
-      </table:table-cell>
-      <table:table-cell table:style-name="Tabla7.A1" office:value-type="string">
-       <text:p text:style-name="P22"/>
-      </table:table-cell>
-      <table:table-cell table:style-name="Tabla7.A1" office:value-type="string">
-       <text:p text:style-name="P24"/>
+       <text:p text:style-name="P26"/>
       </table:table-cell>
       <table:table-cell table:style-name="Tabla7.A1" office:value-type="string">
        <text:p text:style-name="P23"/>
       </table:table-cell>
       <table:table-cell table:style-name="Tabla7.A1" office:value-type="string">
-       <text:p text:style-name="P11"/>
+       <text:p text:style-name="P25"/>
+      </table:table-cell>
+      <table:table-cell table:style-name="Tabla7.A1" office:value-type="string">
+       <text:p text:style-name="P24"/>
       </table:table-cell>
       <table:table-cell table:style-name="Tabla7.A1" office:value-type="string">
        <text:p text:style-name="P11"/>
       </table:table-cell>
       <table:table-cell table:style-name="Tabla7.A1" office:value-type="string">
-       <text:p text:style-name="P34"><text:placeholder text:placeholder-type="text">&lt;format_currency(voucher.amount_invoices, voucher.party.lang, voucher.currency)&gt;</text:placeholder></text:p>
+       <text:p text:style-name="P11"/>
+      </table:table-cell>
+      <table:table-cell table:style-name="Tabla7.A1" office:value-type="string">
+       <text:p text:style-name="P35"><text:placeholder text:placeholder-type="text">&lt;format_currency(voucher.amount_invoices, voucher.party.lang, voucher.currency)&gt;</text:placeholder></text:p>
       </table:table-cell>
      </table:table-row>
     </table:table-header-rows>
    </table:table>
    <text:p text:style-name="P3"/>
    <text:p text:style-name="P3"/>
-   <text:p text:style-name="P33">VALORES</text:p>
+   <text:p text:style-name="P34">VALORES</text:p>
    <table:table table:name="Tabla3" table:style-name="Tabla3">
     <table:table-column table:style-name="Tabla3.A"/>
     <table:table-column table:style-name="Tabla3.B"/>
@@ -1182,22 +1182,22 @@
     <table:table-header-rows>
      <table:table-row>
       <table:table-cell table:style-name="Tabla3.A1" office:value-type="string">
-       <text:p text:style-name="P52">Forma de pago</text:p>
+       <text:p text:style-name="P53">Forma de pago</text:p>
       </table:table-cell>
       <table:table-cell table:style-name="Tabla3.A1" office:value-type="string">
-       <text:p text:style-name="P53">Importe</text:p>
+       <text:p text:style-name="P54">Importe</text:p>
       </table:table-cell>
       <table:table-cell table:style-name="Tabla3.A1" office:value-type="string">
-       <text:p text:style-name="P51">Nº</text:p>
+       <text:p text:style-name="P52">Nº</text:p>
       </table:table-cell>
       <table:table-cell table:style-name="Tabla3.A1" office:value-type="string">
-       <text:p text:style-name="P52">Banco</text:p>
+       <text:p text:style-name="P53">Banco</text:p>
       </table:table-cell>
       <table:table-cell table:style-name="Tabla3.A1" office:value-type="string">
-       <text:p text:style-name="P51">Fecha de emisión</text:p>
+       <text:p text:style-name="P52">Fecha de emisión</text:p>
       </table:table-cell>
       <table:table-cell table:style-name="Tabla3.A1" office:value-type="string">
-       <text:p text:style-name="P51">Fecha de vencimiento</text:p>
+       <text:p text:style-name="P52">Fecha de vencimiento</text:p>
       </table:table-cell>
      </table:table-row>
     </table:table-header-rows>
@@ -1213,13 +1213,13 @@
     </table:table-row>
     <table:table-row>
      <table:table-cell table:style-name="Tabla3.A3" office:value-type="string">
-      <text:p text:style-name="P26"><text:placeholder text:placeholder-type="text">&lt;pay.pay_mode.rec_name&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P27"><text:placeholder text:placeholder-type="text">&lt;pay.pay_mode.rec_name&gt;</text:placeholder></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla3.B3" office:value-type="string">
-      <text:p text:style-name="P36"><text:placeholder text:placeholder-type="text">&lt;format_currency(pay.pay_amount, voucher.party.lang, voucher.currency)&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P37"><text:placeholder text:placeholder-type="text">&lt;format_currency(pay.pay_amount, voucher.party.lang, voucher.currency)&gt;</text:placeholder></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla3.C3" office:value-type="string">
-      <text:p text:style-name="P27"/>
+      <text:p text:style-name="P28"/>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla3.D3" office:value-type="string">
       <text:p text:style-name="P8"/>
@@ -1252,7 +1252,7 @@
     <table:table-header-rows>
      <table:table-row>
       <table:table-cell table:style-name="Tabla6.A1" table:number-columns-spanned="6" office:value-type="string">
-       <text:p text:style-name="P57"><text:placeholder text:placeholder-type="text">&lt;if test=&quot;hasattr(voucher, &apos;third_check&apos;)&quot;&gt;</text:placeholder></text:p>
+       <text:p text:style-name="P15"><text:placeholder text:placeholder-type="text">&lt;if test=&quot;hasattr(voucher, &apos;third_check&apos;)&quot;&gt;</text:placeholder></text:p>
       </table:table-cell>
       <table:covered-table-cell/>
       <table:covered-table-cell/>
@@ -1271,25 +1271,24 @@
      <table:covered-table-cell/>
      <table:covered-table-cell/>
     </table:table-row>
-    <text:soft-page-break/>
     <table:table-row>
      <table:table-cell table:style-name="Tabla6.A3" office:value-type="string">
-      <text:p text:style-name="P26">Cheque de tercero</text:p>
+      <text:p text:style-name="P27">Cheque de <text:soft-page-break/>tercero</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla6.A3" office:value-type="string">
-      <text:p text:style-name="P36"><text:placeholder text:placeholder-type="text">&lt;format_currency(check.amount, voucher.party.lang, voucher.currency)&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P37"><text:placeholder text:placeholder-type="text">&lt;format_currency(check.amount, voucher.party.lang, voucher.currency)&gt;</text:placeholder><text:soft-page-break/></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla6.A3" office:value-type="string">
-      <text:p text:style-name="P27"><text:placeholder text:placeholder-type="text">&lt;check.name&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P28"><text:placeholder text:placeholder-type="text">&lt;check.name&gt;</text:placeholder></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla6.A3" office:value-type="string">
-      <text:p text:style-name="P29"><text:placeholder text:placeholder-type="text">&lt;check.bank.rec_name&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P30"><text:placeholder text:placeholder-type="text">&lt;check.bank.rec_name&gt;</text:placeholder></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla6.A3" office:value-type="string">
-      <text:p text:style-name="P31"><text:placeholder text:placeholder-type="text">&lt;format_date(check.date_in, voucher.party.lang) if check.date_in else &apos;&apos;&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P32"><text:placeholder text:placeholder-type="text">&lt;format_date(check.date_in, voucher.party.lang) if check.date_in else &apos;&apos;&gt;</text:placeholder><text:soft-page-break/></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla6.A3" office:value-type="string">
-      <text:p text:style-name="P31"><text:placeholder text:placeholder-type="text">&lt;format_date(check.date, voucher.party.lang) if check.date else &apos;&apos;&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P32"><text:placeholder text:placeholder-type="text">&lt;format_date(check.date, voucher.party.lang) if check.date else &apos;&apos;&gt;</text:placeholder><text:soft-page-break/></text:p>
      </table:table-cell>
     </table:table-row>
     <table:table-row>
@@ -1304,7 +1303,7 @@
     </table:table-row>
     <table:table-row>
      <table:table-cell table:style-name="Tabla6.A4" table:number-columns-spanned="6" office:value-type="string">
-      <text:p text:style-name="P57"><text:placeholder text:placeholder-type="text">&lt;/if&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P15"><text:placeholder text:placeholder-type="text">&lt;/if&gt;</text:placeholder></text:p>
      </table:table-cell>
      <table:covered-table-cell/>
      <table:covered-table-cell/>
@@ -1323,7 +1322,7 @@
     <table:table-header-rows>
      <table:table-row>
       <table:table-cell table:style-name="Tabla9.A1" table:number-columns-spanned="6" office:value-type="string">
-       <text:p text:style-name="P57"><text:placeholder text:placeholder-type="text">&lt;if test=&quot;hasattr(voucher, &apos;issued_check&apos;)&quot;&gt;</text:placeholder></text:p>
+       <text:p text:style-name="P15"><text:placeholder text:placeholder-type="text">&lt;if test=&quot;hasattr(voucher, &apos;issued_check&apos;)&quot;&gt;</text:placeholder></text:p>
       </table:table-cell>
       <table:covered-table-cell/>
       <table:covered-table-cell/>
@@ -1344,22 +1343,22 @@
     </table:table-row>
     <table:table-row>
      <table:table-cell table:style-name="Tabla9.A3" office:value-type="string">
-      <text:p text:style-name="P26">Cheque emitido</text:p>
+      <text:p text:style-name="P27">Cheque emitido</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla9.A3" office:value-type="string">
-      <text:p text:style-name="P36"><text:placeholder text:placeholder-type="text">&lt;format_currency(check.amount, voucher.party.lang, voucher.currency)&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P37"><text:placeholder text:placeholder-type="text">&lt;format_currency(check.amount, voucher.party.lang, voucher.currency)&gt;</text:placeholder></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla9.A3" office:value-type="string">
-      <text:p text:style-name="P27"><text:placeholder text:placeholder-type="text">&lt;check.name&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P28"><text:placeholder text:placeholder-type="text">&lt;check.name&gt;</text:placeholder></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla9.A3" office:value-type="string">
-      <text:p text:style-name="P29"><text:placeholder text:placeholder-type="text">&lt;check.bank_account.bank.party.name&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P30"><text:placeholder text:placeholder-type="text">&lt;check.bank_account.bank.party.name&gt;</text:placeholder></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla9.A3" office:value-type="string">
-      <text:p text:style-name="P31"><text:placeholder text:placeholder-type="text">&lt;format_date(check.date_out, voucher.party.lang) if check.date_out else &apos;&apos;&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P32"><text:placeholder text:placeholder-type="text">&lt;format_date(check.date_out, voucher.party.lang) if check.date_out else &apos;&apos;&gt;</text:placeholder></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla9.A3" office:value-type="string">
-      <text:p text:style-name="P31"><text:placeholder text:placeholder-type="text">&lt;format_date(check.date, voucher.party.lang) if check.date else &apos;&apos;&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P32"><text:placeholder text:placeholder-type="text">&lt;format_date(check.date, voucher.party.lang) if check.date else &apos;&apos;&gt;</text:placeholder></text:p>
      </table:table-cell>
     </table:table-row>
     <table:table-row>
@@ -1374,7 +1373,7 @@
     </table:table-row>
     <table:table-row>
      <table:table-cell table:style-name="Tabla9.A4" table:number-columns-spanned="6" office:value-type="string">
-      <text:p text:style-name="P57"><text:placeholder text:placeholder-type="text">&lt;/if&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P15"><text:placeholder text:placeholder-type="text">&lt;/if&gt;</text:placeholder></text:p>
      </table:table-cell>
      <table:covered-table-cell/>
      <table:covered-table-cell/>
@@ -1393,7 +1392,7 @@
     <table:table-header-rows>
      <table:table-row>
       <table:table-cell table:style-name="Tabla10.A1" table:number-columns-spanned="6" office:value-type="string">
-       <text:p text:style-name="P57"><text:placeholder text:placeholder-type="text">&lt;if test=&quot;hasattr(voucher, &apos;third_pay_checks&apos;)&quot;&gt;</text:placeholder></text:p>
+       <text:p text:style-name="P15"><text:placeholder text:placeholder-type="text">&lt;if test=&quot;hasattr(voucher, &apos;third_pay_checks&apos;)&quot;&gt;</text:placeholder></text:p>
       </table:table-cell>
       <table:covered-table-cell/>
       <table:covered-table-cell/>
@@ -1414,22 +1413,22 @@
     </table:table-row>
     <table:table-row>
      <table:table-cell table:style-name="Tabla10.A3" office:value-type="string">
-      <text:p text:style-name="P26">Cheque de tercero</text:p>
+      <text:p text:style-name="P27">Cheque de tercero</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla10.A3" office:value-type="string">
-      <text:p text:style-name="P36"><text:placeholder text:placeholder-type="text">&lt;format_currency(check.amount, voucher.party.lang, voucher.currency)&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P37"><text:placeholder text:placeholder-type="text">&lt;format_currency(check.amount, voucher.party.lang, voucher.currency)&gt;</text:placeholder></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla10.A3" office:value-type="string">
-      <text:p text:style-name="P27"><text:placeholder text:placeholder-type="text">&lt;check.name&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P28"><text:placeholder text:placeholder-type="text">&lt;check.name&gt;</text:placeholder></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla10.A3" office:value-type="string">
-      <text:p text:style-name="P29"><text:placeholder text:placeholder-type="text">&lt;check.bank.rec_name&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P30"><text:placeholder text:placeholder-type="text">&lt;check.bank.rec_name&gt;</text:placeholder></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla10.A3" office:value-type="string">
-      <text:p text:style-name="P31"><text:placeholder text:placeholder-type="text">&lt;format_date(check.date_in, voucher.party.lang) if check.date_in else &apos;&apos;&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P32"><text:placeholder text:placeholder-type="text">&lt;format_date(check.date_in, voucher.party.lang) if check.date_in else &apos;&apos;&gt;</text:placeholder></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla10.A3" office:value-type="string">
-      <text:p text:style-name="P31"><text:placeholder text:placeholder-type="text">&lt;format_date(check.date, voucher.party.lang) if check.date else &apos;&apos;&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P32"><text:placeholder text:placeholder-type="text">&lt;format_date(check.date, voucher.party.lang) if check.date else &apos;&apos;&gt;</text:placeholder></text:p>
      </table:table-cell>
     </table:table-row>
     <table:table-row>
@@ -1444,7 +1443,7 @@
     </table:table-row>
     <table:table-row>
      <table:table-cell table:style-name="Tabla10.A4" table:number-columns-spanned="6" office:value-type="string">
-      <text:p text:style-name="P57"><text:placeholder text:placeholder-type="text">&lt;/if&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P15"><text:placeholder text:placeholder-type="text">&lt;/if&gt;</text:placeholder></text:p>
      </table:table-cell>
      <table:covered-table-cell/>
      <table:covered-table-cell/>
@@ -1463,7 +1462,7 @@
     <table:table-header-rows>
      <table:table-row>
       <table:table-cell table:style-name="Tabla11.A1" table:number-columns-spanned="6" office:value-type="string">
-       <text:p text:style-name="P57"><text:placeholder text:placeholder-type="text">&lt;if test=&quot;hasattr(voucher, &apos;retenciones_efectuadas&apos;)&quot;&gt;</text:placeholder></text:p>
+       <text:p text:style-name="P15"><text:placeholder text:placeholder-type="text">&lt;if test=&quot;hasattr(voucher, &apos;retenciones_efectuadas&apos;)&quot;&gt;</text:placeholder></text:p>
       </table:table-cell>
       <table:covered-table-cell/>
       <table:covered-table-cell/>
@@ -1484,22 +1483,22 @@
     </table:table-row>
     <table:table-row>
      <table:table-cell table:style-name="Tabla11.A3" office:value-type="string">
-      <text:p text:style-name="P26">Retención efectuada</text:p>
+      <text:p text:style-name="P27">Retención efectuada</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla11.A3" office:value-type="string">
-      <text:p text:style-name="P36"><text:placeholder text:placeholder-type="text">&lt;format_currency(retencion.amount, voucher.party.lang, voucher.currency)&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P37"><text:placeholder text:placeholder-type="text">&lt;format_currency(retencion.amount, voucher.party.lang, voucher.currency)&gt;</text:placeholder></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla11.A3" office:value-type="string">
-      <text:p text:style-name="P27"><text:placeholder text:placeholder-type="text">&lt;retencion.name&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P28"><text:placeholder text:placeholder-type="text">&lt;retencion.name&gt;</text:placeholder></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla11.A3" office:value-type="string">
-      <text:p text:style-name="P29"/>
+      <text:p text:style-name="P30"/>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla11.A3" office:value-type="string">
-      <text:p text:style-name="P31"><text:placeholder text:placeholder-type="text">&lt;format_date(retencion.date, voucher.party.lang) if retencion.date else &apos;&apos;&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P32"><text:placeholder text:placeholder-type="text">&lt;format_date(retencion.date, voucher.party.lang) if retencion.date else &apos;&apos;&gt;</text:placeholder></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla11.A3" office:value-type="string">
-      <text:p text:style-name="P31"/>
+      <text:p text:style-name="P32"/>
      </table:table-cell>
     </table:table-row>
     <table:table-row>
@@ -1514,7 +1513,7 @@
     </table:table-row>
     <table:table-row>
      <table:table-cell table:style-name="Tabla11.A4" table:number-columns-spanned="6" office:value-type="string">
-      <text:p text:style-name="P57"><text:placeholder text:placeholder-type="text">&lt;/if&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P15"><text:placeholder text:placeholder-type="text">&lt;/if&gt;</text:placeholder></text:p>
      </table:table-cell>
      <table:covered-table-cell/>
      <table:covered-table-cell/>
@@ -1533,7 +1532,7 @@
     <table:table-header-rows>
      <table:table-row>
       <table:table-cell table:style-name="Tabla12.A1" table:number-columns-spanned="6" office:value-type="string">
-       <text:p text:style-name="P57"><text:placeholder text:placeholder-type="text">&lt;if test=&quot;hasattr(voucher, &apos;retenciones_soportadas&apos;)&quot;&gt;</text:placeholder></text:p>
+       <text:p text:style-name="P15"><text:placeholder text:placeholder-type="text">&lt;if test=&quot;hasattr(voucher, &apos;retenciones_soportadas&apos;)&quot;&gt;</text:placeholder></text:p>
       </table:table-cell>
       <table:covered-table-cell/>
       <table:covered-table-cell/>
@@ -1554,22 +1553,22 @@
     </table:table-row>
     <table:table-row>
      <table:table-cell table:style-name="Tabla12.A3" office:value-type="string">
-      <text:p text:style-name="P26">Retención soportada</text:p>
+      <text:p text:style-name="P27">Retención soportada</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla12.A3" office:value-type="string">
-      <text:p text:style-name="P36"><text:placeholder text:placeholder-type="text">&lt;format_currency(retencion.amount, voucher.party.lang, voucher.currency)&gt;</text:placeholder><text:soft-page-break/></text:p>
+      <text:p text:style-name="P37"><text:placeholder text:placeholder-type="text">&lt;format_currency(retencion.amount, voucher.party.lang, voucher.currency)&gt;</text:placeholder></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla12.A3" office:value-type="string">
-      <text:p text:style-name="P27"><text:placeholder text:placeholder-type="text">&lt;retencion.name&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P28"><text:placeholder text:placeholder-type="text">&lt;retencion.name&gt;</text:placeholder></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla12.A3" office:value-type="string">
-      <text:p text:style-name="P29"/>
+      <text:p text:style-name="P30"/>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla12.A3" office:value-type="string">
-      <text:p text:style-name="P31"><text:placeholder text:placeholder-type="text">&lt;format_date(retencion.date, voucher.party.lang) if retencion.date else &apos;&apos;&gt;</text:placeholder><text:soft-page-break/></text:p>
+      <text:p text:style-name="P32"><text:placeholder text:placeholder-type="text">&lt;format_date(retencion.date, voucher.party.lang) if retencion.date else &apos;&apos;&gt;</text:placeholder><text:soft-page-break/></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla12.A3" office:value-type="string">
-      <text:p text:style-name="P31"/>
+      <text:p text:style-name="P32"/>
      </table:table-cell>
     </table:table-row>
     <table:table-row>
@@ -1584,7 +1583,7 @@
     </table:table-row>
     <table:table-row>
      <table:table-cell table:style-name="Tabla12.A3" table:number-columns-spanned="6" office:value-type="string">
-      <text:p text:style-name="P57"><text:placeholder text:placeholder-type="text">&lt;/if&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P15"><text:placeholder text:placeholder-type="text">&lt;/if&gt;</text:placeholder></text:p>
      </table:table-cell>
      <table:covered-table-cell/>
      <table:covered-table-cell/>
@@ -1594,7 +1593,7 @@
     </table:table-row>
     <table:table-row table:style-name="Tabla12.6">
      <table:table-cell table:style-name="Tabla12.A6" table:number-columns-spanned="6" office:value-type="string">
-      <text:p text:style-name="P37"><text:placeholder text:placeholder-type="text">&lt;for each=&quot;credit in voucher.lines_credits&quot;&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P38"><text:placeholder text:placeholder-type="text">&lt;for each=&quot;credit in voucher.lines_credits&quot;&gt;</text:placeholder></text:p>
      </table:table-cell>
      <table:covered-table-cell/>
      <table:covered-table-cell/>
@@ -1604,20 +1603,20 @@
     </table:table-row>
     <table:table-row>
      <table:table-cell table:style-name="Tabla12.A3" office:value-type="string">
-      <text:p text:style-name="P30">Anticipo</text:p>
+      <text:p text:style-name="P31">Anticipo</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla12.A3" office:value-type="string">
-      <text:p text:style-name="P36"><text:placeholder text:placeholder-type="text">&lt;format_currency(credit.amount_original, voucher.party.lang, voucher.currency)&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P37"><text:placeholder text:placeholder-type="text">&lt;format_currency(credit.amount_original, voucher.party.lang, voucher.currency)&gt;</text:placeholder></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla12.A3" table:number-columns-spanned="2" office:value-type="string">
-      <text:p text:style-name="P56"><text:placeholder text:placeholder-type="text">&lt;credit.name&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P57"><text:placeholder text:placeholder-type="text">&lt;credit.name&gt;</text:placeholder></text:p>
      </table:table-cell>
      <table:covered-table-cell/>
      <table:table-cell table:style-name="Tabla12.A3" office:value-type="string">
-      <text:p text:style-name="P31"><text:placeholder text:placeholder-type="text">&lt;format_date(credit.date, voucher.party.lang) if credit.date else &apos;&apos;&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P32"><text:placeholder text:placeholder-type="text">&lt;format_date(credit.date, voucher.party.lang) if credit.date else &apos;&apos;&gt;</text:placeholder></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla12.A3" office:value-type="string">
-      <text:p text:style-name="P31"/>
+      <text:p text:style-name="P32"/>
      </table:table-cell>
     </table:table-row>
     <table:table-row>
@@ -1632,7 +1631,7 @@
     </table:table-row>
     <table:table-row table:style-name="Tabla12.6">
      <table:table-cell table:style-name="Tabla12.A6" table:number-columns-spanned="6" office:value-type="string">
-      <text:p text:style-name="P37"><text:placeholder text:placeholder-type="text">&lt;for each=&quot;debit in voucher.lines_debits&quot;&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P38"><text:placeholder text:placeholder-type="text">&lt;for each=&quot;debit in voucher.lines_debits&quot;&gt;</text:placeholder></text:p>
      </table:table-cell>
      <table:covered-table-cell/>
      <table:covered-table-cell/>
@@ -1642,20 +1641,20 @@
     </table:table-row>
     <table:table-row>
      <table:table-cell table:style-name="Tabla12.A3" office:value-type="string">
-      <text:p text:style-name="P30">Anticipo</text:p>
+      <text:p text:style-name="P31">Anticipo</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla12.A3" office:value-type="string">
-      <text:p text:style-name="P36"><text:placeholder text:placeholder-type="text">&lt;format_currency(debit.amount_original, voucher.party.lang, voucher.currency)&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P37"><text:placeholder text:placeholder-type="text">&lt;format_currency(debit.amount_original, voucher.party.lang, voucher.currency)&gt;</text:placeholder></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla12.A3" table:number-columns-spanned="2" office:value-type="string">
-      <text:p text:style-name="P56"><text:placeholder text:placeholder-type="text">&lt;debit.name&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P57"><text:placeholder text:placeholder-type="text">&lt;debit.name&gt;</text:placeholder></text:p>
      </table:table-cell>
      <table:covered-table-cell/>
      <table:table-cell table:style-name="Tabla12.A3" office:value-type="string">
-      <text:p text:style-name="P31"><text:placeholder text:placeholder-type="text">&lt;format_date(debit.date, voucher.party.lang) if debit.date else &apos;&apos;&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P32"><text:placeholder text:placeholder-type="text">&lt;format_date(debit.date, voucher.party.lang) if debit.date else &apos;&apos;&gt;</text:placeholder></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla12.A3" office:value-type="string">
-      <text:p text:style-name="P31"/>
+      <text:p text:style-name="P32"/>
      </table:table-cell>
     </table:table-row>
     <table:table-row>
@@ -1681,7 +1680,7 @@
       <text:p text:style-name="P13"/>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla4.A1" office:value-type="string">
-      <text:p text:style-name="P34"><text:placeholder text:placeholder-type="text">&lt;format_currency(voucher.amount, voucher.party.lang, voucher.currency)&gt;</text:placeholder></text:p>
+      <text:p text:style-name="P35"><text:placeholder text:placeholder-type="text">&lt;format_currency(voucher.amount, voucher.party.lang, voucher.currency)&gt;</text:placeholder></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla4.A1" office:value-type="string">
       <text:p text:style-name="P13"/>
@@ -1699,21 +1698,21 @@
    </table:table>
    <text:p text:style-name="Standard"/>
    <text:p text:style-name="Standard"/>
-   <text:p text:style-name="P42"><text:placeholder text:placeholder-type="text">&lt;if test=&quot;voucher.voucher_type == &apos;payment&apos;&quot;&gt;</text:placeholder></text:p>
+   <text:p text:style-name="P43"><text:placeholder text:placeholder-type="text">&lt;if test=&quot;voucher.voucher_type == &apos;payment&apos;&quot;&gt;</text:placeholder></text:p>
    <table:table table:name="Tabla5" table:style-name="Tabla5">
     <table:table-column table:style-name="Tabla5.A"/>
     <table:table-column table:style-name="Tabla5.B"/>
     <table:table-row>
      <table:table-cell table:style-name="Tabla5.A1" office:value-type="string">
-      <text:p text:style-name="P50"><text:span text:style-name="T5">Confeccionó</text:span><text:span text:style-name="T6">:</text:span><text:span text:style-name="T10"> <text:s/></text:span><text:span text:style-name="T9"><text:s text:c="62"/></text:span><text:span text:style-name="T10"><text:s text:c="3"/></text:span></text:p>
-      <text:p text:style-name="P50"><text:span text:style-name="T6">Autorizó:</text:span><text:span text:style-name="T11"> <text:s/></text:span><text:span text:style-name="T9"><text:s text:c="62"/></text:span><text:span text:style-name="T10"><text:s text:c="3"/></text:span></text:p>
+      <text:p text:style-name="P51"><text:span text:style-name="T5">Confeccionó</text:span><text:span text:style-name="T6">:</text:span><text:span text:style-name="T10"> <text:s/></text:span><text:span text:style-name="T9"><text:s text:c="62"/></text:span><text:span text:style-name="T10"><text:s text:c="3"/></text:span></text:p>
+      <text:p text:style-name="P51"><text:span text:style-name="T6">Autorizó:</text:span><text:span text:style-name="T11"> <text:s/></text:span><text:span text:style-name="T9"><text:s text:c="62"/></text:span><text:span text:style-name="T10"><text:s text:c="3"/></text:span></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Tabla5.B1" office:value-type="string">
       <text:p text:style-name="P12">Recibí conforme (firma y aclaración)</text:p>
      </table:table-cell>
     </table:table-row>
    </table:table>
-   <text:p text:style-name="P42"><text:placeholder text:placeholder-type="text">&lt;/if&gt;</text:placeholder></text:p>
+   <text:p text:style-name="P43"><text:placeholder text:placeholder-type="text">&lt;/if&gt;</text:placeholder></text:p>
    <text:p text:style-name="Standard"/>
    <text:p text:style-name="Text_20_body"><text:placeholder text:placeholder-type="text">&lt;/for&gt;</text:placeholder></text:p>
   </office:text>
