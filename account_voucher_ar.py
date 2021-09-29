@@ -122,7 +122,6 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
 
     def set_number(self):
         pool = Pool()
-        Sequence = pool.get('ir.sequence')
         FiscalYear = pool.get('account.fiscalyear')
 
         fiscalyear_id = FiscalYear.find(self.company.id,
@@ -133,7 +132,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
             raise UserError(gettext(
                 'account_voucher_ar.msg_no_voucher_sequence',
                 voucher=self.rec_name, fiscalyear=fiscalyear.rec_name))
-        self.write([self], {'number': Sequence.get_id(sequence.id)})
+        self.write([self], {'number': sequence.get()})
 
     @fields.depends('currency')
     def on_change_with_currency_code(self, name=None):

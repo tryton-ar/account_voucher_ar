@@ -3,9 +3,8 @@
     <data>
 
         <!-- Sequences for Account Voucher Payment -->
-        <record id="seq_type_account_voucher_payment" model="ir.sequence.type">
+        <record model="ir.sequence.type" id="seq_type_account_voucher_payment">
             <field name="name">Account Voucher Payment</field>
-            <field name="code">account.voucher.payment</field>
         </record>
         <record model="ir.sequence.type-res.group"
             id="seq_type_account_voucher_payment_group_admin">
@@ -19,9 +18,8 @@
         </record>
 
         <!-- Sequences for Account Voucher Receipt -->
-        <record id="seq_type_account_voucher_receipt" model="ir.sequence.type">
+        <record model="ir.sequence.type" id="seq_type_account_voucher_receipt">
             <field name="name">Account Voucher Receipt</field>
-            <field name="code">account.voucher.receipt</field>
         </record>
         <record model="ir.sequence.type-res.group"
             id="seq_type_account_voucher_receipt_group_admin">

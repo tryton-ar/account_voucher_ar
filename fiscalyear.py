@@ -4,7 +4,7 @@
 
 from trytond.model import fields
 from trytond.pool import Pool, PoolMeta
-from trytond.pyson import Eval
+from trytond.pyson import Eval, Id
 from trytond.exceptions import UserError
 from trytond.i18n import gettext
 
@@ -15,26 +15,22 @@ class FiscalYear(metaclass=PoolMeta):
     payment_sequence = fields.Many2One('ir.sequence',
         'Payment Sequence', required=True,
         domain=[
-            ('code', '=', 'account.voucher.payment'),
-            ['OR',
-                ('company', '=', Eval('company')),
-                ('company', '=', None)],
+            ('sequence_type', '=',
+                Id('account_voucher_ar', 'seq_type_account_voucher_payment')),
+            ('company', '=', Eval('company')),
             ],
         context={
-            'code': 'account.voucher.payment',
             'company': Eval('company'),
             },
         depends=['company'])
     receipt_sequence = fields.Many2One('ir.sequence',
         'Receipt Sequence', required=True,
         domain=[
-            ('code', '=', 'account.voucher.receipt'),
-            ['OR',
-                ('company', '=', Eval('company')),
-                ('company', '=', None)],
+            ('sequence_type', '=',
+                Id('account_voucher_ar', 'seq_type_account_voucher_receipt')),
+            ('company', '=', Eval('company')),
             ],
         context={
-            'code': 'account.voucher.receipt',
             'company': Eval('company'),
             },
         depends=['company'])
