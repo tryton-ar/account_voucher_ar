@@ -439,6 +439,10 @@ msgid "CUIT:"
 msgstr ""
 
 msgctxt "report:account.voucher:"
+msgid "Cheque de"
+msgstr ""
+
+msgctxt "report:account.voucher:"
 msgid "Cheque de tercero"
 msgstr ""
 
@@ -548,6 +552,10 @@ msgstr ""
 
 msgctxt "report:account.voucher:"
 msgid "la suma de"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "tercero"
 msgstr ""
 
 msgctxt "report:account.voucher:"
