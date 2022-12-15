@@ -4,32 +4,24 @@
     <field name="party"/>
     <label name="number"/>
     <field name="number"/>
-    <group col="4" colspan="4" id="amounts">
-        <label name="amount_to_pay"/>
-        <field name="amount_to_pay"/>
-        <label name="amount"/>
-        <field name="amount"/>
-        <label name="amount_invoices"/>
-        <field name="amount_invoices"/>
-    </group>
     <label name="date"/>
     <field name="date"/>
+    <label name="amount_to_pay"/>
+    <field name="amount_to_pay"/>
     <label name="journal"/>
     <field name="journal"/>
     <label name="currency"/>
     <field name="currency"/>
+    <label name="amount_invoices"/>
+    <field name="amount_invoices"/>
+    <label name="amount"/>
+    <field name="amount"/>
     <field name="currency_code" invisible="1"/>
     <field name="voucher_type" invisible="1"/>
     <field name="pay_invoice" invisible="1"/>
     <newline/>
-    <notebook colspan="4" yfill="1">
-        <page string="Pay Mode Lines" id="pay_lines">
-            <field name="pay_lines" colspan="4"
-                view_ids="account_voucher_ar.pay_lines_view_tree"/>
-        </page>
-    </notebook>
-    <notebook colspan="4" yfill="1">
-        <page string="Voucher Lines" id="lines">
+    <notebook colspan="8" yfill="1">
+        <page id="lines" string="Voucher Lines">
             <field name="lines" colspan="4"
                 view_ids="account_voucher_ar.lines_view_tree"/>
             <field name="lines_credits" colspan="4"
@@ -37,7 +29,11 @@
             <field name="lines_debits" colspan="4"
                 view_ids="account_voucher_ar.lines_debits_view_tree"/>
         </page>
-        <page string="Other Info" id="info">
+        <page id="payments" string="Pay Mode Lines">
+            <field name="pay_lines" colspan="4"
+                view_ids="account_voucher_ar.pay_lines_view_tree"/>
+        </page>
+        <page id="info" string="Other Info">
             <label name="company"/>
             <field name="company"/>
             <label name="move"/>
@@ -50,7 +46,7 @@
     </notebook>
     <label name="state"/>
     <field name="state"/>
-    <group colspan="6" id="group_voucher_1">
+    <group id="buttons" colspan="6">
         <button name="post"/>
         <button name="cancel"/>
     </group>
