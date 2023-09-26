@@ -4,7 +4,7 @@
 from decimal import Decimal
 from collections import defaultdict
 
-from trytond.model import Workflow, ModelView, ModelSQL, fields
+from trytond.model import Workflow, ModelView, ModelSQL, fields, Index
 from trytond.report import Report
 from trytond.pool import Pool
 from trytond.pyson import Eval, In
@@ -72,7 +72,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         ('draft', 'Draft'),
         ('posted', 'Posted'),
         ('cancelled', 'Cancelled'),
-        ], 'State', select=True, readonly=True)
+        ], 'State', readonly=True)
     amount = fields.Function(fields.Numeric('Payment', digits=(16, 2)),
         'on_change_with_amount')
     amount_to_pay = fields.Function(fields.Numeric('To Pay', digits=(16, 2)),
@@ -103,6 +103,10 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
             })
         cls._order.insert(0, ('date', 'DESC'))
         cls._order.insert(1, ('number', 'DESC'))
+        t = cls.__table__()
+        #cls._sql_indexes.update({
+            #Index(t, (t.state, Index.Equality())),
+            #})
 
     @classmethod
     def __register__(cls, module_name):
@@ -753,7 +757,7 @@ class AccountVoucherLine(ModelSQL, ModelView):
     _states = {'readonly': True}
 
     voucher = fields.Many2One('account.voucher', 'Voucher',
-        required=True, ondelete='CASCADE', select=True)
+        required=True, ondelete='CASCADE')
     reference = fields.Function(fields.Char('reference'),
         'get_reference')
     name = fields.Char('Name', states=_states)
@@ -766,7 +770,7 @@ class AccountVoucherLine(ModelSQL, ModelView):
     line_type = fields.Selection([
         ('cr', 'Credit'),
         ('dr', 'Debit'),
-        ], 'Type', select=True)
+        ], 'Type')
     move_line = fields.Many2One('account.move.line', 'Move Line')
     amount_original = fields.Numeric('Original Amount',
         digits=(16, 2), states=_states)
@@ -777,6 +781,14 @@ class AccountVoucherLine(ModelSQL, ModelView):
         'get_expire_date')
 
     del _states
+
+    @classmethod
+    def __setup__(cls):
+        super().__setup__()
+        t = cls.__table__()
+        #cls._sql_indexes.update({
+            #Index(t, (t.line_type, Index.Equality())),
+            #})
 
     def get_reference(self, name):
         Invoice = Pool().get('account.invoice')
@@ -799,7 +811,7 @@ class AccountVoucherLineCredits(ModelSQL, ModelView):
     _states = {'readonly': True}
 
     voucher = fields.Many2One('account.voucher', 'Voucher',
-        required=True, ondelete='CASCADE', select=True)
+        required=True, ondelete='CASCADE')
     name = fields.Char('Name')
     account = fields.Many2One('account.account', 'Account',
         domain=[
@@ -812,7 +824,7 @@ class AccountVoucherLineCredits(ModelSQL, ModelView):
     line_type = fields.Selection([
         ('cr', 'Credit'),
         ('dr', 'Debit'),
-        ], 'Type', select=True, states=_states)
+        ], 'Type', states=_states)
     move_line = fields.Many2One('account.move.line', 'Move Line',
         states=_states)
     amount_original = fields.Numeric('Original Amount',
@@ -822,6 +834,14 @@ class AccountVoucherLineCredits(ModelSQL, ModelView):
     date = fields.Date('Date', states=_states)
 
     del _states
+
+    @classmethod
+    def __setup__(cls):
+        super().__setup__()
+        t = cls.__table__()
+        #cls._sql_indexes.update({
+            #Index(t, (t.line_type, Index.Equality())),
+            #})
 
 
 class AccountVoucherLineDebits(ModelSQL, ModelView):
@@ -831,7 +851,7 @@ class AccountVoucherLineDebits(ModelSQL, ModelView):
     _states = {'readonly': True}
 
     voucher = fields.Many2One('account.voucher', 'Voucher',
-        required=True, ondelete='CASCADE', select=True)
+        required=True, ondelete='CASCADE')
     name = fields.Char('Name')
     account = fields.Many2One('account.account', 'Account',
         domain=[
@@ -844,7 +864,7 @@ class AccountVoucherLineDebits(ModelSQL, ModelView):
     line_type = fields.Selection([
         ('cr', 'Credit'),
         ('dr', 'Debit'),
-        ], 'Type', select=True, states=_states)
+        ], 'Type', states=_states)
     move_line = fields.Many2One('account.move.line', 'Move Line',
         states=_states)
     amount_original = fields.Numeric('Original Amount',
@@ -854,6 +874,14 @@ class AccountVoucherLineDebits(ModelSQL, ModelView):
     date = fields.Date('Date', states=_states)
 
     del _states
+
+    @classmethod
+    def __setup__(cls):
+        super().__setup__()
+        t = cls.__table__()
+        #cls._sql_indexes.update({
+            #Index(t, (t.line_type, Index.Equality())),
+            #})
 
 
 class AccountVoucherLinePaymode(ModelSQL, ModelView):
