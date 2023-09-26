@@ -4,8 +4,8 @@
 from decimal import Decimal
 
 from trytond.model import fields
-from trytond.pool import PoolMeta
-from trytond.pyson import Eval, If, Bool
+from trytond.pool import Pool, PoolMeta
+from trytond.transaction import Transaction
 
 
 class Move(metaclass=PoolMeta):
@@ -26,18 +26,28 @@ class Line(metaclass=PoolMeta):
 
     @classmethod
     def get_amount_residual(cls, lines, name):
+        pool = Pool()
+        Currency = pool.get('currency.currency')
+
         amounts = {}
         for line in lines:
             if line.reconciliation or not (
                     line.account.type.payable or line.account.type.receivable):
-                amounts[line.id] = Decimal('0')
+                amounts[line.id] = Decimal(0)
                 continue
             amount = abs(line.credit - line.debit)
 
             for payment in line.voucher_payments:
-                if payment.voucher and payment.voucher.state == 'posted':
-                    amount -= payment.amount
-
+                voucher = payment.voucher
+                if voucher and voucher.state == 'posted':
+                    if voucher.currency != voucher.company.currency:
+                        with Transaction().set_context(
+                                currency_rate=voucher.currency_rate,
+                                date=voucher.date):
+                            amount -= Currency.compute(voucher.currency,
+                                payment.amount, voucher.company.currency)
+                    else:
+                        amount -= payment.amount
             amounts[line.id] = amount
         return amounts
 

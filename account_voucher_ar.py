@@ -6,8 +6,8 @@ from collections import defaultdict
 
 from trytond.model import Workflow, ModelView, ModelSQL, fields, Index
 from trytond.report import Report
-from trytond.pool import Pool
-from trytond.pyson import Eval, In
+from trytond.pool import Pool, PoolMeta
+from trytond.pyson import Eval, In, If, Bool
 from trytond.tools import grouped_slice
 from trytond.transaction import Transaction
 from trytond.exceptions import UserError
@@ -83,6 +83,8 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
     move_cancelled = fields.Many2One('account.move', 'Move Cancelled',
         readonly=True, states={'invisible': ~Eval('move_cancelled')})
     pay_invoice = fields.Many2One('account.invoice', 'Pay Invoice')
+    currency_rate = fields.Function(fields.Numeric('Currency rate',
+        digits=(12, 6)), 'on_change_with_currency_rate')
 
     del _states
 
@@ -188,6 +190,24 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                 total += line.amount or _ZERO
         return total
 
+    @fields.depends('lines', 'currency', 'company')
+    def on_change_with_currency_rate(self, name=None):
+        if (not self.currency or not self.company or
+                self.currency == self.company.currency):
+            return None
+        if not self.lines:
+            return None
+        amount, amount_second_currency = Decimal(0), Decimal(0)
+        for line in self.lines:
+            amount += ((line.move_line.credit or _ZERO) +
+                (line.move_line.debit or _ZERO))
+            amount_second_currency += (
+                line.move_line.amount_second_currency or _ZERO)
+        if not amount or not amount_second_currency:
+            return None
+        return Decimal(amount / amount_second_currency).quantize(
+            Decimal(str(10 ** -6)))
+
     @fields.depends('party', 'voucher_type', 'lines', 'lines_credits',
         'lines_debits', 'currency', 'company', 'date', 'pay_invoice')
     def on_change_party(self):
@@ -261,12 +281,20 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                 line_type = 'dr'
 
             amount_residual = abs(line.amount_residual)
+            currency_rate = None
             if second_currency:
-                with Transaction().set_context(date=self.date):
-                    amount = Currency.compute(self.company.currency,
-                        amount, self.currency)
-                    amount_residual = Currency.compute(self.company.currency,
-                        amount_residual, self.currency)
+                if line.second_currency == self.currency:
+                    currency_rate = Decimal(
+                        amount / abs(line.amount_second_currency)).quantize(
+                        Decimal(str(10 ** -6)))
+                with Transaction().set_context(
+                        currency_rate=currency_rate, date=self.date):
+                    amount = Currency.compute(
+                        self.company.currency, amount,
+                        self.currency)
+                    amount_residual = Currency.compute(
+                        self.company.currency, amount_residual,
+                        self.currency)
 
             name = ''
             model = str(line.move_origin)
@@ -293,6 +321,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
             payment_line.line_type = line_type
             payment_line.move_line = line.id
             payment_line.date = invoice_date or line.date
+            payment_line.currency_rate = currency_rate
 
             if line.credit and self.voucher_type == 'receipt':
                 lines_credits.append(payment_line)
@@ -365,7 +394,8 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                 amount_second_currency = None
                 if second_currency:
                     amount_second_currency = amount
-                    with Transaction().set_context(date=self.date):
+                    with Transaction().set_context(
+                            currency_rate=self.currency_rate, date=self.date):
                         amount = Currency.compute(self.currency,
                             amount, self.company.currency)
 
@@ -411,7 +441,8 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                 amount_second_currency = None
                 if second_currency:
                     amount_second_currency = amount
-                    with Transaction().set_context(date=self.date):
+                    with Transaction().set_context(
+                            currency_rate=line.currency_rate, date=self.date):
                         amount = Currency.compute(self.currency,
                             amount, self.company.currency)
 
@@ -446,7 +477,8 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                 amount_second_currency = None
                 if second_currency:
                     amount_second_currency = amount
-                    with Transaction().set_context(date=self.date):
+                    with Transaction().set_context(
+                            currency_rate=line.currency_rate, date=self.date):
                         amount = Currency.compute(self.currency,
                             amount, self.company.currency)
 
@@ -475,7 +507,8 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         #
         # Voucher Lines
         #
-        with Transaction().set_context(date=self.date):
+        with Transaction().set_context(
+                currency_rate=self.currency_rate, date=self.date):
             total = Currency.compute(self.currency,
                 self.amount, self.company.currency)
         invoices = 'Factura/s: '
@@ -496,7 +529,8 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                 amount_second_currency = None
                 if second_currency:
                     amount_second_currency = amount
-                    with Transaction().set_context(date=self.date):
+                    with Transaction().set_context(
+                            currency_rate=line.currency_rate, date=self.date):
                         amount = Currency.compute(self.currency,
                             amount, self.company.currency)
 
@@ -536,7 +570,8 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
             amount = total
             amount_second_currency = None
             if second_currency:
-                with Transaction().set_context(date=self.date):
+                with Transaction().set_context(
+                        currency_rate=self.currency_rate, date=self.date):
                     amount_second_currency = Currency.compute(
                         self.company.currency, amount, self.currency)
 
@@ -595,7 +630,8 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                 continue
             invoice = Invoice(line.move_line.move_origin.id)
 
-            with Transaction().set_context(date=self.date):
+            with Transaction().set_context(
+                    currency_rate=self.currency_rate, date=self.date):
                 amount = Currency.compute(self.currency,
                     line.amount, self.company.currency)
 
@@ -779,6 +815,8 @@ class AccountVoucherLine(ModelSQL, ModelView):
     date = fields.Date('Date', states=_states)
     date_expire = fields.Function(fields.Date('Expire date'),
         'get_expire_date')
+    currency_rate = fields.Numeric('Currency rate', digits=(12, 6),
+        states=_states)
 
     del _states
 
@@ -832,6 +870,8 @@ class AccountVoucherLineCredits(ModelSQL, ModelView):
     amount_unreconciled = fields.Numeric('Unreconciled amount',
         digits=(16, 2), states=_states)
     date = fields.Date('Date', states=_states)
+    currency_rate = fields.Numeric('Currency rate', digits=(12, 6),
+        states=_states)
 
     del _states
 
@@ -872,6 +912,8 @@ class AccountVoucherLineDebits(ModelSQL, ModelView):
     amount_unreconciled = fields.Numeric('Unreconciled amount',
         digits=(16, 2), states=_states)
     date = fields.Date('Date', states=_states)
+    currency_rate = fields.Numeric('Currency rate', digits=(12, 6),
+        states=_states)
 
     del _states
 
