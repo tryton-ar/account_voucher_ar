@@ -83,6 +83,20 @@
         <menuitem parent="menu_vouchers" action="act_voucher_payment_form"
             id="menu_voucher_payment_form" sequence="15"/>
 
+        <record model="ir.rule.group" id="rule_group_voucher_companies">
+            <field name="name">User in companies</field>
+            <field name="model"
+                search="[('model', '=', 'account.voucher')]"/>
+            <field name="global_p" eval="True"/>
+        </record>
+        <record model="ir.rule" id="rule_voucher_companies">
+            <field name="domain"
+                eval="[('company', 'in', Eval('companies', []))]"
+                pyson="1"/>
+            <field name="rule_group" ref="rule_group_voucher_companies"/>
+        </record>
+
+
         <record model="ir.ui.view" id="lines_view_tree">
             <field name="model">account.voucher.line</field>
             <field name="type">tree</field>
