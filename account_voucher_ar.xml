@@ -165,7 +165,7 @@
 
         <record model="ir.model.button" id="voucher_post_button">
             <field name="name">post</field>
-            <field name="string">Pay</field>
+            <field name="string">Confirm</field>
             <field name="model" search="[('model', '=', 'account.voucher')]"/>
         </record>
         <record model="ir.model.button-res.group"

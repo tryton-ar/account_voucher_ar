@@ -46,6 +46,10 @@ msgctxt "field:account.voucher,currency_code:"
 msgid "Currency Code"
 msgstr "Código de Moneda"
 
+msgctxt "field:account.voucher,currency_rate:"
+msgid "Currency rate"
+msgstr "Tasa de cambio"
+
 msgctxt "field:account.voucher,date:"
 msgid "Date"
 msgstr "Fecha"
@@ -114,6 +118,10 @@ msgctxt "field:account.voucher.line,amount_unreconciled:"
 msgid "Unreconciled amount"
 msgstr "Pendiente"
 
+msgctxt "field:account.voucher.line,currency_rate:"
+msgid "Currency rate"
+msgstr "Tasa de cambio"
+
 msgctxt "field:account.voucher.line,date:"
 msgid "Date"
 msgstr "Fecha"
@@ -158,6 +166,10 @@ msgctxt "field:account.voucher.line.credits,amount_unreconciled:"
 msgid "Unreconciled amount"
 msgstr "Pendiente"
 
+msgctxt "field:account.voucher.line.credits,currency_rate:"
+msgid "Currency rate"
+msgstr "Tasa de cambio"
+
 msgctxt "field:account.voucher.line.credits,date:"
 msgid "Date"
 msgstr "Fecha"
@@ -194,6 +206,10 @@ msgctxt "field:account.voucher.line.debits,amount_unreconciled:"
 msgid "Unreconciled amount"
 msgstr "Pendiente"
 
+msgctxt "field:account.voucher.line.debits,currency_rate:"
+msgid "Currency rate"
+msgstr "Tasa de cambio"
+
 msgctxt "field:account.voucher.line.debits,date:"
 msgid "Date"
 msgstr "Fecha"
@@ -222,6 +238,10 @@ msgctxt "field:account.voucher.line.paymode,pay_mode:"
 msgid "Pay Mode"
 msgstr "Forma de pago"
 
+msgctxt "field:account.voucher.line.paymode,related_statement_line:"
+msgid "Statement Line"
+msgstr "Línea de extracto relacionada"
+
 msgctxt "field:account.voucher.line.paymode,voucher:"
 msgid "Voucher"
 msgstr "Comprobantes"
@@ -233,6 +253,18 @@ msgstr "Cuenta contable"
 msgctxt "field:account.voucher.paymode,name:"
 msgid "Name"
 msgstr "Nombre"
+
+msgctxt "field:account.voucher.paymode,company:"
+msgid "Company"
+msgstr "Empresa"
+
+msgctxt "field:account.voucher.paymode,statement_journal:"
+msgid "Journal"
+msgstr "Diario"
+
+msgctxt "field:account.voucher.paymode,statement_reconcile:"
+msgid "Statement Conciliation"
+msgstr "Conciliación en extracto"
 
 msgctxt "help:account.voucher,number:"
 msgid "Voucher Number"
@@ -256,7 +288,7 @@ msgstr "Débitos del comprobante"
 
 msgctxt "model:account.voucher.line.paymode,name:"
 msgid "Account Voucher Line Pay Mode"
-msgstr "Línea de comprobante de forma de pago"
+msgstr "Pago en comprobante"
 
 msgctxt "model:account.voucher.paymode,name:"
 msgid "Account Voucher Pay Mode"
@@ -367,8 +399,12 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 msgctxt "model:ir.model.button,string:voucher_post_button"
-msgid "Pay"
-msgstr "Pagar"
+msgid "Confirm"
+msgstr "Confirmar"
+
+msgctxt "model:ir.rule.group,name:rule_group_voucher_companies"
+msgid "User in companies"
+msgstr "Usuario en las empresas"
 
 msgctxt "model:ir.sequence.type,name:seq_type_account_voucher_payment"
 msgid "Account Voucher Payment"
@@ -436,10 +472,6 @@ msgstr ""
 
 msgctxt "report:account.voucher:"
 msgid "CUIT:"
-msgstr ""
-
-msgctxt "report:account.voucher:"
-msgid "Cheque de"
 msgstr ""
 
 msgctxt "report:account.voucher:"
@@ -552,10 +584,6 @@ msgstr ""
 
 msgctxt "report:account.voucher:"
 msgid "la suma de"
-msgstr ""
-
-msgctxt "report:account.voucher:"
-msgid "tercero"
 msgstr ""
 
 msgctxt "report:account.voucher:"
