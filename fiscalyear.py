@@ -22,7 +22,7 @@ class FiscalYear(metaclass=PoolMeta):
         context={
             'company': Eval('company'),
             },
-        depends=['company'])
+        depends={'company'})
     receipt_sequence = fields.Many2One('ir.sequence',
         'Receipt Sequence', required=True,
         domain=[
@@ -33,7 +33,7 @@ class FiscalYear(metaclass=PoolMeta):
         context={
             'company': Eval('company'),
             },
-        depends=['company'])
+        depends={'company'})
 
     @classmethod
     def validate(cls, years):

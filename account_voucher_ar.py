@@ -33,44 +33,41 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
     __name__ = 'account.voucher'
     _rec_name = 'number'
 
-    _states = {'readonly': In(Eval('state'), ['posted', 'cancelled'])}
-    _depends = ['state']
+    _states = {'readonly': Eval('state') != 'draft'}
+    _states_done = {'readonly': In(Eval('state'), ['posted', 'cancelled'])}
 
     number = fields.Char('Number', readonly=True, help="Voucher Number")
     party = fields.Many2One('party.party', 'Party', required=True,
-        states=_states, depends=_depends)
+        context={'company': Eval('company', -1)},
+        states=_states, depends={'company'})
     voucher_type = fields.Selection([
         ('payment', 'Payment'),
         ('receipt', 'Receipt'),
-        ], 'Type', select=True, required=True,
-        states=_states, depends=_depends)
+        ], 'Type', required=True, states=_states)
     pay_lines = fields.One2Many('account.voucher.line.paymode', 'voucher',
-        'Pay Mode Lines', states=_states, depends=_depends)
-    date = fields.Date('Date', required=True,
-        states=_states, depends=_depends)
+        'Pay Mode Lines', states=_states_done)
+    date = fields.Date('Date', required=True, states=_states)
     journal = fields.Many2One('account.journal', 'Journal', required=True,
-        states=_states, depends=_depends)
+        context={'company': Eval('company', -1)},
+        states=_states, depends={'company'})
     currency = fields.Many2One('currency.currency', 'Currency', required=True,
-        states=_states, depends=_depends)
+        states=_states)
     currency_code = fields.Function(fields.Char('Currency Code'),
         'on_change_with_currency_code')
-    company = fields.Many2One('company.company', 'Company',
-        states=_states, depends=_depends)
+    company = fields.Many2One('company.company', 'Company', states=_states)
     lines = fields.One2Many('account.voucher.line', 'voucher', 'Lines',
-        states=_states, depends=_depends)
+        states=_states)
     lines_credits = fields.One2Many('account.voucher.line.credits', 'voucher',
         'Credits', states={
             'invisible': ~Eval('lines_credits'),
             'readonly': In(Eval('state'), ['posted', 'cancelled']),
-            },
-        depends=['lines_credits', 'state'])
+            })
     lines_debits = fields.One2Many('account.voucher.line.debits', 'voucher',
         'Debits', states={
             'invisible': ~Eval('lines_debits'),
             'readonly': In(Eval('state'), ['posted', 'cancelled']),
-            },
-        depends=['lines_debits', 'state'])
-    comment = fields.Text('Comment', states=_states, depends=_depends)
+            })
+    comment = fields.Text('Comment', states=_states_done)
     state = fields.Selection([
         ('draft', 'Draft'),
         ('posted', 'Posted'),
@@ -84,11 +81,10 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         digits=(16, 2)), 'on_change_with_amount_invoices')
     move = fields.Many2One('account.move', 'Move', readonly=True)
     move_cancelled = fields.Many2One('account.move', 'Move Cancelled',
-        readonly=True, states={'invisible': ~Eval('move_cancelled')},
-        depends=['move_cancelled'])
+        readonly=True, states={'invisible': ~Eval('move_cancelled')})
     pay_invoice = fields.Many2One('account.invoice', 'Pay Invoice')
 
-    del _states, _depends
+    del _states
 
     @classmethod
     def __setup__(cls):
