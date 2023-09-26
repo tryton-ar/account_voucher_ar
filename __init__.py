@@ -7,6 +7,7 @@ from . import move
 from . import fiscalyear
 from . import account_voucher_ar
 from . import invoice
+from . import statement
 
 
 def register():
@@ -21,6 +22,13 @@ def register():
         account_voucher_ar.AccountVoucherLineDebits,
         account_voucher_ar.AccountVoucherLinePaymode,
         module='account_voucher_ar', type_='model')
+    Pool.register(
+        statement.AccountVoucherPayMode,
+        statement.AccountVoucherLinePaymode,
+        statement.Statement,
+        statement.StatementLine,
+        module='account_voucher_ar', type_='model',
+        depends=['account_statement'])
     Pool.register(
         fiscalyear.RenewFiscalYear,
         invoice.PayInvoice,

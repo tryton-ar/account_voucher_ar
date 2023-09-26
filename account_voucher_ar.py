@@ -264,7 +264,10 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         for line in move_lines:
             origin = str(line.move_origin)
             origin = origin[:origin.find(',')]
-            if origin not in ['account.invoice', 'account.voucher']:
+            if origin not in [
+                    'account.invoice',
+                    'account.voucher',
+                    'account.statement']:
                 continue
 
             invoice = InvoiceAccountMoveLine.search([
