@@ -250,13 +250,13 @@ msgctxt "field:account.voucher.paymode,account:"
 msgid "Account"
 msgstr "Cuenta contable"
 
-msgctxt "field:account.voucher.paymode,name:"
-msgid "Name"
-msgstr "Nombre"
-
 msgctxt "field:account.voucher.paymode,company:"
 msgid "Company"
 msgstr "Empresa"
+
+msgctxt "field:account.voucher.paymode,name:"
+msgid "Name"
+msgstr "Nombre"
 
 msgctxt "field:account.voucher.paymode,statement_journal:"
 msgid "Journal"
@@ -459,10 +459,6 @@ msgid "Autorizó:"
 msgstr ""
 
 msgctxt "report:account.voucher:"
-msgid "Banco"
-msgstr ""
-
-msgctxt "report:account.voucher:"
 msgid "C"
 msgstr ""
 
@@ -472,6 +468,10 @@ msgstr ""
 
 msgctxt "report:account.voucher:"
 msgid "CUIT:"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "Cheque de"
 msgstr ""
 
 msgctxt "report:account.voucher:"
@@ -543,6 +543,10 @@ msgid "Número"
 msgstr ""
 
 msgctxt "report:account.voucher:"
+msgid "Observación"
+msgstr ""
+
+msgctxt "report:account.voucher:"
 msgid "Orden de Pago N°"
 msgstr ""
 
@@ -584,6 +588,10 @@ msgstr ""
 
 msgctxt "report:account.voucher:"
 msgid "la suma de"
+msgstr ""
+
+msgctxt "report:account.voucher:"
+msgid "tercero"
 msgstr ""
 
 msgctxt "report:account.voucher:"
