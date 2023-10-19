@@ -201,8 +201,8 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         for line in self.lines:
             amount += ((line.move_line.credit or _ZERO) +
                 (line.move_line.debit or _ZERO))
-            amount_second_currency += (
-                line.move_line.amount_second_currency or _ZERO)
+            amount_second_currency += (line.move_line.amount_second_currency
+                and abs(line.move_line.amount_second_currency) or _ZERO)
         if not amount or not amount_second_currency:
             return None
         return Decimal(amount / amount_second_currency).quantize(
