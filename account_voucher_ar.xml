@@ -38,6 +38,36 @@
             <field name="view" ref="account_voucher_form"/>
             <field name="act_window" ref="act_voucher_form"/>
         </record>
+        <record model="ir.action.act_window.domain"
+            id="act_voucher_form_domain_draft">
+            <field name="name">Draft</field>
+            <field name="sequence" eval="10"/>
+            <field name="domain" eval="[('state', '=', 'draft')]" pyson="1"/>
+            <field name="count" eval="True"/>
+            <field name="act_window" ref="act_voucher_form"/>
+        </record>
+        <record model="ir.action.act_window.domain"
+            id="act_voucher_form_domain_calculated">
+            <field name="name">Calculated</field>
+            <field name="sequence" eval="20"/>
+            <field name="domain" eval="[('state', '=', 'calculated')]" pyson="1"/>
+            <field name="count" eval="True"/>
+            <field name="act_window" ref="act_voucher_form"/>
+        </record>
+        <record model="ir.action.act_window.domain"
+            id="act_voucher_form_domain_posted">
+            <field name="name">Posted</field>
+            <field name="sequence" eval="30"/>
+            <field name="domain" eval="[('state', '=', 'posted')]" pyson="1"/>
+            <field name="act_window" ref="act_voucher_form"/>
+        </record>
+        <record model="ir.action.act_window.domain"
+            id="act_voucher_form_domain_all">
+            <field name="name">All</field>
+            <field name="sequence" eval="9999"/>
+            <field name="domain"></field>
+            <field name="act_window" ref="act_voucher_form"/>
+        </record>
         <menuitem parent="menu_vouchers" action="act_voucher_form"
             id="menu_voucher_form" sequence="5"/>
 
@@ -59,6 +89,28 @@
             <field name="view" ref="account_voucher_form"/>
             <field name="act_window" ref="act_voucher_receipt_form"/>
         </record>
+        <record model="ir.action.act_window.domain"
+            id="act_voucher_receipt_form_domain_draft">
+            <field name="name">Draft</field>
+            <field name="sequence" eval="10"/>
+            <field name="domain" eval="[('state', '=', 'draft')]" pyson="1"/>
+            <field name="count" eval="True"/>
+            <field name="act_window" ref="act_voucher_receipt_form"/>
+        </record>
+        <record model="ir.action.act_window.domain"
+            id="act_voucher_receipt_form_domain_posted">
+            <field name="name">Posted</field>
+            <field name="sequence" eval="30"/>
+            <field name="domain" eval="[('state', '=', 'posted')]" pyson="1"/>
+            <field name="act_window" ref="act_voucher_receipt_form"/>
+        </record>
+        <record model="ir.action.act_window.domain"
+            id="act_voucher_receipt_form_domain_all">
+            <field name="name">All</field>
+            <field name="sequence" eval="9999"/>
+            <field name="domain"></field>
+            <field name="act_window" ref="act_voucher_receipt_form"/>
+        </record>
         <menuitem parent="menu_vouchers" action="act_voucher_receipt_form"
             id="menu_voucher_receipt_form" sequence="10"/>
 
@@ -78,6 +130,36 @@
         <record model="ir.action.act_window.view" id="act_voucher_payment_form_view2">
             <field name="sequence" eval="20"/>
             <field name="view" ref="account_voucher_form"/>
+            <field name="act_window" ref="act_voucher_payment_form"/>
+        </record>
+        <record model="ir.action.act_window.domain"
+            id="act_voucher_payment_form_domain_draft">
+            <field name="name">Draft</field>
+            <field name="sequence" eval="10"/>
+            <field name="domain" eval="[('state', '=', 'draft')]" pyson="1"/>
+            <field name="count" eval="True"/>
+            <field name="act_window" ref="act_voucher_payment_form"/>
+        </record>
+        <record model="ir.action.act_window.domain"
+            id="act_voucher_payment_form_domain_calculated">
+            <field name="name">Calculated</field>
+            <field name="sequence" eval="20"/>
+            <field name="domain" eval="[('state', '=', 'calculated')]" pyson="1"/>
+            <field name="count" eval="True"/>
+            <field name="act_window" ref="act_voucher_payment_form"/>
+        </record>
+        <record model="ir.action.act_window.domain"
+            id="act_voucher_payment_form_domain_posted">
+            <field name="name">Posted</field>
+            <field name="sequence" eval="30"/>
+            <field name="domain" eval="[('state', '=', 'posted')]" pyson="1"/>
+            <field name="act_window" ref="act_voucher_payment_form"/>
+        </record>
+        <record model="ir.action.act_window.domain"
+            id="act_voucher_payment_form_domain_all">
+            <field name="name">All</field>
+            <field name="sequence" eval="9999"/>
+            <field name="domain"></field>
             <field name="act_window" ref="act_voucher_payment_form"/>
         </record>
         <menuitem parent="menu_vouchers" action="act_voucher_payment_form"
