@@ -318,6 +318,59 @@ msgctxt "model:ir.action,name:wizard_select_invoices"
 msgid "Select Invoices to receive/pay"
 msgstr "Seleccione facturas a cobrar/pagar"
 
+msgctxt "model:ir.action.act_window.domain,name:act_voucher_form_domain_all"
+msgid "All"
+msgstr "Todo"
+
+msgctxt "model:ir.action.act_window.domain,name:act_voucher_form_domain_draft"
+msgid "Draft"
+msgstr "Borrador"
+
+msgctxt ""
+"model:ir.action.act_window.domain,name:act_voucher_form_domain_posted"
+msgid "Posted"
+msgstr "Confirmado"
+
+msgctxt ""
+"model:ir.action.act_window.domain,name:act_voucher_form_domain_validated"
+msgid "Calculated"
+msgstr "Calculado"
+
+msgctxt ""
+"model:ir.action.act_window.domain,name:act_voucher_payment_form_domain_all"
+msgid "All"
+msgstr "Todo"
+
+msgctxt ""
+"model:ir.action.act_window.domain,name:act_voucher_payment_form_domain_draft"
+msgid "Draft"
+msgstr "Borrador"
+
+msgctxt ""
+"model:ir.action.act_window.domain,name:act_voucher_payment_form_domain_posted"
+msgid "Posted"
+msgstr "Confirmado"
+
+msgctxt ""
+"model:ir.action.act_window.domain,name:act_voucher_payment_form_domain_validated"
+msgid "Calculated"
+msgstr "Calculado"
+
+msgctxt ""
+"model:ir.action.act_window.domain,name:act_voucher_receipt_form_domain_all"
+msgid "All"
+msgstr "Todo"
+
+msgctxt ""
+"model:ir.action.act_window.domain,name:act_voucher_receipt_form_domain_draft"
+msgid "Draft"
+msgstr "Borrador"
+
+msgctxt ""
+"model:ir.action.act_window.domain,name:act_voucher_receipt_form_domain_posted"
+msgid "Posted"
+msgstr "Confirmado"
+
 msgctxt "model:ir.message,text:msg_amount_greater_unreconciled"
 msgid "Amount greater than invoice amount"
 msgstr "Importe mayor al importe de factura"
