@@ -443,9 +443,18 @@ msgctxt "model:ir.model.button,confirm:voucher_cancel_button"
 msgid "Are you sure you want to cancel the voucher?"
 msgstr "¿Está seguro de querer cancelar el comprobante?"
 
+msgctxt "model:ir.model.button,help:paymode_calculate_remaining_amount_button"
+msgid "Calculate remaining amount to balance the voucher"
+msgstr "Calcular el importe remanente del comprobante"
+
 msgctxt "model:ir.model.button,help:voucher_cancel_button"
 msgid "Cancel the voucher"
 msgstr "Cancelar el comprobante"
+
+msgctxt ""
+"model:ir.model.button,string:paymode_calculate_remaining_amount_button"
+msgid "Calculate remaining"
+msgstr "Calcular remanente"
 
 msgctxt "model:ir.model.button,string:voucher_cancel_button"
 msgid "Cancel"
