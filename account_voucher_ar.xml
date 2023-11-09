@@ -202,6 +202,13 @@
             <field name="name">pay_lines_tree</field>
         </record>
 
+        <record model="ir.model.button" id="paymode_calculate_remaining_amount_button">
+            <field name="name">calculate_remaining_amount</field>
+            <field name="string">Calculate remaining</field>
+            <field name="model" search="[('model', '=', 'account.voucher.line.paymode')]"/>
+            <field name="help">Calculate remaining amount to balance the voucher</field>
+        </record>
+
         <menuitem name="Paymode" parent="account.menu_account_configuration"
             id="menu_paymode" sequence="21"/>
 

@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <tree editable="1">
     <field name="pay_mode" expand="1"/>
+    <button name="calculate_remaining_amount" width="200"/>
     <field name="pay_amount" expand="1"/>
 </tree>
