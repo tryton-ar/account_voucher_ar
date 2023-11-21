@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<tryton>
+    <data>
+
+        <!-- Receipts -->
+        <record model="ir.action.act_window" id="act_voucher_receipt_form2">
+            <field name="name">Receipts</field>
+            <field name="res_model">account.voucher</field>
+            <field name="domain"
+                eval="[If(Eval('active_ids', []) == [Eval('active_id')], ('party', '=', Eval('active_id')), ('party', 'in', Eval('active_ids')))]"
+                pyson="1"/>
+            <field name="search_value" eval="[
+                ('voucher_type', '=', 'receipt'),
+                ('state', 'not in', ['draft', 'cancelled'])]" pyson="1"/>
+        </record>
+        <record model="ir.action.keyword"
+                id="act_open_voucher_receipt_keyword1">
+            <field name="keyword">form_relate</field>
+            <field name="model">party.party,-1</field>
+            <field name="action" ref="act_voucher_receipt_form2"/>
+        </record>
+        <record model="ir.action-res.group"
+            id="act_voucher_receipt_form2-group_account">
+            <field name="action" ref="act_voucher_receipt_form2"/>
+            <field name="group" ref="account.group_account"/>
+        </record>
+
+        <!-- Payments -->
+        <record model="ir.action.act_window" id="act_voucher_payment_form2">
+            <field name="name">Payments</field>
+            <field name="res_model">account.voucher</field>
+            <field name="domain"
+                eval="[If(Eval('active_ids', []) == [Eval('active_id')], ('party', '=', Eval('active_id')), ('party', 'in', Eval('active_ids')))]"
+                pyson="1"/>
+            <field name="search_value" eval="[
+                ('voucher_type', '=', 'payment'),
+                ('state', 'not in', ['draft', 'cancelled'])]" pyson="1"/>
+        </record>
+        <record model="ir.action.keyword"
+                id="act_open_voucher_payment_keyword1">
+            <field name="keyword">form_relate</field>
+            <field name="model">party.party,-1</field>
+            <field name="action" ref="act_voucher_payment_form2"/>
+        </record>
+        <record model="ir.action-res.group"
+            id="act_voucher_payment_form2-group_account">
+            <field name="action" ref="act_voucher_payment_form2"/>
+            <field name="group" ref="account.group_account"/>
+        </record>
+
+    </data>
+</tryton>

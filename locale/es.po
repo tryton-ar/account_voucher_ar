@@ -302,11 +302,19 @@ msgctxt "model:ir.action,name:act_voucher_payment_form"
 msgid "Payments"
 msgstr "Pagos"
 
+msgctxt "model:ir.action,name:act_voucher_payment_form2"
+msgid "Payments"
+msgstr "Pagos"
+
 msgctxt "model:ir.action,name:act_voucher_paymode_form"
 msgid "Paymode"
 msgstr "Formas de pago/cobro"
 
 msgctxt "model:ir.action,name:act_voucher_receipt_form"
+msgid "Receipts"
+msgstr "Recibos"
+
+msgctxt "model:ir.action,name:act_voucher_receipt_form2"
 msgid "Receipts"
 msgstr "Recibos"
 
