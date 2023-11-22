@@ -7,11 +7,11 @@
             <field name="name">Receipts</field>
             <field name="res_model">account.voucher</field>
             <field name="domain"
-                eval="[If(Eval('active_ids', []) == [Eval('active_id')], ('party', '=', Eval('active_id')), ('party', 'in', Eval('active_ids')))]"
+                eval="[('voucher_type', '=', 'receipt'), If(Eval('active_ids', []) == [Eval('active_id')], ('party', '=', Eval('active_id')), ('party', 'in', Eval('active_ids')))]"
                 pyson="1"/>
-            <field name="search_value" eval="[
-                ('voucher_type', '=', 'receipt'),
-                ('state', 'not in', ['draft', 'cancelled'])]" pyson="1"/>
+            <field name="context" eval="{'voucher_type': 'receipt'}" pyson="1"/>
+            <field name="search_value"
+                eval="[('state', 'not in', ['draft', 'cancelled'])]" pyson="1"/>
         </record>
         <record model="ir.action.keyword"
                 id="act_open_voucher_receipt_keyword1">
@@ -30,11 +30,11 @@
             <field name="name">Payments</field>
             <field name="res_model">account.voucher</field>
             <field name="domain"
-                eval="[If(Eval('active_ids', []) == [Eval('active_id')], ('party', '=', Eval('active_id')), ('party', 'in', Eval('active_ids')))]"
+                eval="[('voucher_type', '=', 'payment'), If(Eval('active_ids', []) == [Eval('active_id')], ('party', '=', Eval('active_id')), ('party', 'in', Eval('active_ids')))]"
                 pyson="1"/>
-            <field name="search_value" eval="[
-                ('voucher_type', '=', 'payment'),
-                ('state', 'not in', ['draft', 'cancelled'])]" pyson="1"/>
+            <field name="context" eval="{'voucher_type': 'payment'}" pyson="1"/>
+            <field name="search_value"
+                eval="[('state', 'not in', ['draft', 'cancelled'])]" pyson="1"/>
         </record>
         <record model="ir.action.keyword"
                 id="act_open_voucher_payment_keyword1">
