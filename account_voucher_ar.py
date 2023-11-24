@@ -86,6 +86,11 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
     move_cancelled = fields.Many2One('account.move', 'Move Cancelled',
         readonly=True, states={'invisible': ~Eval('move_cancelled')})
     pay_invoice = fields.Many2One('account.invoice', 'Pay Invoice')
+    writeoff = fields.Many2One('account.move.reconcile.write_off',
+        'Write Off', domain=[('company', '=', Eval('company'))],
+        states=_states_done)
+    writeoff_description = fields.Char('Write Off Description',
+        states=_states_done)
 
     del _states
 
@@ -570,6 +575,36 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                     'second_currency': second_currency,
                     })
 
+        #
+        # Write Off
+        #
+        if self.writeoff and total != _ZERO:
+            amount = abs(total)
+            if self.voucher_type == 'receipt':
+                debit = _ZERO
+                credit = amount
+                writeoff_account = self.writeoff.debit_account
+            else:
+                debit = amount
+                credit = _ZERO
+                writeoff_account = self.writeoff.credit_account
+            description = '%s (%s)' % (self.number,
+                self.writeoff_description or self.writeoff.name)
+            party_required = writeoff_account.party_required
+            move_lines.append({
+                'description': description,
+                'debit': debit,
+                'credit': credit,
+                'account': writeoff_account.id,
+                'move': move.id,
+                'journal': self.journal.id,
+                'period': Period.find(self.company.id, date=self.date),
+                'date': self.date,
+                'maturity_date': self.date,
+                'party': party_required and self.party.id or None,
+                })
+            total = _ZERO
+
         if total != _ZERO:
             amount = total
             amount_second_currency = None
@@ -650,6 +685,8 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                         reconcile_line.id)
 
             for move_line in created_lines:
+                if move_line.party is None:
+                    continue
                 if move_line.description == 'advance':
                     continue
                 if (move_line.debit != abs(amount) and
