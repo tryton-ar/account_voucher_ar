@@ -46,6 +46,14 @@ msgctxt "field:account.voucher,currency_code:"
 msgid "Currency Code"
 msgstr "Código de Moneda"
 
+msgctxt "field:account.voucher,writeoff:"
+msgid "Write Off"
+msgstr "Desajuste"
+
+msgctxt "field:account.voucher,writeoff_description:"
+msgid "Write Off Description"
+msgstr "Descripción del desajuste"
+
 msgctxt "field:account.voucher,currency_rate:"
 msgid "Currency rate"
 msgstr "Tasa de cambio"

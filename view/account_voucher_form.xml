@@ -42,6 +42,10 @@
             <field name="currency_rate"/>
             <label name="move_cancelled"/>
             <field name="move_cancelled"/>
+            <label name="writeoff"/>
+            <field name="writeoff"/>
+            <label name="writeoff_description"/>
+            <field name="writeoff_description"/>
             <separator name="comment" colspan="4"/>
             <field name="comment" colspan="4" height="200"/>
         </page>
