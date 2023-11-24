@@ -53,6 +53,8 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         states=_states, depends={'company'})
     currency = fields.Many2One('currency.currency', 'Currency', required=True,
         states=_states)
+    currency_rate = fields.Numeric('Currency rate', digits=(12, 6),
+        states=_states_done)
     currency_code = fields.Function(fields.Char('Currency Code'),
         'on_change_with_currency_code')
     company = fields.Many2One('company.company', 'Company', states=_states)
@@ -84,8 +86,6 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
     move_cancelled = fields.Many2One('account.move', 'Move Cancelled',
         readonly=True, states={'invisible': ~Eval('move_cancelled')})
     pay_invoice = fields.Many2One('account.invoice', 'Pay Invoice')
-    currency_rate = fields.Function(fields.Numeric('Currency rate',
-        digits=(12, 6)), 'on_change_with_currency_rate')
 
     del _states
 

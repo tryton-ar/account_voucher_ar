@@ -38,6 +38,8 @@
             <field name="company"/>
             <label name="move"/>
             <field name="move"/>
+            <label name="currency_rate"/>
+            <field name="currency_rate"/>
             <label name="move_cancelled"/>
             <field name="move_cancelled"/>
             <separator name="comment" colspan="4"/>
