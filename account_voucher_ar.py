@@ -876,14 +876,15 @@ class AccountVoucherLine(ModelSQL, ModelView):
     account = fields.Many2One('account.account', 'Account',
         domain=[
             ('type', '!=', None),
-            ('closed', '!=', True),
-            ])
+            ('closed', '!=', True)],
+        states=_states)
     amount = fields.Numeric('Amount', digits=(16, 2))
     line_type = fields.Selection([
         ('cr', 'Credit'),
         ('dr', 'Debit'),
-        ], 'Type')
-    move_line = fields.Many2One('account.move.line', 'Move Line')
+        ], 'Type', states=_states)
+    move_line = fields.Many2One('account.move.line', 'Move Line',
+        states=_states)
     amount_original = fields.Numeric('Original Amount',
         digits=(16, 2), states=_states)
     amount_unreconciled = fields.Numeric('Unreconciled amount',
