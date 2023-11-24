@@ -2,7 +2,8 @@
 # The COPYRIGHT file at the top level of this repository contains
 # the full copyright notices and license terms.
 from decimal import Decimal
-from collections import defaultdict
+from collections import defaultdict, namedtuple
+from itertools import combinations
 
 from trytond.model import Workflow, ModelView, ModelSQL, fields, Index
 from trytond.report import Report
@@ -622,7 +623,8 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         Move.post([self.move])
 
         lines_to_reconcile = defaultdict(list)
-        # reconcile check
+        payment_lines_to_relate = defaultdict(list)
+
         for line in self.lines:
             origin = str(line.move_line.move_origin)
             origin = origin[:origin.find(',')]
@@ -631,22 +633,22 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                 continue
             if line.amount == _ZERO:
                 continue
-            invoice = Invoice(line.move_line.move_origin.id)
 
+            invoice = Invoice(line.move_line.move_origin.id)
             with Transaction().set_context(
                     currency_rate=self.currency_rate, date=self.date):
                 amount = Currency.compute(self.currency,
                     line.amount, self.company.currency)
 
-            if self.voucher_type == 'payment':
-                amount = -amount
             reconcile_lines, remainder = \
-                Invoice.get_reconcile_lines_for_amount(
-                    invoice, amount)
+                self.get_reconcile_lines_for_amount(invoice, amount,
+                    lines_to_reconcile[line.account.id])
+
             if remainder == _ZERO:
                 for reconcile_line in reconcile_lines:
                     lines_to_reconcile[line.account.id].append(
                         reconcile_line.id)
+
             for move_line in created_lines:
                 if move_line.description == 'advance':
                     continue
@@ -660,11 +662,18 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                     if remainder == _ZERO:
                         lines_to_reconcile[move_line.account.id].append(
                             move_line.id)
-                    Invoice.write([invoice], {
-                        'payment_lines': [('add', [move_line.id])],
-                        })
+                    payment_lines_to_relate[invoice].append(move_line.id)
+
+        if payment_lines_to_relate:
+            for invoice, payment_lines in payment_lines_to_relate.items():
+                Invoice.write([invoice], {
+                    'payment_lines': [('add', list(set(payment_lines)))],
+                    })
+
         if lines_to_reconcile:
             for lines_ids in lines_to_reconcile.values():
+                if not lines_ids:
+                    continue
                 lines = MoveLine.browse(list(set(lines_ids)))
                 MoveLine.reconcile(lines)
 
@@ -689,6 +698,33 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
             MoveLine.reconcile(reconcile_lines)
 
         return True
+
+    def get_reconcile_lines_for_amount(self, invoice, amount, reconcile_lines):
+        '''
+        Return list of lines and the remainder to make reconciliation.
+        '''
+        if self.voucher_type == 'payment':
+            amount = -amount
+        party = invoice.party
+        Result = namedtuple('Result', ['lines', 'remainder'])
+
+        lines = [
+            l for l in invoice.payment_lines + invoice.lines_to_pay
+            if not l.reconciliation
+            and (not invoice.account.party_required or l.party == party)
+            and (l.id not in reconcile_lines)]
+
+        best = Result([], invoice.total_amount)
+        for n in range(len(lines), 0, -1):
+            for comb_lines in combinations(lines, n):
+                remainder = sum((l.debit - l.credit) for l in comb_lines)
+                remainder -= amount
+                result = Result(list(comb_lines), remainder)
+                if invoice.currency.is_zero(remainder):
+                    return result
+                if abs(remainder) < abs(best.remainder):
+                    best = result
+        return best
 
     def create_cancel_move(self):
         pool = Pool()
