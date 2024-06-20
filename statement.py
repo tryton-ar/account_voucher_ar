@@ -124,6 +124,22 @@ class StatementLine(metaclass=PoolMeta):
                 self.account = self.voucher_paymode.pay_mode.account
 
     @classmethod
+    def create(cls, vlist):
+        pool = Pool()
+        PayMode = pool.get('account.voucher.line.paymode')
+
+        lines = super(StatementLine, cls).create(vlist)
+        to_update = {}
+        for line in lines:
+            if line.related_to and \
+                    str(line.related_to).split(',')[0] == PayMode.__name__:
+                paymode_id = int(str(line.related_to).split(',')[1])
+                to_update[paymode_id] = line.id
+        if to_update:
+            cls.update_paymode_lines(to_update)
+        return lines
+
+    @classmethod
     def write(cls, *args):
         pool = Pool()
         PayMode = pool.get('account.voucher.line.paymode')
@@ -139,7 +155,8 @@ class StatementLine(metaclass=PoolMeta):
                     paymode_id = int(values['related_to'].split(',')[1])
                     to_update[paymode_id] = lines[0].id
         super(StatementLine, cls).write(*args)
-        cls.update_paymode_lines(to_update)
+        if to_update:
+            cls.update_paymode_lines(to_update)
 
     def update_paymode_lines(to_update):
         pool = Pool()
