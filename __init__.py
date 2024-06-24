@@ -4,6 +4,7 @@
 
 from trytond.pool import Pool
 from . import move
+from . import account
 from . import fiscalyear
 from . import account_voucher_ar
 from . import invoice
@@ -14,6 +15,8 @@ def register():
     Pool.register(
         move.Move,
         move.Line,
+        account.Configuration,
+        account.ConfigurationDefaultVoucher,
         fiscalyear.FiscalYear,
         account_voucher_ar.AccountVoucherPayMode,
         account_voucher_ar.AccountVoucher,

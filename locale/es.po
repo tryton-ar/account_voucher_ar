@@ -2,6 +2,44 @@
 msgid ""
 msgstr "Content-Type: text/plain; charset=utf-8\n"
 
+msgctxt "field:account.configuration,default_payment_currency:"
+msgid "Default Payment Currency"
+msgstr "Moneda por defecto en Pagos"
+
+msgctxt "field:account.configuration,default_payment_journal:"
+msgid "Default Payment Journal"
+msgstr "Diario por defecto en Pagos"
+
+msgctxt "field:account.configuration,default_receipt_currency:"
+msgid "Default Receipt Currency"
+msgstr "Moneda por defecto en Recibos"
+
+msgctxt "field:account.configuration,default_receipt_journal:"
+msgid "Default Receipt Journal"
+msgstr "Diario por defecto en Recibos"
+
+msgctxt "field:account.configuration.default_voucher,company:"
+msgid "Company"
+msgstr "Empresa"
+
+msgctxt ""
+"field:account.configuration.default_voucher,default_payment_currency:"
+msgid "Default Payment Currency"
+msgstr "Moneda por defecto en Pagos"
+
+msgctxt "field:account.configuration.default_voucher,default_payment_journal:"
+msgid "Default Payment Journal"
+msgstr "Diario por defecto en Pagos"
+
+msgctxt ""
+"field:account.configuration.default_voucher,default_receipt_currency:"
+msgid "Default Receipt Currency"
+msgstr "Moneda por defecto en Recibos"
+
+msgctxt "field:account.configuration.default_voucher,default_receipt_journal:"
+msgid "Default Receipt Journal"
+msgstr "Diario por defecto en Recibos"
+
 msgctxt "field:account.fiscalyear,payment_sequence:"
 msgid "Payment Sequence"
 msgstr "Secuencia de pago"
@@ -45,14 +83,6 @@ msgstr "Moneda"
 msgctxt "field:account.voucher,currency_code:"
 msgid "Currency Code"
 msgstr "Código de Moneda"
-
-msgctxt "field:account.voucher,writeoff:"
-msgid "Write Off"
-msgstr "Desajuste"
-
-msgctxt "field:account.voucher,writeoff_description:"
-msgid "Write Off Description"
-msgstr "Descripción del desajuste"
 
 msgctxt "field:account.voucher,currency_rate:"
 msgid "Currency rate"
@@ -109,6 +139,14 @@ msgstr "Estado"
 msgctxt "field:account.voucher,voucher_type:"
 msgid "Type"
 msgstr "Tipo"
+
+msgctxt "field:account.voucher,writeoff:"
+msgid "Write Off"
+msgstr "Desajuste"
+
+msgctxt "field:account.voucher,writeoff_description:"
+msgid "Write Off Description"
+msgstr "Descripción del desajuste"
 
 msgctxt "field:account.voucher.line,account:"
 msgid "Account"
@@ -278,6 +316,10 @@ msgctxt "help:account.voucher,number:"
 msgid "Voucher Number"
 msgstr "Número"
 
+msgctxt "model:account.configuration.default_voucher,name:"
+msgid "Account Configuration Default Voucher"
+msgstr "Configuración por defecto para Comprobantes"
+
 msgctxt "model:account.voucher,name:"
 msgid "Account Voucher"
 msgstr "Comprobante contable"
@@ -338,6 +380,11 @@ msgctxt "model:ir.action.act_window.domain,name:act_voucher_form_domain_all"
 msgid "All"
 msgstr "Todo"
 
+msgctxt ""
+"model:ir.action.act_window.domain,name:act_voucher_form_domain_calculated"
+msgid "Calculated"
+msgstr "Calculado"
+
 msgctxt "model:ir.action.act_window.domain,name:act_voucher_form_domain_draft"
 msgid "Draft"
 msgstr "Borrador"
@@ -348,14 +395,14 @@ msgid "Posted"
 msgstr "Confirmado"
 
 msgctxt ""
-"model:ir.action.act_window.domain,name:act_voucher_form_domain_validated"
-msgid "Calculated"
-msgstr "Calculado"
-
-msgctxt ""
 "model:ir.action.act_window.domain,name:act_voucher_payment_form_domain_all"
 msgid "All"
 msgstr "Todo"
+
+msgctxt ""
+"model:ir.action.act_window.domain,name:act_voucher_payment_form_domain_calculated"
+msgid "Calculated"
+msgstr "Calculado"
 
 msgctxt ""
 "model:ir.action.act_window.domain,name:act_voucher_payment_form_domain_draft"
@@ -366,11 +413,6 @@ msgctxt ""
 "model:ir.action.act_window.domain,name:act_voucher_payment_form_domain_posted"
 msgid "Posted"
 msgstr "Confirmado"
-
-msgctxt ""
-"model:ir.action.act_window.domain,name:act_voucher_payment_form_domain_validated"
-msgid "Calculated"
-msgstr "Calculado"
 
 msgctxt ""
 "model:ir.action.act_window.domain,name:act_voucher_receipt_form_domain_all"
@@ -719,6 +761,10 @@ msgstr "Haber"
 msgctxt "selection:account.voucher.line.debits,line_type:"
 msgid "Debit"
 msgstr "Débito"
+
+msgctxt "view:account.configuration:"
+msgid "Vouchers"
+msgstr "Comprobantes"
 
 msgctxt "view:account.voucher:"
 msgid "Other Info"
