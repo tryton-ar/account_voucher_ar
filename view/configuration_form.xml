@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<data>
+    <xpath expr="/form/separator[@id='product']" position="before">
+        <separator id="voucher" string="Vouchers" colspan="4"/>
+        <label name="default_payment_journal"/>
+        <field name="default_payment_journal"/>
+        <label name="default_receipt_journal"/>
+        <field name="default_receipt_journal"/>
+        <label name="default_payment_currency"/>
+        <field name="default_payment_currency"/>
+        <label name="default_receipt_currency"/>
+        <field name="default_receipt_currency"/>
+    </xpath>
+</data>

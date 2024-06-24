@@ -143,6 +143,34 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         Date = Pool().get('ir.date')
         return Date.today()
 
+    @classmethod
+    def default_journal(cls, **pattern):
+        pool = Pool()
+        Configuration = pool.get('account.configuration')
+
+        if Transaction().context.get('voucher_type', 'payment') == 'payment':
+            journal_field = 'default_payment_journal'
+        else:
+            journal_field = 'default_receipt_journal'
+
+        config = Configuration(1)
+        account = config.get_multivalue(journal_field, **pattern)
+        return account.id if account else None
+
+    @classmethod
+    def default_currency(cls, **pattern):
+        pool = Pool()
+        Configuration = pool.get('account.configuration')
+
+        if Transaction().context.get('voucher_type', 'payment') == 'payment':
+            currency_field = 'default_payment_currency'
+        else:
+            currency_field = 'default_receipt_currency'
+
+        config = Configuration(1)
+        currency = config.get_multivalue(currency_field, **pattern)
+        return currency.id if currency else None
+
     def set_number(self):
         pool = Pool()
         FiscalYear = pool.get('account.fiscalyear')
