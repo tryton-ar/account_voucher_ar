@@ -697,6 +697,8 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
             if line.amount == _ZERO:
                 continue
 
+            amount_second_currency = (line.amount if
+                self.currency != self.company.currency else None)
             invoice = Invoice(line.move_line.move_origin.id)
             with Transaction().set_context(
                     currency_rate=self.currency_rate, date=self.date):
@@ -705,6 +707,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
 
             reconcile_lines, remainder = \
                 self.get_reconcile_lines_for_amount(invoice, amount,
+                    amount_second_currency,
                     lines_to_reconcile[line.account.id])
 
             if remainder == _ZERO:
@@ -718,7 +721,10 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                 if move_line.description == 'advance':
                     continue
                 if (move_line.debit != abs(amount) and
-                        move_line.credit != abs(amount)):
+                        move_line.credit != abs(amount) and
+                        (move_line.amount_second_currency and
+                        abs(move_line.amount_second_currency) !=
+                        abs(line.amount))):
                     continue
                 invoice_number = invoice.reference
                 if invoice.type == 'out':
@@ -764,7 +770,8 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
 
         return True
 
-    def get_reconcile_lines_for_amount(self, invoice, amount, reconcile_lines):
+    def get_reconcile_lines_for_amount(self, invoice, amount,
+            amount_second_currency, reconcile_lines):
         '''
         Return list of lines and the remainder to make reconciliation.
         '''
@@ -782,13 +789,23 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         best = Result([], invoice.total_amount)
         for n in range(len(lines), 0, -1):
             for comb_lines in combinations(lines, n):
-                remainder = sum((l.debit - l.credit) for l in comb_lines)
+                remainder = sum((l.debit - l.credit)
+                    for l in comb_lines)
                 remainder -= amount
                 result = Result(list(comb_lines), remainder)
                 if invoice.currency.is_zero(remainder):
                     return result
                 if abs(remainder) < abs(best.remainder):
                     best = result
+        if amount_second_currency:
+            for n in range(len(lines), 0, -1):
+                for comb_lines in combinations(lines, n):
+                    remainder = sum((abs(l.amount_second_currency))
+                        for l in comb_lines)
+                    remainder -= abs(amount_second_currency)
+                    result = Result(list(comb_lines), remainder)
+                    if invoice.currency.is_zero(remainder):
+                        return result
         return best
 
     def create_cancel_move(self):
