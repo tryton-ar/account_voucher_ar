@@ -329,9 +329,10 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                     amount = Currency.compute(
                         self.company.currency, amount,
                         self.currency)
-                    amount_residual = Currency.compute(
-                        self.company.currency, amount_residual,
-                        self.currency)
+                    amount_residual = abs(line.amount_residual_second_currency)
+                    #amount_residual = Currency.compute(
+                        #self.company.currency, amount_residual,
+                        #self.currency)
 
             name = ''
             model = str(line.move_origin)
@@ -777,6 +778,8 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         '''
         if self.voucher_type == 'payment':
             amount = -amount
+            if amount_second_currency:
+                amount_second_currency = -amount_second_currency
         party = invoice.party
         Result = namedtuple('Result', ['lines', 'remainder'])
 
@@ -798,14 +801,17 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                 if abs(remainder) < abs(best.remainder):
                     best = result
         if amount_second_currency:
+            best = Result([], invoice.total_amount)
             for n in range(len(lines), 0, -1):
                 for comb_lines in combinations(lines, n):
-                    remainder = sum((abs(l.amount_second_currency))
+                    remainder = sum((l.amount_second_currency)
                         for l in comb_lines)
-                    remainder -= abs(amount_second_currency)
+                    remainder -= amount_second_currency
                     result = Result(list(comb_lines), remainder)
                     if invoice.currency.is_zero(remainder):
                         return result
+                    if abs(remainder) < abs(best.remainder):
+                        best = result
         return best
 
     def create_cancel_move(self):

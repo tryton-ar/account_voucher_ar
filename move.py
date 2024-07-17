@@ -21,6 +21,9 @@ class Line(metaclass=PoolMeta):
 
     amount_residual = fields.Function(fields.Numeric('Amount Residual',
         digits=(16, 2)), 'get_amount_residual')
+    amount_residual_second_currency = fields.Function(fields.Numeric(
+        'Amount Residual Second Currency', digits=(16, 2)),
+        'get_amount_residual_second_currency')
     voucher_payments = fields.One2Many('account.voucher.line', 'move_line',
         'Voucher Payments', readonly=True)
 
@@ -48,6 +51,33 @@ class Line(metaclass=PoolMeta):
                                 payment.amount, voucher.company.currency)
                     else:
                         amount -= payment.amount
+            amounts[line.id] = amount
+        return amounts
+
+    @classmethod
+    def get_amount_residual_second_currency(cls, lines, name):
+        pool = Pool()
+        Currency = pool.get('currency.currency')
+
+        amounts = {}
+        for line in lines:
+            if not line.amount_second_currency or line.reconciliation or not (
+                    line.account.type.payable or line.account.type.receivable):
+                amounts[line.id] = Decimal(0)
+                continue
+            amount = abs(line.amount_second_currency)
+
+            for payment in line.voucher_payments:
+                voucher = payment.voucher
+                if voucher and voucher.state == 'posted':
+                    if voucher.currency != voucher.company.currency:
+                        amount -= payment.amount
+                    else:
+                        with Transaction().set_context(
+                                currency_rate=voucher.currency_rate,
+                                date=voucher.date):
+                            amount -= Currency.compute(voucher.currency,
+                                payment.amount, voucher.company.currency)
             amounts[line.id] = amount
         return amounts
 

@@ -52,6 +52,10 @@ msgctxt "field:account.move.line,amount_residual:"
 msgid "Amount Residual"
 msgstr "Importe pendiente"
 
+msgctxt "field:account.move.line,amount_residual_second_currency:"
+msgid "Amount Residual Second Currency"
+msgstr "Importe pendiente segunda moneda"
+
 msgctxt "field:account.move.line,voucher_payments:"
 msgid "Voucher Payments"
 msgstr "Pagos"
