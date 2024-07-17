@@ -4,5 +4,6 @@
     <field name="party"/>
     <field name="date"/>
     <field name="amount"/>
+    <field name="currency"/>
     <field name="state"/>
 </tree>
