@@ -8,7 +8,7 @@ from itertools import combinations
 from trytond.model import Workflow, ModelView, ModelSQL, fields, Index
 from trytond.report import Report
 from trytond.pool import Pool, PoolMeta
-from trytond.pyson import Eval, In, If, Bool
+from trytond.pyson import Eval, In
 from trytond.tools import grouped_slice
 from trytond.transaction import Transaction
 from trytond.exceptions import UserError
@@ -46,7 +46,8 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         ('receipt', 'Receipt'),
         ], 'Type', required=True, states=_states)
     pay_lines = fields.One2Many('account.voucher.line.paymode', 'voucher',
-        'Pay Mode Lines', states=_states_done)
+        'Pay Mode Lines', states=_states_done,
+        context={'voucher_state': Eval('state')}, depends={'state'})
     date = fields.Date('Date', required=True, states=_states)
     journal = fields.Many2One('account.journal', 'Journal', required=True,
         context={'company': Eval('company', -1)},
@@ -59,17 +60,20 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         'on_change_with_currency_code')
     company = fields.Many2One('company.company', 'Company', states=_states)
     lines = fields.One2Many('account.voucher.line', 'voucher', 'Lines',
-        states=_states)
+        states=_states,
+        context={'voucher_state': Eval('state')}, depends={'state'})
     lines_credits = fields.One2Many('account.voucher.line.credits', 'voucher',
         'Credits', states={
             'invisible': ~Eval('lines_credits'),
             'readonly': In(Eval('state'), ['posted', 'cancelled']),
-            })
+            },
+        context={'voucher_state': Eval('state')}, depends={'state'})
     lines_debits = fields.One2Many('account.voucher.line.debits', 'voucher',
         'Debits', states={
             'invisible': ~Eval('lines_debits'),
             'readonly': In(Eval('state'), ['posted', 'cancelled']),
-            })
+            },
+        context={'voucher_state': Eval('state')}, depends={'state'})
     comment = fields.Text('Comment', states=_states_done)
     state = fields.Selection([
         ('draft', 'Draft'),
@@ -92,7 +96,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
     writeoff_description = fields.Char('Write Off Description',
         states=_states_done)
 
-    del _states
+    del _states, _states_done
 
     @classmethod
     def __setup__(cls):
@@ -918,6 +922,8 @@ class AccountVoucherLine(ModelSQL, ModelView):
     __name__ = 'account.voucher.line'
 
     _states = {'readonly': True}
+    _states_done = {'readonly': Eval('context', {}).get(
+        'voucher_state', 'draft') != 'draft'}
 
     voucher = fields.Many2One('account.voucher', 'Voucher',
         required=True, ondelete='CASCADE')
@@ -929,7 +935,7 @@ class AccountVoucherLine(ModelSQL, ModelView):
             ('type', '!=', None),
             ('closed', '!=', True)],
         states=_states)
-    amount = fields.Numeric('Amount', digits=(16, 2))
+    amount = fields.Numeric('Amount', digits=(16, 2), states=_states_done)
     line_type = fields.Selection([
         ('cr', 'Credit'),
         ('dr', 'Debit'),
@@ -946,7 +952,7 @@ class AccountVoucherLine(ModelSQL, ModelView):
     currency_rate = fields.Numeric('Currency rate', digits=(12, 6),
         states=_states)
 
-    del _states
+    del _states, _states_done
 
     @classmethod
     def __setup__(cls):
@@ -975,10 +981,12 @@ class AccountVoucherLineCredits(ModelSQL, ModelView):
     __name__ = 'account.voucher.line.credits'
 
     _states = {'readonly': True}
+    _states_done = {'readonly': Eval('context', {}).get(
+        'voucher_state', 'draft') != 'draft'}
 
     voucher = fields.Many2One('account.voucher', 'Voucher',
         required=True, ondelete='CASCADE')
-    name = fields.Char('Name')
+    name = fields.Char('Name', states=_states_done)
     account = fields.Many2One('account.account', 'Account',
         domain=[
             ('type', '!=', None),
@@ -1001,7 +1009,7 @@ class AccountVoucherLineCredits(ModelSQL, ModelView):
     currency_rate = fields.Numeric('Currency rate', digits=(12, 6),
         states=_states)
 
-    del _states
+    del _states, _states_done
 
     @classmethod
     def __setup__(cls):
@@ -1017,10 +1025,12 @@ class AccountVoucherLineDebits(ModelSQL, ModelView):
     __name__ = 'account.voucher.line.debits'
 
     _states = {'readonly': True}
+    _states_done = {'readonly': Eval('context', {}).get(
+        'voucher_state', 'draft') != 'draft'}
 
     voucher = fields.Many2One('account.voucher', 'Voucher',
         required=True, ondelete='CASCADE')
-    name = fields.Char('Name')
+    name = fields.Char('Name', states=_states_done)
     account = fields.Many2One('account.account', 'Account',
         domain=[
             ('type', '!=', None),
@@ -1043,7 +1053,7 @@ class AccountVoucherLineDebits(ModelSQL, ModelView):
     currency_rate = fields.Numeric('Currency rate', digits=(12, 6),
         states=_states)
 
-    del _states
+    del _states, _states_done
 
     @classmethod
     def __setup__(cls):
@@ -1058,10 +1068,16 @@ class AccountVoucherLinePaymode(ModelSQL, ModelView):
     'Account Voucher Line Pay Mode'
     __name__ = 'account.voucher.line.paymode'
 
+    _states_done = {'readonly': Eval('context', {}).get(
+        'voucher_state', 'draft').in_(['posted', 'cancelled'])}
+
     voucher = fields.Many2One('account.voucher', 'Voucher')
     pay_mode = fields.Many2One('account.voucher.paymode', 'Pay Mode',
-        required=True)
-    pay_amount = fields.Numeric('Pay Amount', digits=(16, 2), required=True)
+        required=True, states=_states_done)
+    pay_amount = fields.Numeric('Pay Amount', digits=(16, 2),
+        required=True, states=_states_done)
+
+    del _states_done
 
     @classmethod
     def __setup__(cls):
