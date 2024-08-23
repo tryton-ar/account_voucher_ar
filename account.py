@@ -2,7 +2,7 @@
 # The COPYRIGHT file at the top level of this repository contains
 # the full copyright notices and license terms.
 
-from trytond.model import ModelSQL, fields
+from trytond.model import ModelSQL, fields, ValueMixin
 from trytond.pool import Pool, PoolMeta
 from trytond.modules.company.model import CompanyValueMixin
 
@@ -28,7 +28,7 @@ class Configuration(metaclass=PoolMeta):
         return super().multivalue_model(field)
 
 
-class ConfigurationDefaultVoucher(ModelSQL, CompanyValueMixin):
+class ConfigurationDefaultVoucher(ModelSQL, ValueMixin):
     'Account Configuration Default Voucher'
     __name__ = 'account.configuration.default_voucher'
 
