@@ -13,7 +13,7 @@ MODULE = 'account_voucher_ar'
 PREFIX = 'trytonar'
 MODULE2PREFIX = {
     'party_ar': 'trytonar',
-    }
+}
 
 
 def read(fname):
@@ -27,12 +27,13 @@ def read(fname):
 
 def get_require_version(name):
     if name in LINKS:
-        return ''  # '%s @ %s' % (name, LINKS[name])
+        return '%s @ %s' % (name, LINKS[name])
     if minor_version % 2:
         require = '%s >= %s.%s.dev0, < %s.%s'
     else:
         require = '%s >= %s.%s, < %s.%s'
-    require %= (name, major_version, minor_version,
+    require %= (
+        name, major_version, minor_version,
         major_version, minor_version + 1)
     return require
 
@@ -54,9 +55,9 @@ download_url = 'https://github.com/tryton-ar/%s/tree/%s.%s' % (
 
 LINKS = {
     'trytonar_party_ar': ('git+https://github.com/tryton-ar/'
-        'party_ar.git@%s.%s#egg=trytonar_party_ar-%s.%s' %
+        'party_ar.git@%s.%s#egg=trytonar-party-ar-%s.%s' %
         (major_version, minor_version, major_version, minor_version)),
-    }
+}
 
 requires = []
 for dep in info.get('depends', []):
@@ -67,9 +68,6 @@ for dep in info.get('depends', []):
 requires.append(get_require_version('trytond'))
 
 tests_require = [get_require_version('proteus')]
-dependency_links = list(LINKS.values())
-if minor_version % 2:
-    dependency_links.append('https://trydevpi.tryton.org/')
 
 setup(name='%s_%s' % (PREFIX, MODULE),
     version=version,
@@ -107,21 +105,21 @@ setup(name='%s_%s' % (PREFIX, MODULE),
         'Natural Language :: Spanish',
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.12',
         'Programming Language :: Python :: Implementation :: CPython',
         'Topic :: Office/Business',
         'Topic :: Office/Business :: Financial :: Accounting',
         ],
     license='GPL-3',
-    python_requires='>=3.7',
+    python_requires='>=3.8',
     install_requires=requires,
     extras_require={
         'test': tests_require,
         },
-    dependency_links=dependency_links,
     zip_safe=False,
     entry_points="""
     [trytond.modules]

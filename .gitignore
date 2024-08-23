@@ -57,3 +57,12 @@ docs/_build/
 
 # PyBuilder
 target/
+
+#Ipython Notebook
+.ipynb_checkpoints
+
+.env
+.python-version
+TEST-*
+coverage.xml
+.mypy_cache
