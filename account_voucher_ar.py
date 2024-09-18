@@ -614,13 +614,23 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         if self.writeoff and total != _ZERO:
             amount = abs(total)
             if self.voucher_type == 'receipt':
-                debit = _ZERO
-                credit = amount
-                writeoff_account = self.writeoff.debit_account
+                if total > _ZERO:
+                    debit = _ZERO
+                    credit = amount
+                    writeoff_account = self.writeoff.debit_account
+                else:
+                    debit = amount
+                    credit = _ZERO
+                    writeoff_account = self.writeoff.credit_account
             else:
-                debit = amount
-                credit = _ZERO
-                writeoff_account = self.writeoff.credit_account
+                if total > _ZERO:
+                    debit = amount
+                    credit = _ZERO
+                    writeoff_account = self.writeoff.credit_account
+                else:
+                    debit = _ZERO
+                    credit = amount
+                    writeoff_account = self.writeoff.debit_account
             description = '%s (%s)' % (self.number,
                 self.writeoff_description or self.writeoff.name)
             party_required = writeoff_account.party_required
