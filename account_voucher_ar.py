@@ -761,7 +761,10 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                 if not lines_ids:
                     continue
                 lines = MoveLine.browse(list(set(lines_ids)))
-                MoveLine.reconcile(lines)
+                remainder = sum((l.debit - l.credit)
+                    for l in lines)
+                if remainder == _ZERO:
+                    MoveLine.reconcile(lines)
 
         reconcile_lines = []
         if self.lines_credits:
