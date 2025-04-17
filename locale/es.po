@@ -493,6 +493,10 @@ msgstr ""
 "No puede abonar con devolución la factura \"%(invoice)s\" porque el total es"
 " diferente al importe a pagar."
 
+msgctxt "model:ir.message,text:msg_payment_already_in_statement"
+msgid "The payment is related to multiple lines: %(lines)s."
+msgstr "Un pago está relacionado con múltiples líneas: %(lines)s."
+
 msgctxt "model:ir.message,text:msg_third_check_not_held"
 msgid "Third check \"%(check)s\" is not in Held state"
 msgstr "El cheque de tercero número \"%(check)s\" no figura como \"En cartera\""
