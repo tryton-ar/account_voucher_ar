@@ -13,7 +13,8 @@ MODULE = 'account_voucher_ar'
 PREFIX = 'trytonar'
 MODULE2PREFIX = {
     'party_ar': 'trytonar',
-}
+    'account_ar': 'trytonar',
+    }
 
 
 def read(fname):
@@ -27,13 +28,9 @@ def read(fname):
 
 def get_require_version(name):
     if name in LINKS:
-        return '%s @ %s' % (name, LINKS[name])
-    if minor_version % 2:
-        require = '%s >= %s.%s.dev0, < %s.%s'
-    else:
-        require = '%s >= %s.%s, < %s.%s'
-    require %= (
-        name, major_version, minor_version,
+        return ''  # '%s @ %s' % (name, LINKS[name])
+    require = '%s >= %s.%s, < %s.%s'
+    require %= (name, major_version, minor_version,
         major_version, minor_version + 1)
     return require
 
@@ -55,19 +52,24 @@ download_url = 'https://github.com/tryton-ar/%s/tree/%s.%s' % (
 
 LINKS = {
     'trytonar_party_ar': ('git+https://github.com/tryton-ar/'
-        'party_ar.git@%s.%s#egg=trytonar-party-ar-%s.%s' %
+        'party_ar.git@%s.%s#egg=trytonar_party_ar-%s.%s' %
         (major_version, minor_version, major_version, minor_version)),
-}
+    'trytonar_account_ar': ('git+https://github.com/tryton-ar/'
+        'account_ar.git@%s.%s#egg=trytonar_account_ar-%s.%s' %
+        (major_version, minor_version, major_version, minor_version)),
+    }
 
 requires = []
 for dep in info.get('depends', []):
     if not re.match(r'(ir|res)(\W|$)', dep):
         module_name = '%s_%s' % (MODULE2PREFIX.get(dep, 'trytond'), dep)
         requires.append(get_require_version(module_name))
-
 requires.append(get_require_version('trytond'))
 
 tests_require = [get_require_version('proteus')]
+for dep in info.get('extras_depend', []):
+    module_name = '%s_%s' % (MODULE2PREFIX.get(dep, 'trytond'), dep)
+    tests_require.append(get_require_version(module_name))
 
 setup(name='%s_%s' % (PREFIX, MODULE),
     version=version,
@@ -82,6 +84,7 @@ setup(name='%s_%s' % (PREFIX, MODULE),
         "Forum": 'https://www.tryton.org/forum',
         "Source Code": url,
         },
+    keywords='',
     package_dir={'trytond.modules.%s' % MODULE: '.'},
     packages=(
         ['trytond.modules.%s' % MODULE]
