@@ -40,6 +40,9 @@
         <record model="ir.message" id="msg_amount_invoices_greater_amount">
             <field name="text">You can not post the voucher because Invoices amount is greater than Payment amount</field>
         </record>
+        <record model="ir.message" id="msg_amount_greater_amount_invoices">
+            <field name="text">Payment amount is greater than Invoices amount</field>
+        </record>
         <record model="ir.message" id="msg_refund_with_amount_difference">
             <field name="text">You can not credit with refund invoice "%(invoice)s" because total amount is different than amount to pay.</field>
         </record>
