@@ -11,7 +11,7 @@ from trytond.pool import Pool, PoolMeta
 from trytond.pyson import Eval, In
 from trytond.tools import grouped_slice
 from trytond.transaction import Transaction
-from trytond.exceptions import UserError
+from trytond.exceptions import UserError, UserWarning
 from trytond.i18n import gettext
 
 _ZERO = Decimal('0.0')
@@ -905,10 +905,17 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
 
     @classmethod
     def check_amount_invoices(cls, vouchers):
+        Warning = Pool().get('res.user.warning')
         for voucher in vouchers:
             if voucher.amount_invoices > voucher.amount:
                 raise UserError(gettext(
                     'account_voucher_ar.msg_amount_invoices_greater_amount'))
+            if (voucher.amount_invoices and
+                    voucher.amount > voucher.amount_invoices):
+                key = 'account_voucher_amount_greater@%s' % str(voucher.id)
+                if Warning.check(key):
+                    raise UserWarning(key, gettext(
+                        'account_voucher_ar.msg_amount_greater_amount_invoices'))
 
     @classmethod
     @ModelView.button

@@ -433,6 +433,10 @@ msgctxt ""
 msgid "Posted"
 msgstr "Confirmado"
 
+msgctxt "model:ir.message,text:msg_amount_greater_amount_invoices"
+msgid "Payment amount is greater than Invoices amount"
+msgstr "El importe de pago es mayor al importe de facturas"
+
 msgctxt "model:ir.message,text:msg_amount_greater_unreconciled"
 msgid "Amount greater than invoice amount"
 msgstr "Importe mayor al importe de factura"
