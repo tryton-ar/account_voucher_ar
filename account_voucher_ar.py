@@ -1095,21 +1095,20 @@ class AccountVoucherLinePaymode(ModelSQL, ModelView):
     def __setup__(cls):
         super(AccountVoucherLinePaymode, cls).__setup__()
         cls._buttons.update({
-                'calculate_remaining_amount': {
-                    'invisible': ~Eval('_parent_voucher.state').in_(
-                        ['draft', 'calculated']),
-                    },
-                })
+            'calculate_remaining_amount': {
+                'invisible': ~Eval('_parent_voucher.state').in_(
+                    ['draft', 'calculated']),
+                },
+            })
 
     @staticmethod
     def default_pay_amount():
         return Decimal('0.0')
 
-    @classmethod
-    def calculate_remaining_amount(cls, paymodes):
-        for p in paymodes:
-            p.pay_amount = p.voucher.amount_invoices - p.voucher.amount
-            p.save()
+    @ModelView.button_change('voucher',
+        '_parent_voucher.amount_invoices', '_parent_voucher.amount')
+    def calculate_remaining_amount(self):
+        self.pay_amount = self.voucher.amount_invoices - self.voucher.amount
 
 
 class AccountVoucherReport(Report):
