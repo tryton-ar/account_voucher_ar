@@ -8,6 +8,7 @@ from trytond.tests.test_tryton import ModuleTestCase
 class VoucherArTestCase(CompanyTestMixin, ModuleTestCase):
     'Test account_voucher_ar module'
     module = 'account_voucher_ar'
+    extras = ['account_statement']
 
 
 del ModuleTestCase
