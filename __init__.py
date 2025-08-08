@@ -10,6 +10,8 @@ from . import account_voucher_ar
 from . import invoice
 from . import statement
 
+__all__ = ['register']
+
 
 def register():
     Pool.register(
