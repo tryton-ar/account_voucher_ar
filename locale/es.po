@@ -18,10 +18,6 @@ msgctxt "field:account.configuration,default_receipt_journal:"
 msgid "Default Receipt Journal"
 msgstr "Diario por defecto en Recibos"
 
-msgctxt "field:account.configuration.default_voucher,company:"
-msgid "Company"
-msgstr "Empresa"
-
 msgctxt ""
 "field:account.configuration.default_voucher,default_payment_currency:"
 msgid "Default Payment Currency"
@@ -60,6 +56,10 @@ msgctxt "field:account.move.line,voucher_payments:"
 msgid "Voucher Payments"
 msgstr "Pagos"
 
+msgctxt "field:account.statement.line,statement_journal:"
+msgid "Statement Journal"
+msgstr ""
+
 msgctxt "field:account.voucher,amount:"
 msgid "Payment"
 msgstr "Saldando"
@@ -70,7 +70,7 @@ msgstr "Total facturas"
 
 msgctxt "field:account.voucher,amount_to_pay:"
 msgid "To Pay"
-msgstr "A pagar"
+msgstr "Pendiente"
 
 msgctxt "field:account.voucher,comment:"
 msgid "Comment"
@@ -126,7 +126,7 @@ msgstr "Número"
 
 msgctxt "field:account.voucher,party:"
 msgid "Party"
-msgstr "Entidad"
+msgstr "Tercero"
 
 msgctxt "field:account.voucher,pay_invoice:"
 msgid "Pay Invoice"
@@ -162,7 +162,7 @@ msgstr "Saldando"
 
 msgctxt "field:account.voucher.line,amount_original:"
 msgid "Original Amount"
-msgstr "Total"
+msgstr "Importe"
 
 msgctxt "field:account.voucher.line,amount_unreconciled:"
 msgid "Unreconciled amount"
@@ -509,6 +509,14 @@ msgctxt "model:ir.message,text:msg_third_pay_check_not_delivered"
 msgid "Third check \"%(check)s\" is not in Delivered state"
 msgstr "El cheque de tercero número \"%(check)s\" no figura como \"Entregado\""
 
+msgctxt "model:ir.message,text:msg_voucher_no_sequence"
+msgid ""
+"To post voucher \"%(voucher)s\", you must define a sequence on fiscal year "
+"\"%(fiscalyear)s\"."
+msgstr ""
+"Para contabilizar el comprobante \"%(voucher)s\", debe definir una secuencia "
+"para el ejercicio fiscal \"%(fiscalyear)s\"."
+
 msgctxt "model:ir.model.button,confirm:voucher_cancel_button"
 msgid "Are you sure you want to cancel the voucher?"
 msgstr "¿Está seguro de querer cancelar el comprobante?"
@@ -535,6 +543,10 @@ msgid "Confirm"
 msgstr "Confirmar"
 
 msgctxt "model:ir.rule.group,name:rule_group_voucher_companies"
+msgid "User in companies"
+msgstr "Usuario en las empresas"
+
+msgctxt "model:ir.rule.group,name:rule_group_voucher_paymode_companies"
 msgid "User in companies"
 msgstr "Usuario en las empresas"
 
@@ -576,11 +588,11 @@ msgstr ""
 
 msgctxt "report:account.voucher:"
 msgid "/"
-msgstr "/"
+msgstr ""
 
 msgctxt "report:account.voucher:"
 msgid ":"
-msgstr ":"
+msgstr ""
 
 msgctxt "report:account.voucher:"
 msgid "Anticipo"
