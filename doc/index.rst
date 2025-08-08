@@ -1,4 +1,5 @@
-Account Voucher Argentina Module
-################################
+###########################
+trytonar_account_voucher_ar
+###########################
 
-Account Voucher for Argentina
+The account_voucher_ar module of the Tryton application platform.
