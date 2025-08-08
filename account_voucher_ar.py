@@ -179,13 +179,11 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         pool = Pool()
         FiscalYear = pool.get('account.fiscalyear')
 
-        fiscalyear_id = FiscalYear.find(self.company.id,
-            date=self.date)
-        fiscalyear = FiscalYear(fiscalyear_id)
+        fiscalyear = FiscalYear.find(self.company, date=self.date)
         sequence = fiscalyear.get_voucher_sequence(self.voucher_type)
         if not sequence:
             raise UserError(gettext(
-                'account_voucher_ar.msg_no_voucher_sequence',
+                'account_voucher_ar.msg_voucher_no_sequence',
                 voucher=self.rec_name, fiscalyear=fiscalyear.rec_name))
         self.write([self], {'number': sequence.get()})
 
@@ -413,10 +411,11 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
             raise UserError(gettext(
                 'account_voucher_ar.msg_missing_pay_lines'))
 
+        period = Period.find(self.company, date=self.date)
         move_lines = []
         line_move_ids = []
         move, = Move.create([{
-            'period': Period.find(self.company.id, date=self.date),
+            'period': period.id,
             'journal': self.journal.id,
             'date': self.date,
             'origin': str(self),
@@ -467,7 +466,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                     'account': line.pay_mode.account.id,
                     'move': move.id,
                     'journal': self.journal.id,
-                    'period': Period.find(self.company.id, date=self.date),
+                    'period': period.id,
                     'party': (line.pay_mode.account.party_required and
                         self.party.id or None),
                     'amount_second_currency': amount_second_currency,
@@ -501,7 +500,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                     'account': line.account.id,
                     'move': move.id,
                     'journal': self.journal.id,
-                    'period': Period.find(self.company.id, date=self.date),
+                    'period': period.id,
                     'date': self.date,
                     'maturity_date': self.date,
                     'party': (line.account.party_required and
@@ -537,7 +536,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                     'account': line.account.id,
                     'move': move.id,
                     'journal': self.journal.id,
-                    'period': Period.find(self.company.id, date=self.date),
+                    'period': period.id,
                     'date': self.date,
                     'maturity_date': self.date,
                     'party': (line.account.party_required and
@@ -599,7 +598,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                     'account': line.account.id,
                     'move': move.id,
                     'journal': self.journal.id,
-                    'period': Period.find(self.company.id, date=self.date),
+                    'period': period.id,
                     'date': self.date,
                     'maturity_date': self.date,
                     'party': (line.account.party_required and
@@ -641,7 +640,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                 'account': writeoff_account.id,
                 'move': move.id,
                 'journal': self.journal.id,
-                'period': Period.find(self.company.id, date=self.date),
+                'period': period.id,
                 'date': self.date,
                 'maturity_date': self.date,
                 'party': party_required and self.party.id or None,
@@ -678,7 +677,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                 'account': account.id,
                 'move': move.id,
                 'journal': self.journal.id,
-                'period': Period.find(self.company.id, date=self.date),
+                'period': period.id,
                 'date': self.date,
                 'maturity_date': self.date,
                 'party': party_required and self.party.id or None,
@@ -863,7 +862,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
             Invoice.write(*to_write)
 
         cancelled_move, = Move.copy([self.move], {
-            'period': Period.find(self.company.id, date=self.move.date),
+            'period': Period.find(self.company, date=self.move.date),
             'date': self.move.date,
             })
         self.write([self], {

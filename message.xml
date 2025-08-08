@@ -16,6 +16,9 @@
         <record model="ir.message" id="msg_third_pay_check_not_delivered">
             <field name="text">Third check "%(check)s" is not in Delivered state</field>
         </record>
+        <record model="ir.message" id="msg_voucher_no_sequence">
+            <field name="text">To post voucher "%(voucher)s", you must define a sequence on fiscal year "%(fiscalyear)s".</field>
+        </record>
         <record model="ir.message" id="msg_change_voucher_sequence">
             <field name="text">You can not change voucher sequence in fiscal year "%(fiscal_year)s" because there are already posted vouchers in this fiscal year.</field>
         </record>

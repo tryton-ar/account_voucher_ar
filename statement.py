@@ -94,7 +94,7 @@ class StatementLine(metaclass=PoolMeta):
         cls.related_to.domain['account.voucher.line.paymode'] = ['OR',
             [('related_statement_line', '=', Eval('id', -1))],
             [('voucher.company', '=', Eval('company', -1)),
-                If(Bool(Eval('voucher.party')),
+                If(Bool(Eval('party')),
                     ('voucher.party', '=', Eval('party')),
                     ()),
                 ('pay_mode.statement_reconcile', '=', True),
@@ -112,7 +112,7 @@ class StatementLine(metaclass=PoolMeta):
             ('pay_amount', 'ASC'),
             ]
 
-    @fields.depends('statement')
+    @fields.depends('statement', '_parent_statement.journal')
     def on_change_with_statement_journal(self, name=None):
         if self.statement:
             return self.statement.journal.id
