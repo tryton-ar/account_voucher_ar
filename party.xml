@@ -2,7 +2,8 @@
 <tryton>
     <data>
 
-        <!-- Receipts -->
+<!-- Receipts -->
+
         <record model="ir.action.act_window" id="act_voucher_receipt_form2">
             <field name="name">Receipts</field>
             <field name="res_model">account.voucher</field>
@@ -25,7 +26,8 @@
             <field name="group" ref="account.group_account"/>
         </record>
 
-        <!-- Payments -->
+<!-- Payments -->
+
         <record model="ir.action.act_window" id="act_voucher_payment_form2">
             <field name="name">Payments</field>
             <field name="res_model">account.voucher</field>

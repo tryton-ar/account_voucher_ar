@@ -348,10 +348,6 @@ msgctxt "model:account.voucher.paymode,name:"
 msgid "Account Voucher Pay Mode"
 msgstr "Forma de Pago"
 
-msgctxt "model:ir.action,name:act_voucher_form"
-msgid "All Vouchers"
-msgstr "Todos los comprobantes"
-
 msgctxt "model:ir.action,name:act_voucher_payment_form"
 msgid "Payments"
 msgstr "Pagos"
@@ -375,28 +371,6 @@ msgstr "Recibos"
 msgctxt "model:ir.action,name:report_account_voucher"
 msgid "Voucher"
 msgstr "Comprobante"
-
-msgctxt "model:ir.action,name:wizard_select_invoices"
-msgid "Select Invoices to receive/pay"
-msgstr "Seleccione facturas a cobrar/pagar"
-
-msgctxt "model:ir.action.act_window.domain,name:act_voucher_form_domain_all"
-msgid "All"
-msgstr "Todo"
-
-msgctxt ""
-"model:ir.action.act_window.domain,name:act_voucher_form_domain_calculated"
-msgid "Calculated"
-msgstr "Calculado"
-
-msgctxt "model:ir.action.act_window.domain,name:act_voucher_form_domain_draft"
-msgid "Draft"
-msgstr "Borrador"
-
-msgctxt ""
-"model:ir.action.act_window.domain,name:act_voucher_form_domain_posted"
-msgid "Posted"
-msgstr "Confirmado"
 
 msgctxt ""
 "model:ir.action.act_window.domain,name:act_voucher_payment_form_domain_all"
@@ -566,9 +540,9 @@ msgctxt "model:ir.ui.menu,name:menu_paymodes"
 msgid "Paymode"
 msgstr "Formas de pago/cobro"
 
-msgctxt "model:ir.ui.menu,name:menu_voucher_form"
-msgid "All Vouchers"
-msgstr "Todos los comprobantes"
+msgctxt "model:ir.ui.menu,name:menu_treasury"
+msgid "Treasury"
+msgstr "Tesorería"
 
 msgctxt "model:ir.ui.menu,name:menu_voucher_payment_form"
 msgid "Payments"

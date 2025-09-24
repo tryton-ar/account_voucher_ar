@@ -2,16 +2,17 @@
 <tryton>
     <data>
 
-<!-- Account Voucher -->
+<!-- Treasury -->
 
-        <menuitem name="Voucher" parent="account.menu_account"
-            id="menu_vouchers" sequence="21"/>
+        <menuitem name="Treasury" id="menu_treasury"
+            parent="account.menu_account" sequence="21"/>
 
-        <record model="ir.action.wizard" id="wizard_select_invoices">
-            <field name="name">Select Invoices to receive/pay</field>
-            <field name="wiz_name">account.voucher.select_invoices</field>
-            <field name="model">account.voucher</field>
-        </record>
+<!-- Treasury / Voucher -->
+
+        <menuitem name="Vouchers" id="menu_vouchers"
+            parent="menu_treasury" sequence="10"/>
+
+<!-- Voucher -->
 
         <record model="ir.ui.view" id="account_voucher_form">
             <field name="model">account.voucher</field>
@@ -24,52 +25,28 @@
             <field name="name">account_voucher_tree</field>
         </record>
 
-        <record model="ir.action.act_window" id="act_voucher_form">
-            <field name="name">All Vouchers</field>
-            <field name="res_model">account.voucher</field>
+        <record model="ir.ui.view" id="lines_view_tree">
+            <field name="model">account.voucher.line</field>
+            <field name="type">tree</field>
+            <field name="name">lines_tree</field>
         </record>
-        <record model="ir.action.act_window.view" id="act_voucher_form_view1">
-            <field name="sequence" eval="10"/>
-            <field name="view" ref="account_voucher_tree"/>
-            <field name="act_window" ref="act_voucher_form"/>
+        <record model="ir.ui.view" id="lines_credits_view_tree">
+            <field name="model">account.voucher.line.credits</field>
+            <field name="type">tree</field>
+            <field name="name">lines_credits_tree</field>
         </record>
-        <record model="ir.action.act_window.view" id="act_voucher_form_view2">
-            <field name="sequence" eval="20"/>
-            <field name="view" ref="account_voucher_form"/>
-            <field name="act_window" ref="act_voucher_form"/>
+        <record model="ir.ui.view" id="lines_debits_view_tree">
+            <field name="model">account.voucher.line.debits</field>
+            <field name="type">tree</field>
+            <field name="name">lines_debits_tree</field>
         </record>
-        <record model="ir.action.act_window.domain"
-            id="act_voucher_form_domain_draft">
-            <field name="name">Draft</field>
-            <field name="sequence" eval="10"/>
-            <field name="domain" eval="[('state', '=', 'draft')]" pyson="1"/>
-            <field name="count" eval="True"/>
-            <field name="act_window" ref="act_voucher_form"/>
+        <record model="ir.ui.view" id="pay_lines_view_tree">
+            <field name="model">account.voucher.line.paymode</field>
+            <field name="type">tree</field>
+            <field name="name">pay_lines_tree</field>
         </record>
-        <record model="ir.action.act_window.domain"
-            id="act_voucher_form_domain_calculated">
-            <field name="name">Calculated</field>
-            <field name="sequence" eval="20"/>
-            <field name="domain" eval="[('state', '=', 'calculated')]" pyson="1"/>
-            <field name="count" eval="True"/>
-            <field name="act_window" ref="act_voucher_form"/>
-        </record>
-        <record model="ir.action.act_window.domain"
-            id="act_voucher_form_domain_posted">
-            <field name="name">Posted</field>
-            <field name="sequence" eval="30"/>
-            <field name="domain" eval="[('state', '=', 'posted')]" pyson="1"/>
-            <field name="act_window" ref="act_voucher_form"/>
-        </record>
-        <record model="ir.action.act_window.domain"
-            id="act_voucher_form_domain_all">
-            <field name="name">All</field>
-            <field name="sequence" eval="9999"/>
-            <field name="domain"></field>
-            <field name="act_window" ref="act_voucher_form"/>
-        </record>
-        <menuitem parent="menu_vouchers" action="act_voucher_form"
-            id="menu_voucher_form" sequence="5"/>
+
+<!-- Receipts -->
 
         <record model="ir.action.act_window" id="act_voucher_receipt_form">
             <field name="name">Receipts</field>
@@ -111,8 +88,12 @@
             <field name="domain"></field>
             <field name="act_window" ref="act_voucher_receipt_form"/>
         </record>
-        <menuitem parent="menu_vouchers" action="act_voucher_receipt_form"
-            id="menu_voucher_receipt_form" sequence="10"/>
+
+        <menuitem action="act_voucher_receipt_form"
+            id="menu_voucher_receipt_form"
+            parent="menu_vouchers" sequence="10"/>
+
+<!-- Payments -->
 
         <record model="ir.action.act_window" id="act_voucher_payment_form">
             <field name="name">Payments</field>
@@ -162,8 +143,41 @@
             <field name="domain"></field>
             <field name="act_window" ref="act_voucher_payment_form"/>
         </record>
-        <menuitem parent="menu_vouchers" action="act_voucher_payment_form"
-            id="menu_voucher_payment_form" sequence="15"/>
+
+        <menuitem action="act_voucher_payment_form"
+            id="menu_voucher_payment_form"
+            parent="menu_vouchers" sequence="15"/>
+
+<!-- Voucher Buttons -->
+
+        <record model="ir.model.button" id="voucher_cancel_button">
+            <field name="name">cancel</field>
+            <field name="string">Cancel</field>
+            <field name="model" search="[('model', '=', 'account.voucher')]"/>
+            <field name="confirm">Are you sure you want to cancel the voucher?</field>
+            <field name="help">Cancel the voucher</field>
+        </record>
+        <record model="ir.model.button-res.group"
+            id="voucher_cancel_button_group_account">
+            <field name="button" ref="voucher_cancel_button"/>
+            <field name="group" ref="account.group_account"/>
+        </record>
+        <record model="ir.model.button" id="voucher_post_button">
+            <field name="name">post</field>
+            <field name="string">Confirm</field>
+            <field name="model" search="[('model', '=', 'account.voucher')]"/>
+        </record>
+        <record model="ir.model.button-res.group"
+            id="voucher_post_button_group_account">
+            <field name="button" ref="voucher_post_button"/>
+            <field name="group" ref="account.group_account"/>
+        </record>
+        <record model="ir.model.button" id="paymode_calculate_remaining_amount_button">
+            <field name="name">calculate_remaining_amount</field>
+            <field name="string">Calculate remaining</field>
+            <field name="model" search="[('model', '=', 'account.voucher.line.paymode')]"/>
+            <field name="help">Calculate remaining amount to balance the voucher</field>
+        </record>
 
         <record model="ir.rule.group" id="rule_group_voucher_companies">
             <field name="name">User in companies</field>
@@ -178,39 +192,25 @@
             <field name="rule_group" ref="rule_group_voucher_companies"/>
         </record>
 
+<!-- Voucher Report -->
 
-        <record model="ir.ui.view" id="lines_view_tree">
-            <field name="model">account.voucher.line</field>
-            <field name="type">tree</field>
-            <field name="name">lines_tree</field>
+        <record model="ir.action.report" id="report_account_voucher">
+            <field name="active" eval="True"/>
+            <field name="name">Voucher</field>
+            <field name="model">account.voucher</field>
+            <field name="report_name">account.voucher</field>
+            <field name="report">account_voucher_ar/account_voucher.fodt</field>
+        </record>
+        <record model="ir.action.keyword" id="report_account_voucher_ar">
+            <field name="keyword">form_print</field>
+            <field name="model">account.voucher,-1</field>
+            <field name="action" ref="report_account_voucher"/>
         </record>
 
-        <record model="ir.ui.view" id="lines_credits_view_tree">
-            <field name="model">account.voucher.line.credits</field>
-            <field name="type">tree</field>
-            <field name="name">lines_credits_tree</field>
-        </record>
-        <record model="ir.ui.view" id="lines_debits_view_tree">
-            <field name="model">account.voucher.line.debits</field>
-            <field name="type">tree</field>
-            <field name="name">lines_debits_tree</field>
-        </record>
+<!--Voucher Paymode-->
 
-        <record model="ir.ui.view" id="pay_lines_view_tree">
-            <field name="model">account.voucher.line.paymode</field>
-            <field name="type">tree</field>
-            <field name="name">pay_lines_tree</field>
-        </record>
-
-        <record model="ir.model.button" id="paymode_calculate_remaining_amount_button">
-            <field name="name">calculate_remaining_amount</field>
-            <field name="string">Calculate remaining</field>
-            <field name="model" search="[('model', '=', 'account.voucher.line.paymode')]"/>
-            <field name="help">Calculate remaining amount to balance the voucher</field>
-        </record>
-
-        <menuitem name="Paymode" parent="account.menu_account_configuration"
-            id="menu_paymode" sequence="21"/>
+        <menuitem name="Paymode" id="menu_paymode"
+            parent="account.menu_account_configuration" sequence="55"/>
 
         <record model="ir.ui.view" id="account_voucher_paymode_form">
             <field name="model">account.voucher.paymode</field>
@@ -238,47 +238,8 @@
             <field name="act_window" ref="act_voucher_paymode_form"/>
         </record>
 
-        <!-- buttons -->
-        <record model="ir.model.button" id="voucher_cancel_button">
-            <field name="name">cancel</field>
-            <field name="string">Cancel</field>
-            <field name="confirm">Are you sure you want to cancel the voucher?</field>
-            <field name="help">Cancel the voucher</field>
-            <field name="model" search="[('model', '=', 'account.voucher')]"/>
-        </record>
-        <record model="ir.model.button-res.group"
-            id="voucher_cancel_button_group_account">
-            <field name="button" ref="voucher_cancel_button"/>
-            <field name="group" ref="account.group_account"/>
-        </record>
-
-        <record model="ir.model.button" id="voucher_post_button">
-            <field name="name">post</field>
-            <field name="string">Confirm</field>
-            <field name="model" search="[('model', '=', 'account.voucher')]"/>
-        </record>
-        <record model="ir.model.button-res.group"
-            id="voucher_post_button_group_account">
-            <field name="button" ref="voucher_post_button"/>
-            <field name="group" ref="account.group_account"/>
-        </record>
-
-        <!-- report -->
-        <record model="ir.action.report" id="report_account_voucher">
-            <field name="active" eval="True"/>
-            <field name="name">Voucher</field>
-            <field name="model">account.voucher</field>
-            <field name="report_name">account.voucher</field>
-            <field name="report">account_voucher_ar/account_voucher.fodt</field>
-        </record>
-        <record model="ir.action.keyword" id="report_account_voucher_ar">
-            <field name="keyword">form_print</field>
-            <field name="model">account.voucher,-1</field>
-            <field name="action" ref="report_account_voucher"/>
-        </record>
-
-        <menuitem parent="menu_paymode" action="act_voucher_paymode_form"
-            id="menu_paymodes" sequence="5"/>
+        <menuitem action="act_voucher_paymode_form" id="menu_paymodes"
+            parent="menu_paymode"/>
 
     </data>
 </tryton>
