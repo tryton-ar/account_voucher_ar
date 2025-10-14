@@ -26,6 +26,7 @@ def register():
         account_voucher_ar.AccountVoucherLineCredits,
         account_voucher_ar.AccountVoucherLineDebits,
         account_voucher_ar.AccountVoucherLinePaymode,
+        invoice.Invoice,
         module='account_voucher_ar', type_='model')
     Pool.register(
         statement.AccountVoucherPayMode,
