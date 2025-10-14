@@ -298,14 +298,16 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
             move_lines = MoveLine.search(clause)
 
         for line in move_lines:
-            origin = str(line.move_origin)
-            origin = origin[:origin.find(',')]
+            model = str(line.move_origin)
+            origin = model[:model.find(',')]
             if origin not in [
                     'account.invoice',
                     'account.voucher',
                     'account.statement']:
                 continue
-
+            origin_id = model[model.find(',') + 1:]
+            if origin_id == '-1':
+                continue
             invoice = InvoiceAccountMoveLine.search([
                 ('line', '=', line.id),
                 ])
@@ -337,9 +339,8 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                         #self.currency)
 
             name = ''
-            model = str(line.move_origin)
             invoice_date = None
-            if model[:model.find(',')] == 'account.invoice':
+            if origin == 'account.invoice':
                 invoice = Invoice(line.move_origin.id)
                 invoice_date = invoice.invoice_date
                 if invoice.type[0:3] == 'out':
