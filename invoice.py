@@ -2,21 +2,33 @@
 # The COPYRIGHT file at the top level of this repository contains
 # the full copyright notices and license terms.
 
-from trytond.wizard import Wizard, StateView, Button
+from trytond.wizard import StateView, Button
 from trytond.pool import Pool, PoolMeta
+from trytond.pyson import Eval
 from trytond.transaction import Transaction
 from trytond.exceptions import UserError
 from trytond.i18n import gettext
 
 
-class PayInvoice(Wizard):
-    'Pay Invoice'
+class Invoice(metaclass=PoolMeta):
+    __name__ = 'account.invoice'
+
+    @classmethod
+    def __setup__(cls):
+        super(Invoice, cls).__setup__()
+        cls._buttons['pay']['invisible'] = (Eval('state') != 'posted')
+
+
+class PayInvoice(metaclass=PoolMeta):
     __name__ = 'account.invoice.pay'
 
-    start = StateView('account.voucher',
-        'account_voucher_ar.account_voucher_form', [
-            Button('Close', 'end', 'tryton-ok', default=True),
-            ])
+    @classmethod
+    def __setup__(cls):
+        super(PayInvoice, cls).__setup__()
+        cls.start = StateView('account.voucher',
+            'account_voucher_ar.account_voucher_form', [
+                Button('Close', 'end', 'tryton-ok', default=True),
+                ])
 
     def default_start(self, fields):
         pool = Pool()
