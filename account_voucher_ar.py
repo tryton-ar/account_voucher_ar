@@ -424,8 +424,12 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         self.write([self], {'move': move.id})
 
         second_currency = None
-        if self.currency != self.company.currency:
-            second_currency = self.currency.id
+        #if self.currency != self.company.currency:
+        #    second_currency = self.currency.id
+
+        invoice = Invoice(self.lines[0].move_line.move_origin.id)
+        if self.currency != invoice.currency:
+            second_currency = invoice.currency.id
 
         #
         # Pay Modes
@@ -570,7 +574,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                 amount = line.amount
                 amount_second_currency = None
                 if second_currency:
-                    amount_second_currency = amount
+                    amount_second_currency = invoice.total_amount
                     with Transaction().set_context(
                             currency_rate=line.currency_rate, date=self.date):
                         amount = Currency.compute(self.currency,
