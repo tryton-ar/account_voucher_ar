@@ -1101,7 +1101,7 @@ class AccountVoucherLinePaymode(ModelSQL, ModelView):
 
     @classmethod
     def __setup__(cls):
-        super(AccountVoucherLinePaymode, cls).__setup__()
+        super().__setup__()
         cls._buttons.update({
             'calculate_remaining_amount': {
                 'invisible': ~Eval('_parent_voucher.state').in_(

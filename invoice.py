@@ -15,7 +15,7 @@ class Invoice(metaclass=PoolMeta):
 
     @classmethod
     def __setup__(cls):
-        super(Invoice, cls).__setup__()
+        super().__setup__()
         cls._buttons['pay']['invisible'] = (Eval('state') != 'posted')
 
 
@@ -24,7 +24,7 @@ class PayInvoice(metaclass=PoolMeta):
 
     @classmethod
     def __setup__(cls):
-        super(PayInvoice, cls).__setup__()
+        super().__setup__()
         cls.start = StateView('account.voucher',
             'account_voucher_ar.account_voucher_form', [
                 Button('Close', 'end', 'tryton-ok', default=True),
