@@ -15,8 +15,7 @@
 
         <record model="ir.rule.group" id="rule_group_voucher_paymode_companies">
             <field name="name">User in companies</field>
-            <field name="model"
-                search="[('model', '=', 'account.voucher.paymode')]"/>
+            <field name="model">account.voucher.paymode</field>
             <field name="global_p" eval="True"/>
         </record>
         <record model="ir.rule" id="rule_voucher_paymode_companies">

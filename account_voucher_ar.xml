@@ -153,7 +153,7 @@
         <record model="ir.model.button" id="voucher_cancel_button">
             <field name="name">cancel</field>
             <field name="string">Cancel</field>
-            <field name="model" search="[('model', '=', 'account.voucher')]"/>
+            <field name="model">account.voucher</field>
             <field name="confirm">Are you sure you want to cancel the voucher?</field>
             <field name="help">Cancel the voucher</field>
         </record>
@@ -165,7 +165,7 @@
         <record model="ir.model.button" id="voucher_post_button">
             <field name="name">post</field>
             <field name="string">Confirm</field>
-            <field name="model" search="[('model', '=', 'account.voucher')]"/>
+            <field name="model">account.voucher</field>
         </record>
         <record model="ir.model.button-res.group"
             id="voucher_post_button_group_account">
@@ -175,14 +175,13 @@
         <record model="ir.model.button" id="paymode_calculate_remaining_amount_button">
             <field name="name">calculate_remaining_amount</field>
             <field name="string">Calculate remaining</field>
-            <field name="model" search="[('model', '=', 'account.voucher.line.paymode')]"/>
+            <field name="model">account.voucher.line.paymode</field>
             <field name="help">Calculate remaining amount to balance the voucher</field>
         </record>
 
         <record model="ir.rule.group" id="rule_group_voucher_companies">
             <field name="name">User in companies</field>
-            <field name="model"
-                search="[('model', '=', 'account.voucher')]"/>
+            <field name="model">account.voucher</field>
             <field name="global_p" eval="True"/>
         </record>
         <record model="ir.rule" id="rule_voucher_companies">
