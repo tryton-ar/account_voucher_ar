@@ -1116,7 +1116,8 @@ class AccountVoucherLinePaymode(ModelSQL, ModelView):
     @ModelView.button_change('voucher',
         '_parent_voucher.amount_invoices', '_parent_voucher.amount')
     def calculate_remaining_amount(self):
-        self.pay_amount = self.voucher.amount_invoices - self.voucher.amount
+        if self.voucher:
+            self.pay_amount = self.voucher.amount_invoices - self.voucher.amount
 
 
 class AccountVoucherReport(Report):
