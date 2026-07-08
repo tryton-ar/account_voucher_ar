@@ -19,8 +19,7 @@ Imports::
     ...     set_fiscalyear_invoice_sequences
     >>> from trytond.modules.account_voucher_ar.tests.tools import \
     ...     set_fiscalyear_voucher_sequences
-    >>> from trytond.modules.account_invoice_ar.tests.tools import \
-    ...     get_tax
+    >>> from trytond.modules.account_ar.tests.tools import get_tax
     >>> today = dt.date.today()
 
 Install account_voucher_ar::
