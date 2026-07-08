@@ -176,7 +176,7 @@ Post invoice::
     >>> invoice.click('post')
     >>> invoice.state
     'posted'
-    >>> invoice.tax_identifier.code
+    >>> invoice.tax_identifier.code_compact
     '30710158254'
     >>> invoice.untaxed_amount
     Decimal('220.00')
