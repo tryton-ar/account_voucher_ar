@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
-<form col="8">
+<form>
     <label name="name"/>
     <field name="name"/>
     <label name="account"/>
     <field name="account"/>
+    <label name="company"/>
+    <field name="company"/>
 </form>

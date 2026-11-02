@@ -2,8 +2,9 @@
 # The COPYRIGHT file at the top level of this repository contains
 # the full copyright notices and license terms.
 
-from trytond.model import ModelSQL, fields, ValueMixin
+from trytond.model import ModelSQL, fields
 from trytond.pool import Pool, PoolMeta
+from trytond.pyson import Eval
 from trytond.modules.company.model import CompanyValueMixin
 
 
@@ -11,11 +12,13 @@ class Configuration(metaclass=PoolMeta):
     __name__ = 'account.configuration'
 
     default_payment_journal = fields.MultiValue(fields.Many2One(
-        'account.journal', 'Default Payment Journal'))
+        'account.journal', 'Default Payment Journal',
+        domain=[('type', '=', 'cash')]))
     default_payment_currency = fields.MultiValue(fields.Many2One(
         'currency.currency', 'Default Payment Currency'))
     default_receipt_journal = fields.MultiValue(fields.Many2One(
-        'account.journal', 'Default Receipt Journal'))
+        'account.journal', 'Default Receipt Journal',
+        domain=[('type', '=', 'cash')]))
     default_receipt_currency = fields.MultiValue(fields.Many2One(
         'currency.currency', 'Default Receipt Currency'))
 
@@ -28,15 +31,21 @@ class Configuration(metaclass=PoolMeta):
         return super().multivalue_model(field)
 
 
-class ConfigurationDefaultVoucher(ModelSQL, ValueMixin):
+class ConfigurationDefaultVoucher(ModelSQL, CompanyValueMixin):
     'Account Configuration Default Voucher'
     __name__ = 'account.configuration.default_voucher'
 
     default_payment_journal = fields.Many2One(
-        'account.journal', 'Default Payment Journal')
+        'account.journal', 'Default Payment Journal',
+        domain=[('type', '=', 'cash')],
+        context={'company': Eval('company', -1)},
+        depends={'company'})
     default_payment_currency = fields.Many2One(
         'currency.currency', 'Default Payment Currency')
     default_receipt_journal = fields.Many2One(
-        'account.journal', 'Default Receipt Journal')
+        'account.journal', 'Default Receipt Journal',
+        domain=[('type', '=', 'cash')],
+        context={'company': Eval('company', -1)},
+        depends={'company'})
     default_receipt_currency = fields.Many2One(
         'currency.currency', 'Default Receipt Currency')

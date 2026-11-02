@@ -1,27 +1,25 @@
 <?xml version="1.0"?>
-<form col="8">
+<form col="6" cursor="party">
     <label name="party"/>
     <field name="party"/>
+    <label name="journal"/>
+    <field name="journal" widget="selection"/>
     <label name="number"/>
     <field name="number"/>
     <label name="date"/>
     <field name="date"/>
-    <label name="amount_to_pay"/>
-    <field name="amount_to_pay"/>
-    <label name="journal"/>
-    <field name="journal"/>
     <label name="currency"/>
     <field name="currency"/>
-    <label name="amount_invoices"/>
-    <field name="amount_invoices"/>
     <label name="amount"/>
     <field name="amount"/>
-    <field name="currency_code" invisible="1"/>
-    <field name="voucher_type" invisible="1"/>
-    <field name="pay_invoice" invisible="1"/>
+    <field name="currency_code" colspan="6" invisible="1"/>
+    <field name="voucher_type" colspan="6" invisible="1"/>
+    <field name="pay_invoice" colspan="6" invisible="1"/>
     <newline/>
-    <notebook colspan="8" yfill="1">
+    <notebook colspan="6" yfill="1">
         <page id="lines" string="Voucher Lines">
+            <label name="amount_invoices"/>
+            <field name="amount_invoices"/>
             <field name="lines" colspan="4"
                 view_ids="account_voucher_ar.lines_view_tree"/>
             <field name="lines_credits" colspan="4"
@@ -30,8 +28,10 @@
                 view_ids="account_voucher_ar.lines_debits_view_tree"/>
         </page>
         <page id="payments" string="Pay Mode Lines">
+            <label name="amount_invoices"/>
+            <field name="amount_invoices"/>
             <field name="pay_lines" colspan="4"
-                view_ids="account_voucher_ar.pay_lines_view_tree"/>
+                view_ids="account_voucher_ar.pay_lines_view_tree_editable"/>
         </page>
         <page id="info" string="Other Info">
             <label name="company"/>
@@ -50,10 +50,12 @@
             <field name="comment" colspan="4" height="200"/>
         </page>
     </notebook>
-    <label name="state"/>
-    <field name="state"/>
-    <group id="buttons" colspan="6">
-        <button name="post"/>
-        <button name="cancel"/>
+    <group id="buttons" colspan="6" col="-1">
+        <label name="state"/>
+        <field name="state"/>
+        <group id="button_cancel">
+            <button name="cancel" icon="tryton-cancel"/>
+        </group>
+        <button name="post" icon="tryton-ok"/>
     </group>
 </form>

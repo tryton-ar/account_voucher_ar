@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<form>
+    <label name="voucher"/>
+    <field name="voucher"/>
+    <newline/>
+    <label name="pay_mode"/>
+    <field name="pay_mode"/>
+    <label name="pay_amount"/>
+    <field name="pay_amount"/>
+    <label name="pay_reference"/>
+    <field name="pay_reference"/>
+</form>

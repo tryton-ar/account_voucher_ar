@@ -7,7 +7,7 @@ from itertools import combinations
 
 from trytond.model import Workflow, ModelView, ModelSQL, fields, Index
 from trytond.report import Report
-from trytond.pool import Pool, PoolMeta
+from trytond.pool import Pool
 from trytond.pyson import Eval, In
 from trytond.tools import grouped_slice
 from trytond.transaction import Transaction
@@ -26,7 +26,32 @@ class AccountVoucherPayMode(ModelSQL, ModelView):
         domain=[
             ('type', '!=', None),
             ('closed', '!=', True),
+            ('company', '=', Eval('company', -1)),
             ])
+    company = fields.Many2One('company.company', "Company",
+        required=True)
+
+    @classmethod
+    def __register__(cls, module_name):
+        cursor = Transaction().connection.cursor()
+        sql_table = cls.__table__()
+        company_table = Pool().get('company.company').__table__()
+        table_h = cls.__table_handler__(module_name)
+
+        company_exist = table_h.column_exist('company')
+
+        super().__register__(module_name)
+
+        if not company_exist:
+            cursor.execute(*company_table.select(company_table.id))
+            company = cursor.fetchone()
+            if company:
+                cursor.execute(*sql_table.update([sql_table.company],
+                    [company[0]]))
+
+    @classmethod
+    def default_company(cls):
+        return Transaction().context.get('company')
 
 
 class AccountVoucher(Workflow, ModelSQL, ModelView):
@@ -47,9 +72,13 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         ], 'Type', required=True, states=_states)
     pay_lines = fields.One2Many('account.voucher.line.paymode', 'voucher',
         'Pay Mode Lines', states=_states_done,
-        context={'voucher_state': Eval('state')}, depends={'state'})
+        context={
+            'company': Eval('company', -1), 'voucher_state': Eval('state'),
+            },
+        depends={'company', 'state'})
     date = fields.Date('Date', required=True, states=_states)
     journal = fields.Many2One('account.journal', 'Journal', required=True,
+        domain=[('type', '=', 'cash')],
         context={'company': Eval('company', -1)},
         states=_states, depends={'company'})
     currency = fields.Many2One('currency.currency', 'Currency', required=True,
@@ -80,12 +109,14 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         ('posted', 'Posted'),
         ('cancelled', 'Cancelled'),
         ], 'State', readonly=True)
-    amount = fields.Function(fields.Numeric('Payment', digits=(16, 2)),
+    amount = fields.Function(fields.Numeric('Amount', digits=(16, 2)),
         'on_change_with_amount')
-    amount_to_pay = fields.Function(fields.Numeric('To Pay', digits=(16, 2)),
+    amount_to_pay = fields.Function(fields.Numeric(
+        'Invoices amount (Pending)', digits=(16, 2)),
         'on_change_with_amount_to_pay')
-    amount_invoices = fields.Function(fields.Numeric('Invoices',
-        digits=(16, 2)), 'on_change_with_amount_invoices')
+    amount_invoices = fields.Function(fields.Numeric(
+        'Invoices amount (Paying)', digits=(16, 2)),
+        'on_change_with_amount_invoices')
     move = fields.Many2One('account.move', 'Move', readonly=True)
     move_cancelled = fields.Many2One('account.move', 'Move Cancelled',
         readonly=True, states={'invisible': ~Eval('move_cancelled')})
@@ -108,9 +139,11 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         cls._buttons.update({
             'post': {
                 'invisible': Eval('state') != 'draft',
+                'depends': ['state'],
                 },
             'cancel': {
                 'invisible': Eval('state') != 'posted',
+                'depends': ['state'],
                 },
             })
         cls._order.insert(0, ('date', 'DESC'))
@@ -175,6 +208,16 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         currency = config.get_multivalue(currency_field, **pattern)
         return currency.id if currency else None
 
+    @classmethod
+    def view_attributes(cls):
+        attributes = super().view_attributes()
+        if Transaction().context.get('invoice_pay'):
+            attributes.extend([
+                ('//group[@id="button_cancel"]', 'states',
+                    {'invisible': True}),
+                ])
+        return attributes
+
     def set_number(self):
         pool = Pool()
         FiscalYear = pool.get('account.fiscalyear')
@@ -212,7 +255,7 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
 
     @fields.depends('party', 'lines', 'currency')
     def on_change_with_amount_to_pay(self, name=None):
-        total = 0
+        total = Decimal('0')
         if self.lines:
             for line in self.lines:
                 total += line.amount_unreconciled or _ZERO
@@ -245,12 +288,12 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
             Decimal(str(10 ** -6)))
 
     @fields.depends('party', 'voucher_type', 'lines', 'lines_credits',
-        'lines_debits', 'currency', 'company', 'date', 'pay_invoice')
+        'lines_debits', 'currency', 'company', 'date', 'pay_invoice', 'state')
     def on_change_party(self):
         self.add_lines()
 
     @fields.depends('party', 'voucher_type', 'lines', 'lines_credits',
-        'lines_debits', 'currency', 'company', 'date', 'pay_invoice')
+        'lines_debits', 'currency', 'company', 'date', 'pay_invoice', 'state')
     def on_change_currency(self):
         self.add_lines()
 
@@ -263,6 +306,9 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         AccountVoucherLineCredits = pool.get('account.voucher.line.credits')
         AccountVoucherLineDebits = pool.get('account.voucher.line.debits')
         AccountVoucherLine = pool.get('account.voucher.line')
+
+        if self.state != 'draft':
+            return
 
         lines = []
         lines_credits = []
@@ -297,7 +343,8 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         else:
             move_lines = MoveLine.search(clause)
 
-        for line in move_lines:
+        for line in sorted(move_lines,
+                key=lambda x: x.maturity_date):
             model = str(line.move_origin)
             origin = model[:model.find(',')]
             if origin not in [
@@ -356,7 +403,8 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                 payment_line = AccountVoucherLine()
             payment_line.name = name
             payment_line.account = line.account.id
-            payment_line.amount = _ZERO
+            payment_line.amount = (amount_residual
+                if self.pay_invoice else _ZERO)
             payment_line.amount_original = amount
             payment_line.amount_unreconciled = amount_residual
             payment_line.line_type = line_type
@@ -406,11 +454,6 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
         Move = pool.get('account.move')
         Invoice = pool.get('account.invoice')
         Currency = pool.get('currency.currency')
-
-        # Check amount
-        if not self.amount > _ZERO:
-            raise UserError(gettext(
-                'account_voucher_ar.msg_missing_pay_lines'))
 
         period = Period.find(self.company, date=self.date)
         move_lines = []
@@ -462,12 +505,11 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                     amount_second_currency *= -1
 
                 move_lines.append({
+                    'description': line.pay_reference or None,
                     'debit': debit,
                     'credit': credit,
                     'account': line.pay_mode.account.id,
                     'move': move.id,
-                    'journal': self.journal.id,
-                    'period': period.id,
                     'party': (line.pay_mode.account.party_required and
                         self.party.id or None),
                     'amount_second_currency': amount_second_currency,
@@ -500,9 +542,6 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                     'credit': credit,
                     'account': line.account.id,
                     'move': move.id,
-                    'journal': self.journal.id,
-                    'period': period.id,
-                    'date': self.date,
                     'maturity_date': self.date,
                     'party': (line.account.party_required and
                         self.party.id or None),
@@ -536,9 +575,6 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                     'credit': credit,
                     'account': line.account.id,
                     'move': move.id,
-                    'journal': self.journal.id,
-                    'period': period.id,
-                    'date': self.date,
                     'maturity_date': self.date,
                     'party': (line.account.party_required and
                         self.party.id or None),
@@ -598,9 +634,6 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                     'credit': credit,
                     'account': line.account.id,
                     'move': move.id,
-                    'journal': self.journal.id,
-                    'period': period.id,
-                    'date': self.date,
                     'maturity_date': self.date,
                     'party': (line.account.party_required and
                         self.party.id or None),
@@ -640,9 +673,6 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                 'credit': credit,
                 'account': writeoff_account.id,
                 'move': move.id,
-                'journal': self.journal.id,
-                'period': period.id,
-                'date': self.date,
                 'maturity_date': self.date,
                 'party': party_required and self.party.id or None,
                 })
@@ -677,9 +707,6 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                 'credit': credit,
                 'account': account.id,
                 'move': move.id,
-                'journal': self.journal.id,
-                'period': period.id,
-                'date': self.date,
                 'maturity_date': self.date,
                 'party': party_required and self.party.id or None,
                 'amount_second_currency': amount_second_currency,
@@ -906,8 +933,13 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
 
     @classmethod
     def check_amount_invoices(cls, vouchers):
-        Warning = Pool().get('res.user.warning')
+        pool = Pool()
+        Warning = pool.get('res.user.warning')
+
         for voucher in vouchers:
+            if voucher.amount < Decimal(0):
+                raise UserError(gettext(
+                    'account_voucher_ar.msg_voucher_negative_amount'))
             if voucher.amount_invoices > voucher.amount:
                 raise UserError(gettext(
                     'account_voucher_ar.msg_amount_invoices_greater_amount'))
@@ -917,6 +949,11 @@ class AccountVoucher(Workflow, ModelSQL, ModelView):
                 if Warning.check(key):
                     raise UserWarning(key, gettext(
                         'account_voucher_ar.msg_amount_greater_amount_invoices'))
+            if voucher.amount == Decimal(0):
+                key = 'account_voucher_amount_zero@%s' % voucher.number
+                if Warning.check(key):
+                    raise UserWarning(key, gettext(
+                        'account_voucher_ar.msg_voucher_zero_amount'))
 
     @classmethod
     @ModelView.button
@@ -943,28 +980,30 @@ class AccountVoucherLine(ModelSQL, ModelView):
 
     _states = {'readonly': True}
     _states_done = {'readonly': Eval('context', {}).get(
-        'voucher_state', 'draft') != 'draft'}
+        'voucher_state', 'posted') != 'draft'}
 
     voucher = fields.Many2One('account.voucher', 'Voucher',
-        required=True, ondelete='CASCADE')
+        required=True, readonly=True, ondelete='CASCADE')
     reference = fields.Function(fields.Char('reference'),
         'get_reference')
     name = fields.Char('Name', states=_states)
     account = fields.Many2One('account.account', 'Account',
         domain=[
             ('type', '!=', None),
-            ('closed', '!=', True)],
-        states=_states)
-    amount = fields.Numeric('Amount', digits=(16, 2), states=_states_done)
+            ('closed', '!=', True),
+            ('company', '=', Eval('_parent_voucher', {}).get('company', 0)),
+            ],
+        states=_states, depends={'voucher'})
+    amount = fields.Numeric('Paying', digits=(16, 2), states=_states_done)
     line_type = fields.Selection([
         ('cr', 'Credit'),
         ('dr', 'Debit'),
         ], 'Type', states=_states)
     move_line = fields.Many2One('account.move.line', 'Move Line',
         states=_states)
-    amount_original = fields.Numeric('Original Amount',
+    amount_original = fields.Numeric('Amount',
         digits=(16, 2), states=_states)
-    amount_unreconciled = fields.Numeric('Unreconciled amount',
+    amount_unreconciled = fields.Numeric('Pending',
         digits=(16, 2), states=_states)
     date = fields.Date('Date', states=_states)
     date_expire = fields.Function(fields.Date('Expire date'),
@@ -983,8 +1022,8 @@ class AccountVoucherLine(ModelSQL, ModelView):
             #})
 
     def get_reference(self, name):
-        Invoice = Pool().get('account.invoice')
-
+        pool = Pool()
+        Invoice = pool.get('account.invoice')
         if self.move_line.move:
             invoices = Invoice.search([
                 ('move', '=', self.move_line.move.id)])
@@ -1002,18 +1041,19 @@ class AccountVoucherLineCredits(ModelSQL, ModelView):
 
     _states = {'readonly': True}
     _states_done = {'readonly': Eval('context', {}).get(
-        'voucher_state', 'draft') != 'draft'}
+        'voucher_state', 'posted') != 'draft'}
 
     voucher = fields.Many2One('account.voucher', 'Voucher',
-        required=True, ondelete='CASCADE')
+        required=True, readonly=True, ondelete='CASCADE')
     name = fields.Char('Name', states=_states_done)
     account = fields.Many2One('account.account', 'Account',
         domain=[
             ('type', '!=', None),
             ('closed', '!=', True),
+            ('company', '=', Eval('_parent_voucher', {}).get('company', 0)),
             ],
-        states=_states)
-    amount = fields.Numeric('Amount', digits=(16, 2),
+        states=_states, depends={'voucher'})
+    amount = fields.Numeric('Paying', digits=(16, 2),
         states=_states)
     line_type = fields.Selection([
         ('cr', 'Credit'),
@@ -1021,9 +1061,9 @@ class AccountVoucherLineCredits(ModelSQL, ModelView):
         ], 'Type', states=_states)
     move_line = fields.Many2One('account.move.line', 'Move Line',
         states=_states)
-    amount_original = fields.Numeric('Original Amount',
+    amount_original = fields.Numeric('Amount',
         digits=(16, 2), states=_states)
-    amount_unreconciled = fields.Numeric('Unreconciled amount',
+    amount_unreconciled = fields.Numeric('Pending',
         digits=(16, 2), states=_states)
     date = fields.Date('Date', states=_states)
     currency_rate = fields.Numeric('Currency rate', digits=(12, 6),
@@ -1046,18 +1086,19 @@ class AccountVoucherLineDebits(ModelSQL, ModelView):
 
     _states = {'readonly': True}
     _states_done = {'readonly': Eval('context', {}).get(
-        'voucher_state', 'draft') != 'draft'}
+        'voucher_state', 'posted') != 'draft'}
 
     voucher = fields.Many2One('account.voucher', 'Voucher',
-        required=True, ondelete='CASCADE')
+        required=True, readonly=True, ondelete='CASCADE')
     name = fields.Char('Name', states=_states_done)
     account = fields.Many2One('account.account', 'Account',
         domain=[
             ('type', '!=', None),
             ('closed', '!=', True),
+            ('company', '=', Eval('_parent_voucher', {}).get('company', 0)),
             ],
-        states=_states)
-    amount = fields.Numeric('Amount', digits=(16, 2),
+        states=_states, depends={'voucher'})
+    amount = fields.Numeric('Paying', digits=(16, 2),
         states=_states)
     line_type = fields.Selection([
         ('cr', 'Credit'),
@@ -1065,9 +1106,9 @@ class AccountVoucherLineDebits(ModelSQL, ModelView):
         ], 'Type', states=_states)
     move_line = fields.Many2One('account.move.line', 'Move Line',
         states=_states)
-    amount_original = fields.Numeric('Original Amount',
+    amount_original = fields.Numeric('Amount',
         digits=(16, 2), states=_states)
-    amount_unreconciled = fields.Numeric('Unreconciled amount',
+    amount_unreconciled = fields.Numeric('Pending',
         digits=(16, 2), states=_states)
     date = fields.Date('Date', states=_states)
     currency_rate = fields.Numeric('Currency rate', digits=(12, 6),
@@ -1089,13 +1130,21 @@ class AccountVoucherLinePaymode(ModelSQL, ModelView):
     __name__ = 'account.voucher.line.paymode'
 
     _states_done = {'readonly': Eval('context', {}).get(
-        'voucher_state', 'draft').in_(['posted', 'cancelled'])}
+        'voucher_state', 'posted').in_(['posted', 'cancelled'])}
 
-    voucher = fields.Many2One('account.voucher', 'Voucher')
+    voucher = fields.Many2One('account.voucher', 'Voucher',
+        required=True, readonly=True, ondelete='CASCADE')
     pay_mode = fields.Many2One('account.voucher.paymode', 'Pay Mode',
-        required=True, states=_states_done)
+        required=True,
+        domain=[
+            ('company', '=', Eval('_parent_voucher', {}).get('company', 0)),
+            ],
+        states=_states_done, depends={'voucher'})
+    pay_reference = fields.Char('Reference', states=_states_done)
     pay_amount = fields.Numeric('Pay Amount', digits=(16, 2),
         required=True, states=_states_done)
+    voucher_date = fields.Function(fields.Date('Voucher Date'),
+        'get_voucher_date')
 
     del _states_done
 
@@ -1117,6 +1166,10 @@ class AccountVoucherLinePaymode(ModelSQL, ModelView):
         '_parent_voucher.amount_invoices', '_parent_voucher.amount')
     def calculate_remaining_amount(self):
         self.pay_amount = self.voucher.amount_invoices - self.voucher.amount
+
+    def get_voucher_date(self, name):
+        if self.voucher:
+            return self.voucher.date
 
 
 class AccountVoucherReport(Report):

@@ -4,6 +4,6 @@
     <field name="date"/>
     <field name="date_expire"/>
     <field name="amount_original"/>
-    <field name="amount_unreconciled"/>
-    <field name="amount"/>
+    <field name="amount_unreconciled" sum="1"/>
+    <field name="amount" sum="1"/>
 </tree>

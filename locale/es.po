@@ -18,6 +18,10 @@ msgctxt "field:account.configuration,default_receipt_journal:"
 msgid "Default Receipt Journal"
 msgstr "Diario por defecto en Recibos"
 
+msgctxt "field:account.configuration.default_voucher,company:"
+msgid "Company"
+msgstr "Empresa"
+
 msgctxt ""
 "field:account.configuration.default_voucher,default_payment_currency:"
 msgid "Default Payment Currency"
@@ -61,16 +65,16 @@ msgid "Statement Journal"
 msgstr ""
 
 msgctxt "field:account.voucher,amount:"
-msgid "Payment"
-msgstr "Saldando"
+msgid "Amount"
+msgstr "Importe"
 
 msgctxt "field:account.voucher,amount_invoices:"
-msgid "Invoices"
-msgstr "Total facturas"
+msgid "Invoices amount (Paying)"
+msgstr "Importe de facturas (Saldando)"
 
 msgctxt "field:account.voucher,amount_to_pay:"
-msgid "To Pay"
-msgstr "Pendiente"
+msgid "Invoices amount (Pending)"
+msgstr "Importe de facturas (Pendiente)"
 
 msgctxt "field:account.voucher,comment:"
 msgid "Comment"
@@ -157,15 +161,15 @@ msgid "Account"
 msgstr "Cuenta contable"
 
 msgctxt "field:account.voucher.line,amount:"
-msgid "Amount"
+msgid "Paying"
 msgstr "Saldando"
 
 msgctxt "field:account.voucher.line,amount_original:"
-msgid "Original Amount"
+msgid "Amount"
 msgstr "Importe"
 
 msgctxt "field:account.voucher.line,amount_unreconciled:"
-msgid "Unreconciled amount"
+msgid "Pending"
 msgstr "Pendiente"
 
 msgctxt "field:account.voucher.line,currency_rate:"
@@ -198,22 +202,22 @@ msgstr "Referencia"
 
 msgctxt "field:account.voucher.line,voucher:"
 msgid "Voucher"
-msgstr "Comprobantes"
+msgstr "Comprobante"
 
 msgctxt "field:account.voucher.line.credits,account:"
 msgid "Account"
 msgstr "Cuenta contable"
 
 msgctxt "field:account.voucher.line.credits,amount:"
+msgid "Paying"
+msgstr "Saldando"
+
+msgctxt "field:account.voucher.line.credits,amount_original:"
 msgid "Amount"
 msgstr "Importe"
 
-msgctxt "field:account.voucher.line.credits,amount_original:"
-msgid "Original Amount"
-msgstr "Total"
-
 msgctxt "field:account.voucher.line.credits,amount_unreconciled:"
-msgid "Unreconciled amount"
+msgid "Pending"
 msgstr "Pendiente"
 
 msgctxt "field:account.voucher.line.credits,currency_rate:"
@@ -238,22 +242,22 @@ msgstr "Nombre"
 
 msgctxt "field:account.voucher.line.credits,voucher:"
 msgid "Voucher"
-msgstr "Comprobantes"
+msgstr "Comprobante"
 
 msgctxt "field:account.voucher.line.debits,account:"
 msgid "Account"
 msgstr "Cuenta contable"
 
 msgctxt "field:account.voucher.line.debits,amount:"
+msgid "Paying"
+msgstr "Saldando"
+
+msgctxt "field:account.voucher.line.debits,amount_original:"
 msgid "Amount"
 msgstr "Importe"
 
-msgctxt "field:account.voucher.line.debits,amount_original:"
-msgid "Original Amount"
-msgstr "Total"
-
 msgctxt "field:account.voucher.line.debits,amount_unreconciled:"
-msgid "Unreconciled amount"
+msgid "Pending"
 msgstr "Pendiente"
 
 msgctxt "field:account.voucher.line.debits,currency_rate:"
@@ -278,7 +282,7 @@ msgstr "Nombre"
 
 msgctxt "field:account.voucher.line.debits,voucher:"
 msgid "Voucher"
-msgstr "Comprobantes"
+msgstr "Comprobante"
 
 msgctxt "field:account.voucher.line.paymode,pay_amount:"
 msgid "Pay Amount"
@@ -288,13 +292,21 @@ msgctxt "field:account.voucher.line.paymode,pay_mode:"
 msgid "Pay Mode"
 msgstr "Forma de pago"
 
+msgctxt "field:account.voucher.line.paymode,pay_reference:"
+msgid "Reference"
+msgstr "Referencia"
+
 msgctxt "field:account.voucher.line.paymode,related_statement_line:"
 msgid "Statement Line"
 msgstr "Línea de extracto relacionada"
 
 msgctxt "field:account.voucher.line.paymode,voucher:"
 msgid "Voucher"
-msgstr "Comprobantes"
+msgstr "Comprobante"
+
+msgctxt "field:account.voucher.line.paymode,voucher_date:"
+msgid "Voucher Date"
+msgstr "Fecha Comprobante"
 
 msgctxt "field:account.voucher.paymode,account:"
 msgid "Account"
@@ -326,23 +338,23 @@ msgstr "Configuración por defecto para Comprobantes"
 
 msgctxt "model:account.voucher,name:"
 msgid "Account Voucher"
-msgstr "Comprobante contable"
+msgstr "Comprobante de tesorería"
 
 msgctxt "model:account.voucher.line,name:"
 msgid "Account Voucher Line"
-msgstr "Línea del comprobante"
+msgstr "Línea de Comprobante de tesorería"
 
 msgctxt "model:account.voucher.line.credits,name:"
 msgid "Account Voucher Line Credits"
-msgstr "Créditos del comprobante"
+msgstr "Crédito de Comprobante de tesorería"
 
 msgctxt "model:account.voucher.line.debits,name:"
 msgid "Account Voucher Line Debits"
-msgstr "Débitos del comprobante"
+msgstr "Débito de Comprobante de tesorería"
 
 msgctxt "model:account.voucher.line.paymode,name:"
 msgid "Account Voucher Line Pay Mode"
-msgstr "Pago en comprobante"
+msgstr "Pago de Comprobante de tesorería"
 
 msgctxt "model:account.voucher.paymode,name:"
 msgid "Account Voucher Pay Mode"
@@ -358,7 +370,7 @@ msgstr "Pagos"
 
 msgctxt "model:ir.action,name:act_voucher_paymode_form"
 msgid "Paymode"
-msgstr "Formas de pago/cobro"
+msgstr "Formas de pago"
 
 msgctxt "model:ir.action,name:act_voucher_receipt_form"
 msgid "Receipts"
@@ -431,10 +443,6 @@ msgstr ""
 "No puede cambiar la secuencia del comprobante en el año fiscal "
 "«%(fiscal_year)s» porque ya hay comprobantes confirmados en este año fiscal."
 
-msgctxt "model:ir.message,text:msg_check_not_in_draft"
-msgid "Check \"%(check)s\" is not in draft state"
-msgstr "El cheque número \"%(check)s\" no está en estado borrador"
-
 msgctxt "model:ir.message,text:msg_delete_voucher"
 msgid "You can not delete a voucher that is posted!"
 msgstr "¡No puede eliminar un comprobante ya confirmado!"
@@ -445,17 +453,9 @@ msgstr ""
 "El año fiscal «%(first)s» y «%(second)s» tienen la misma secuencia de "
 "comprobante."
 
-msgctxt "model:ir.message,text:msg_issued_check_not_issued"
-msgid "Issued check \"%(check)s\" is not in Issued state"
-msgstr "El cheque emitido número \"%(check)s\" no figura como \"Emitido\""
-
-msgctxt "model:ir.message,text:msg_missing_pay_lines"
-msgid "You have to enter pay mode lines!"
-msgstr "¡Debe ingresar las líneas de formas de pago!"
-
-msgctxt "model:ir.message,text:msg_no_journal_check_account"
-msgid "You need to define a check account in the journal \"%(journal)s\""
-msgstr "Debe definir la cuenta del cheque en el diario \"%(journal)s\""
+msgctxt "model:ir.message,text:msg_payment_already_in_statement"
+msgid "The payment is related to multiple lines: %(lines)s."
+msgstr "Un pago está relacionado con múltiples líneas: %(lines)s."
 
 msgctxt "model:ir.message,text:msg_post_already_reconciled"
 msgid ""
@@ -471,17 +471,9 @@ msgstr ""
 "No puede abonar con devolución la factura \"%(invoice)s\" porque el total es"
 " diferente al importe a pagar."
 
-msgctxt "model:ir.message,text:msg_payment_already_in_statement"
-msgid "The payment is related to multiple lines: %(lines)s."
-msgstr "Un pago está relacionado con múltiples líneas: %(lines)s."
-
-msgctxt "model:ir.message,text:msg_third_check_not_held"
-msgid "Third check \"%(check)s\" is not in Held state"
-msgstr "El cheque de tercero número \"%(check)s\" no figura como \"En cartera\""
-
-msgctxt "model:ir.message,text:msg_third_pay_check_not_delivered"
-msgid "Third check \"%(check)s\" is not in Delivered state"
-msgstr "El cheque de tercero número \"%(check)s\" no figura como \"Entregado\""
+msgctxt "model:ir.message,text:msg_voucher_negative_amount"
+msgid "You can not post the voucher because the amount is negative"
+msgstr "No puede confirmar el comprobante porque el Importe es negativo"
 
 msgctxt "model:ir.message,text:msg_voucher_no_sequence"
 msgid ""
@@ -490,6 +482,10 @@ msgid ""
 msgstr ""
 "Para contabilizar el comprobante \"%(voucher)s\", debe definir una secuencia "
 "para el ejercicio fiscal \"%(fiscalyear)s\"."
+
+msgctxt "model:ir.message,text:msg_voucher_zero_amount"
+msgid "The amount is zero. Do you want to continue anyway?"
+msgstr "El Importe es cero. ¿Quiere continuar de todas formas?"
 
 msgctxt "model:ir.model.button,confirm:voucher_cancel_button"
 msgid "Are you sure you want to cancel the voucher?"
@@ -532,15 +528,15 @@ msgctxt "model:ir.sequence.type,name:seq_type_account_voucher_receipt"
 msgid "Account Voucher Receipt"
 msgstr "Recibo"
 
-msgctxt "model:ir.ui.menu,name:menu_paymode"
-msgid "Paymode"
-msgstr "Formas de pago/cobro"
-
 msgctxt "model:ir.ui.menu,name:menu_paymodes"
 msgid "Paymode"
-msgstr "Formas de pago/cobro"
+msgstr "Formas de pago"
 
 msgctxt "model:ir.ui.menu,name:menu_treasury"
+msgid "Treasury"
+msgstr "Tesorería"
+
+msgctxt "model:ir.ui.menu,name:menu_treasury_config"
 msgid "Treasury"
 msgstr "Tesorería"
 
@@ -762,7 +758,7 @@ msgstr "Débito"
 
 msgctxt "view:account.configuration:"
 msgid "Vouchers"
-msgstr "Comprobantes"
+msgstr "Comprobantes de tesorería"
 
 msgctxt "view:account.voucher:"
 msgid "Other Info"
@@ -775,3 +771,7 @@ msgstr "Formas de pago"
 msgctxt "view:account.voucher:"
 msgid "Voucher Lines"
 msgstr "Facturas pendientes"
+
+msgctxt "wizard_button:account.invoice.pay,start,end:"
+msgid "Close"
+msgstr "Cerrar"

@@ -1,21 +1,6 @@
 <?xml version="1.0"?>
 <tryton>
     <data grouped="1">
-        <record model="ir.message" id="msg_no_journal_check_account">
-            <field name="text">You need to define a check account in the journal "%(journal)s"</field>
-        </record>
-        <record model="ir.message" id="msg_check_not_in_draft">
-            <field name="text">Check "%(check)s" is not in draft state</field>
-        </record>
-        <record model="ir.message" id="msg_issued_check_not_issued">
-            <field name="text">Issued check "%(check)s" is not in Issued state</field>
-        </record>
-        <record model="ir.message" id="msg_third_check_not_held">
-            <field name="text">Third check "%(check)s" is not in Held state</field>
-        </record>
-        <record model="ir.message" id="msg_third_pay_check_not_delivered">
-            <field name="text">Third check "%(check)s" is not in Delivered state</field>
-        </record>
         <record model="ir.message" id="msg_voucher_no_sequence">
             <field name="text">To post voucher "%(voucher)s", you must define a sequence on fiscal year "%(fiscalyear)s".</field>
         </record>
@@ -25,8 +10,11 @@
         <record model="ir.message" id="msg_different_voucher_sequence">
             <field name="text">Fiscal year "%(first)s" and "%(second)s" have the same voucher sequence.</field>
         </record>
-        <record model="ir.message" id="msg_missing_pay_lines">
-            <field name="text">You have to enter pay mode lines!</field>
+        <record model="ir.message" id="msg_voucher_negative_amount">
+            <field name="text">You can not post the voucher because the amount is negative</field>
+        </record>
+        <record model="ir.message" id="msg_voucher_zero_amount">
+            <field name="text">The amount is zero. Do you want to continue anyway?</field>
         </record>
         <record model="ir.message" id="msg_amount_greater_unreconciled">
             <field name="text">Amount greater than invoice amount</field>

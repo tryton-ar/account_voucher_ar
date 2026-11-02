@@ -89,9 +89,13 @@ class RenewFiscalYear(metaclass=PoolMeta):
 
         defaults = super().fiscalyear_defaults()
 
-        prev_payment_sequence = Sequence(
-            self.start.previous_fiscalyear.payment_sequence.id)
-        payment_sequence, = Sequence.copy([prev_payment_sequence])
+        prev_payment_sequence = self.start.previous_fiscalyear.payment_sequence
+        payment_sequence, = Sequence.copy([prev_payment_sequence],
+            default={
+                'name': lambda data: data['name'].replace(
+                    self.start.previous_fiscalyear.name,
+                    self.start.name)
+                })
         if self.start.reset_sequences:
             payment_sequence.number_next = 1
         else:
@@ -99,9 +103,13 @@ class RenewFiscalYear(metaclass=PoolMeta):
         payment_sequence.save()
         defaults['payment_sequence'] = payment_sequence.id
 
-        prev_receipt_sequence = Sequence(
-            self.start.previous_fiscalyear.receipt_sequence.id)
-        receipt_sequence, = Sequence.copy([prev_receipt_sequence])
+        prev_receipt_sequence = self.start.previous_fiscalyear.receipt_sequence
+        receipt_sequence, = Sequence.copy([prev_receipt_sequence],
+            default={
+                'name': lambda data: data['name'].replace(
+                    self.start.previous_fiscalyear.name,
+                    self.start.name)
+                })
         if self.start.reset_sequences:
             receipt_sequence.number_next = 1
         else:

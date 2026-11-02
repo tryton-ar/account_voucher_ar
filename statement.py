@@ -6,7 +6,6 @@ from itertools import groupby
 from trytond.model import fields, Workflow
 from trytond.pool import Pool, PoolMeta
 from trytond.pyson import Eval, If, Bool
-from trytond.transaction import Transaction
 from trytond.exceptions import UserError
 from trytond.i18n import gettext
 
@@ -14,10 +13,6 @@ from trytond.i18n import gettext
 class AccountVoucherPayMode(metaclass=PoolMeta):
     __name__ = 'account.voucher.paymode'
 
-    company = fields.Many2One('company.company', "Company",
-        states={
-            'required': Bool(Eval('statement_reconcile')),
-            })
     statement_reconcile = fields.Boolean('Statement Conciliation')
     statement_journal = fields.Many2One(
         'account.statement.journal', "Journal",
@@ -29,10 +24,6 @@ class AccountVoucherPayMode(metaclass=PoolMeta):
             'invisible': ~Bool(Eval('statement_reconcile')),
             'required': Bool(Eval('statement_reconcile')),
             })
-
-    @classmethod
-    def default_company(cls):
-        return Transaction().context.get('company')
 
     @staticmethod
     def default_statement_reconcile():

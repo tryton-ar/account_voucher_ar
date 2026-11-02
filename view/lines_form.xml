@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<form>
+    <label name="name"/>
+    <field name="name"/>
+    <label name="amount"/>
+    <field name="amount"/>
+    <label name="date"/>
+    <field name="date"/>
+    <label name="date_expire"/>
+    <field name="date_expire"/>
+    <label name="amount_original"/>
+    <field name="amount_original"/>
+    <label name="amount_unreconciled"/>
+    <field name="amount_unreconciled"/>
+    <label name="move_line"/>
+    <field name="move_line"/>
+    <label name="reference"/>
+    <field name="reference"/>
+</form>

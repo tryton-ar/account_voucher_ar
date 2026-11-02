@@ -2,15 +2,15 @@
 <tryton>
     <data>
 
-<!-- Treasury -->
-
+        <!-- Financial / Treasury -->
         <menuitem name="Treasury" id="menu_treasury"
             parent="account.menu_account" sequence="21"/>
-
-<!-- Treasury / Voucher -->
-
+        <!-- Financial / Treasury / Voucher -->
         <menuitem name="Vouchers" id="menu_vouchers"
             parent="menu_treasury" sequence="10"/>
+        <!-- Financial / Configuration / Treasury -->
+        <menuitem name="Treasury" id="menu_treasury_config"
+            parent="account.menu_account_configuration" sequence="55"/>
 
 <!-- Voucher -->
 
@@ -25,11 +25,17 @@
             <field name="name">account_voucher_tree</field>
         </record>
 
+        <record model="ir.ui.view" id="lines_view_form">
+            <field name="model">account.voucher.line</field>
+            <field name="type">form</field>
+            <field name="name">lines_form</field>
+        </record>
         <record model="ir.ui.view" id="lines_view_tree">
             <field name="model">account.voucher.line</field>
             <field name="type">tree</field>
             <field name="name">lines_tree</field>
         </record>
+
         <record model="ir.ui.view" id="lines_credits_view_tree">
             <field name="model">account.voucher.line.credits</field>
             <field name="type">tree</field>
@@ -40,10 +46,23 @@
             <field name="type">tree</field>
             <field name="name">lines_debits_tree</field>
         </record>
+
+        <record model="ir.ui.view" id="pay_lines_view_form">
+            <field name="model">account.voucher.line.paymode</field>
+            <field name="type">form</field>
+            <field name="name">pay_lines_form</field>
+        </record>
         <record model="ir.ui.view" id="pay_lines_view_tree">
             <field name="model">account.voucher.line.paymode</field>
             <field name="type">tree</field>
+            <field name="priority" eval="10"/>
             <field name="name">pay_lines_tree</field>
+        </record>
+        <record model="ir.ui.view" id="pay_lines_view_tree_editable">
+            <field name="model">account.voucher.line.paymode</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="20"/>
+            <field name="name">pay_lines_tree_editable</field>
         </record>
 
 <!-- Receipts -->
@@ -209,9 +228,6 @@
 
 <!--Voucher Paymode-->
 
-        <menuitem name="Paymode" id="menu_paymode"
-            parent="account.menu_account_configuration" sequence="55"/>
-
         <record model="ir.ui.view" id="account_voucher_paymode_form">
             <field name="model">account.voucher.paymode</field>
             <field name="type">form</field>
@@ -239,7 +255,20 @@
         </record>
 
         <menuitem action="act_voucher_paymode_form" id="menu_paymodes"
-            parent="menu_paymode"/>
+            parent="menu_treasury_config"/>
+
+        <record model="ir.rule.group" id="rule_group_voucher_paymode_companies">
+            <field name="name">User in companies</field>
+            <field name="model"
+                search="[('model', '=', 'account.voucher.paymode')]"/>
+            <field name="global_p" eval="True"/>
+        </record>
+        <record model="ir.rule" id="rule_voucher_paymode_companies">
+            <field name="domain"
+                eval="[('company', 'in', Eval('companies', []))]"
+                pyson="1"/>
+            <field name="rule_group" ref="rule_group_voucher_paymode_companies"/>
+        </record>
 
     </data>
 </tryton>
